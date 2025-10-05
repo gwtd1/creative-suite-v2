@@ -707,97 +707,598 @@ class MarketingSuperAgentV4 {
     }
 
     showCreativeInterface() {
-        // Transition to working interface
+        // Use existing working interface structure
         this.showWorkingInterface();
-
+        
         // Set the output title
         const outputTitle = document.getElementById('output-title');
         if (outputTitle) {
             outputTitle.textContent = this.currentSuiteTitle;
         }
 
-        // Show Creative AI welcome message
-        this.addMessage("Welcome to Creative AI — your partner for generating and testing high-performing assets. What would you like to create today?", 'agent', 'Creative AI Assistant');
+        // Inject Creative-specific content into workspace-content
+        this.setupCreativeWorkspaceContent();
+    }
 
-        // Show suggested prompts after a delay
-        setTimeout(() => {
-            const creativeSuggestionsHTML = `
-                <div class="creative-quick-entries">
-                    <h4>Quick entries</h4>
-                    <div class="creative-entries-grid">
-                        <button class="creative-prompt-option" data-prompt="Generate 3 Instagram ad variations for my Fall Collection launch">
-                            <div class="creative-prompt-icon instagram">
-                                <i class="fab fa-instagram"></i>
-                            </div>
-                            <div class="creative-prompt-text">Generate 3 Instagram ad variations for my Fall Collection launch</div>
+    setupCreativeWorkspaceContent() {
+        // Get the workspace-content div
+        const workspaceContent = document.querySelector('.workspace-content');
+        if (!workspaceContent) {
+            console.error('workspace-content div not found');
+            return;
+        }
+
+        // Add Creative-specific class to override grid layout
+        workspaceContent.classList.add('creative-active');
+
+        // Clear existing content and add Creative-specific scrollable content
+        workspaceContent.innerHTML = `
+            <!-- Creative Suite Container - Match home page scrollable layout -->
+            <div class="creative-container">
+                <!-- Above the fold: Header and Chat Interface -->
+                <div class="creative-entry-section">
+                <div class="creative-entry-header">
+                    <h1>Creative AI Suite</h1>
+                    <p class="tagline">Generate, test, and optimize creative assets with AI-powered tools</p>
+                </div>
+
+                <!-- Chat Interface - Match main home input -->
+                <div class="creative-main-chat-input">
+                    <div class="creative-input-container">
+                        <input type="text" id="creative-chat-input" placeholder="What creative assets would you like me to generate today?" autocomplete="off">
+                        <button class="creative-send-button" id="creative-send-btn">
+                            <i class="fas fa-paper-plane"></i>
                         </button>
+                    </div>
+                </div>
 
-                        <button class="creative-prompt-option" data-prompt="Find best-performing hero images from my DAM for Black Friday campaign">
-                            <div class="creative-prompt-icon dam">
+                <!-- Creative Example Suggestions -->
+                <div class="creative-example-suggestions" id="creative-example-suggestions">
+                    <div class="creative-examples-grid">
+                        <div class="creative-examples-row">
+                            <div class="example-card" data-prompt="Generate social media assets for product launch campaign">
+                                <div class="example-icon">🎨</div>
+                                <div class="example-text">Generate social media assets for product launch campaign</div>
+                            </div>
+                            <div class="example-card" data-prompt="Create email campaign designs with A/B variations">
+                                <div class="example-icon">📧</div>
+                                <div class="example-text">Create email campaign designs with A/B variations</div>
+                            </div>
+                            <div class="example-card" data-prompt="Design banner ads for seasonal promotion">
+                                <div class="example-icon">🖼️</div>
+                                <div class="example-text">Design banner ads for seasonal promotion</div>
+                            </div>
+                            <div class="example-card" data-prompt="Develop brand style guide and visual identity">
+                                <div class="example-icon">🎭</div>
+                                <div class="example-text">Develop brand style guide and visual identity</div>
+                            </div>
+                            <div class="example-card" data-prompt="Create video ad concepts and storyboards">
+                                <div class="example-icon">🎬</div>
+                                <div class="example-text">Create video ad concepts and storyboards</div>
+                            </div>
+                            <div class="example-card" data-prompt="Generate copy variations for landing pages">
+                                <div class="example-icon">✍️</div>
+                                <div class="example-text">Generate copy variations for landing pages</div>
+                            </div>
+                            <div class="example-card" data-prompt="Design infographics for content marketing">
+                                <div class="example-icon">📊</div>
+                                <div class="example-text">Design infographics for content marketing</div>
+                            </div>
+                            <div class="example-card" data-prompt="Create brand mascot and character designs">
+                                <div class="example-icon">🦄</div>
+                                <div class="example-text">Create brand mascot and character designs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Below the fold: Creative Tools and Workspace -->
+            <div class="creative-scrollable-content">
+                <!-- Creative Quick Actions - Match AI Suites style -->
+            <div class="creative-quick-actions">
+                <div class="shortcuts-section">
+                    <h3>Creative Tools</h3>
+                    <div class="creative-areas">
+                        <div class="area-card" data-action="ideate">
+                            <div class="area-icon creative-ideate">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="area-content">
+                                <h4>Ideate Creative</h4>
+                                <p>Generate concepts, mood boards, creative strategy</p>
+                            </div>
+                        </div>
+                        <div class="area-card" data-action="briefs">
+                            <div class="area-icon creative-briefs">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="area-content">
+                                <h4>Campaign Briefs</h4>
+                                <p>Create comprehensive creative briefs and guidelines</p>
+                            </div>
+                        </div>
+                        <div class="area-card" data-action="assets">
+                            <div class="area-icon creative-assets">
                                 <i class="fas fa-images"></i>
                             </div>
-                            <div class="creative-prompt-text">Find best-performing hero images from my DAM for Black Friday campaign</div>
-                        </button>
-
-                        <button class="creative-prompt-option" data-prompt="Draft 2 email subject lines to improve open rates for cart abandoners">
-                            <div class="creative-prompt-icon email">
-                                <i class="fas fa-envelope"></i>
+                            <div class="area-content">
+                                <h4>Creative Assets</h4>
+                                <p>Design visuals, copy, and multimedia content</p>
                             </div>
-                            <div class="creative-prompt-text">Draft 2 email subject lines to improve open rates for cart abandoners</div>
-                        </button>
-
-                        <button class="creative-prompt-option" data-prompt="Test alternative copy for my landing page headline">
-                            <div class="creative-prompt-icon copy">
-                                <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="area-card" data-action="template">
+                            <div class="area-icon creative-template">
+                                <i class="fas fa-layer-group"></i>
                             </div>
-                            <div class="creative-prompt-text">Test alternative copy for my landing page headline</div>
-                        </button>
+                            <div class="area-content">
+                                <h4>Create Template</h4>
+                                <p>Build reusable templates and brand assets</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Creative Workspace -->
+            <div class="creative-workspace-section">
+                <h3>My Creative Workspace</h3>
+                <div class="creative-workspace-tiles">
+                    <div class="workspace-tile" data-project="summer-sale">
+                        <div class="tile-thumbnail">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNGRkE1MDAiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIxOCIgZmlsbD0iI0ZGRDcwMCIvPjx0ZXh0IHg9IjUwIiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+U0FMRTU8L3RleHQ+PC9zdmc+" alt="Summer Sale" />
+                        </div>
+                        <div class="tile-content">
+                            <h4>Summer Sale 2025</h4>
+                            <div class="project-details">
+                                <p class="launch-date">Launch Date: June 15, 2025</p>
+                                <p class="asset-count">Assets Count: 24 assets</p>
+                                <p class="asset-types">Types: Image, Video Remix</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="workspace-tile" data-project="fall-athleisure">
+                        <div class="tile-thumbnail">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjOEI0NTEzIi8+CjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjgiIGZpbGw9IiNGRkZGRkYiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSIzMCIgcj0iOCIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNMjAgNDBMMzAgNDVMNDAgNDBMNTAgNDVMNjAgNDBMNzAgNDVMODAgNDBMODAgODBMMjAgODBaIiBmaWxsPSIjRkZGRkZGIi8+Cjx0ZXh0IHg9IjUwIiB5PSI5NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjgiIGZpbGw9IiNGRkZGRkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZBTEw8L3RleHQ+Cjwvc3ZnPgo=" alt="Fall Athleisure" />
+                        </div>
+                        <div class="tile-content">
+                            <h4>Fall Athleisure Collection</h4>
+                            <div class="project-details">
+                                <p class="launch-date">Launch Date: September 8, 2025</p>
+                                <p class="asset-count">Assets Count: 18 assets</p>
+                                <p class="asset-types">Types: Image, Video Remix</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workspace-tile" data-project="holiday-guide">
+                        <div class="tile-thumbnail">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjREMyNjI2Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iMjUiIHI9IjEwIiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHg9IjMwIiB5PSI0MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjRkZGRkZGIiByeD0iNSIvPgo8cmVjdCB4PSI0NSIgeT0iMzAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI0ZGRkZGRiIvPgo8dGV4dCB4PSI1MCIgeT0iODUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HSUZUUzwvdGV4dD4KPC9zdmc+Cg==" alt="Holiday Gift Guide" />
+                        </div>
+                        <div class="tile-content">
+                            <h4>Holiday Gift Guide 2025</h4>
+                            <div class="project-details">
+                                <p class="launch-date">Launch Date: November 22, 2025</p>
+                                <p class="asset-count">Assets Count: 31 assets</p>
+                                <p class="asset-types">Types: Image, Video Remix</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workspace-tile" data-project="fitness-challenge">
+                        <div class="tile-thumbnail">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMkQ5RDc4Ii8+CjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjRkZGRkZGIi8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjRkZGRkZGIiByeD0iNSIvPgo8dGV4dCB4PSI1MCIgeT0iODAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5GSVRORVNTPC90ZXh0Pgo8L3N2Zz4K" alt="Fitness Challenge" />
+                        </div>
+                        <div class="tile-content">
+                            <h4>New Year Fitness Challenge</h4>
+                            <div class="project-details">
+                                <p class="launch-date">Launch Date: January 2, 2026</p>
+                                <p class="asset-count">Assets Count: 15 assets</p>
+                                <p class="asset-types">Types: Image, Video Remix</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- Hidden chat messages area for when chat is active -->
+            <div id="creative-chat-messages" class="creative-chat-messages" style="display: none;"></div>
+            
+            <!-- Loading placeholder -->
+            <div id="creative-placeholder-content" class="creative-placeholder-content" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Generating creative assets...</p>
+            </div>
+            </div>
+
+            <!-- Three-Panel Creative Interface (Hidden by default) - Outside container for full workspace takeover -->
+            <div class="creative-suite-interface" id="creative-suite-interface" style="display: none;">
+                <!-- Left Chat Panel -->
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <button class="back-btn" id="back-to-creative-workspace">←</button>
+                        <h3>Creative Assistant</h3>
+                    </div>
+                    <div class="chat-messages" id="creative-chat-messages-split"></div>
+                    <div class="chat-input">
+                        <input type="text" id="creative-chat-split-input" placeholder="Continue the conversation..." autocomplete="off">
+                        <button class="send-btn" id="creative-chat-split-send">→</button>
+                    </div>
+                </div>
+                
+                <!-- Center Content Panel -->
+                <div class="content-panel">
+                    <div class="content-header">
+                        <h2>Creative AI Suite</h2>
+                        <div class="status-indicators">
+                            <span class="status-dot">●</span>
+                            <span class="agent-count" id="creative-agent-count">2 agents</span>
+                        </div>
+                    </div>
+                    <div class="content-main" id="creative-content-main">
+                        <!-- Dynamic content area -->
+                        <div class="content-placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-sparkles"></i>
+                                </div>
+                                <h4>Activating specialist agents...</h4>
+                                <p>AI agents are analyzing your request and preparing detailed outputs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Creative Tools Panel -->
+                <div class="creative-tools-panel">
+                    <button class="save-project-btn primary" id="save-creative-project">Save Project</button>
+                    <button class="refine-ai-btn secondary" id="refine-with-ai">Refine with AI</button>
+                </div>
+            </div>
+        `;
+
+        // Setup event listeners for the Creative content
+        this.setupCreativeEventListeners();
+        
+        // Debug: Verify three-panel interface was added
+        const suiteInterface = document.getElementById('creative-suite-interface');
+        console.log('🔧 Creative workspace setup complete. Suite interface found:', !!suiteInterface);
+    }
+
+    showCreativeSplitInterface(userMessage) {
+        console.log('🎨 Transitioning to Creative Suite Interface:', userMessage);
+        
+        // Hide main Creative workspace elements
+        const creativeContainer = document.querySelector('.creative-container');
+        const suiteInterface = document.getElementById('creative-suite-interface');
+        
+        console.log('🔍 Found elements:', {
+            creativeContainer: !!creativeContainer,
+            suiteInterface: !!suiteInterface
+        });
+        
+        if (creativeContainer) {
+            creativeContainer.style.display = 'none';
+            console.log('✅ Hidden creative-container');
+        } else {
+            console.error('❌ creative-container not found');
+        }
+        
+        if (suiteInterface) {
+            suiteInterface.style.display = 'grid';
+            console.log('✅ Showing suite-interface');
+        } else {
+            console.error('❌ creative-suite-interface not found');
+            return;
+        }
+        
+        // Initialize content panel with placeholder
+        this.initializeContentPlaceholder();
+        
+        // Initialize chat with user message
+        this.initializeSplitScreenChat(userMessage);
+        
+        // Set up suite interface event listeners
+        this.setupSuiteInterfaceEventListeners();
+    }
+
+    initializeContentPlaceholder() {
+        const contentMain = document.getElementById('creative-content-main');
+        if (!contentMain) {
+            console.error('❌ creative-content-main not found');
+            return;
+        }
+        
+        console.log('🎨 Initializing content placeholder');
+        
+        // Show placeholder content matching paid media style
+        contentMain.innerHTML = `
+            <div class="output-placeholder">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-cog fa-spin"></i>
+                    </div>
+                    <h4>Activating creative agents...</h4>
+                    <p>AI agents are analyzing your request and preparing creative outputs.</p>
+                </div>
+            </div>
+        `;
+    }
+
+    initializeSplitScreenChat(userMessage) {
+        console.log('💬 Initializing split-screen chat with message:', userMessage);
+        
+        const chatMessages = document.getElementById('creative-chat-messages-split');
+        if (!chatMessages) {
+            console.error('❌ creative-chat-messages-split not found');
+            return;
+        }
+        
+        console.log('✅ Found chat messages container');
+
+        // Add user message
+        const userMessageHTML = `
+            <div class="chat-message user">
+                <div class="message-content">${userMessage}</div>
+            </div>
+        `;
+        chatMessages.innerHTML = userMessageHTML;
+
+        // Add agent response with suggestions
+        setTimeout(() => {
+            const agentResponseHTML = `
+                <div class="chat-message agent">
+                    <div class="agent-avatar"><i class="fas fa-palette"></i></div>
+                    <div class="message-content">
+                        <p>I'll create a mobile-optimized version of your CDP World 2025 banner. For mobile assets, I recommend:</p>
+                        <ul>
+                            <li><strong>Vertical orientation</strong> - Better for mobile screens</li>
+                            <li><strong>Larger text</strong> - Improved readability on small screens</li>
+                            <li><strong>Simplified layout</strong> - Focus on key message</li>
+                            <li><strong>Touch-friendly CTAs</strong> - Minimum 44px touch targets</li>
+                        </ul>
+                        <p>Generating your mobile banner now...</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.innerHTML += agentResponseHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Show thinking state
+            this.showAgentThinking();
+        }, 1000);
+    }
+
+    showAgentThinking() {
+        const contentMain = document.getElementById('creative-content-main');
+        if (!contentMain) return;
+
+        setTimeout(() => {
+            console.log('🤔 Showing thinking state in output panel');
+            
+            // Update content panel with thinking placeholder
+            contentMain.innerHTML = `
+                <div class="output-placeholder">
+                    <div class="placeholder-content">
+                        <div class="placeholder-icon">
+                            <i class="fas fa-cog fa-spin"></i>
+                        </div>
+                        <h4>Generating creative assets...</h4>
+                        <p>AI is creating mobile-optimized versions of your content.</p>
                     </div>
                 </div>
             `;
 
-            this.addMessage(creativeSuggestionsHTML, 'agent', 'Creative AI Assistant');
-
-            // Event listeners are now handled via global delegation in setupEventListeners()
-            console.log('Creative AI quick entries displayed - using global event delegation');
-
-            // Add knowledge base toggle option after suggestions
+            // Generate content after thinking
             setTimeout(() => {
-                const knowledgeToggleHTML = `
-                    <div style="margin-top: 1rem; padding: 1rem; background: var(--gray-50); border: 1px solid var(--border-light); border-radius: 8px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-book" style="color: var(--accent-primary);"></i>
-                                <span style="font-weight: 600; color: var(--text-primary);">Knowledge Base Context</span>
-                            </div>
-                            <label class="toggle-switch" style="position: relative; display: inline-block; width: 50px; height: 28px;">
-                                <input type="checkbox" id="creative-kb-toggle" checked style="opacity: 0; width: 0; height: 0;">
-                                <span class="toggle-slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #3b82f6; transition: 0.3s; border-radius: 28px;"></span>
-                                <span class="toggle-dot" style="position: absolute; content: ''; height: 22px; width: 22px; right: 3px; top: 3px; background-color: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></span>
-                            </label>
-                        </div>
-                        <div style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.4;">
-                            <span id="creative-kb-status">
-                                ✅ Using your brand guidelines and creative briefs for personalized suggestions
-                            </span>
-                        </div>
+                this.generateMobileAssetComparison();
+            }, 3000);
+        }, 1500);
+    }
+
+    generateMobileAssetComparison() {
+        const contentMain = document.getElementById('creative-content-main');
+        const chatMessages = document.getElementById('creative-chat-messages-split');
+        
+        if (!contentMain) return;
+
+        console.log('🎨 Generating mobile asset comparison');
+
+        // Add completion message to chat
+        if (chatMessages) {
+            const completionHTML = `
+                <div class="chat-message agent">
+                    <div class="agent-avatar"><i class="fas fa-palette"></i></div>
+                    <div class="message-content">
+                        <p>✨ Mobile banner created successfully! I've generated a vertical mobile version optimized for 320×480px screens. Check out the comparison on the right.</p>
+                        <p>Would you like me to create variations or adjust any aspects of the mobile design?</p>
                     </div>
-                `;
+                </div>
+            `;
+            chatMessages.innerHTML += completionHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-                this.addMessage(knowledgeToggleHTML, 'agent', 'Creative AI Assistant');
+        // Display asset comparison
+        const comparisonHTML = `
+            <div class="asset-comparison">
+                <div class="asset-version">
+                    <h4>Desktop Version</h4>
+                    <img src="https://www.artefact.com//wp-content/uploads/2024/09/Capture-decran-2024-09-24-a-10.55.36.png" 
+                         alt="Desktop CDP Banner" 
+                         style="width: 100%; max-width: 400px; border-radius: 8px;" />
+                    <p class="dimensions">1200 × 300px</p>
+                </div>
+                <div class="asset-version">
+                    <h4>Mobile Version</h4>
+                    <div class="mobile-banner-preview">
+                        <img src="https://www.artefact.com//wp-content/uploads/2024/09/Capture-decran-2024-09-24-a-10.55.36.png" 
+                             alt="Mobile CDP Banner" 
+                             style="width: 320px; height: 480px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;" />
+                    </div>
+                    <p class="dimensions">320 × 480px</p>
+                </div>
+            </div>
+        `;
+        contentMain.innerHTML = comparisonHTML;
+    }
 
-                // Setup toggle event listener
-                const toggleElement = document.getElementById('creative-kb-toggle');
-                if (toggleElement) {
-                    toggleElement.addEventListener('change', (e) => {
-                        this.handleCreativeKBToggle(e.target.checked);
-                    });
+    setupSuiteInterfaceEventListeners() {
+        // Back to workspace button
+        const backButton = document.getElementById('back-to-creative-workspace');
+        if (backButton) {
+            backButton.addEventListener('click', () => {
+                this.returnToCreativeWorkspace();
+            });
+        }
+
+        // Split-screen chat input
+        const chatInput = document.getElementById('creative-chat-split-input');
+        const sendButton = document.getElementById('creative-chat-split-send');
+        
+        if (chatInput && sendButton) {
+            const handleSplitInput = () => {
+                const message = chatInput.value.trim();
+                if (message) {
+                    this.handleSplitScreenMessage(message);
+                    chatInput.value = '';
                 }
-            }, 500);
-        }, 800);
+            };
+
+            sendButton.addEventListener('click', handleSplitInput);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSplitInput();
+                }
+            });
+        }
+
+        // Creative tools buttons
+        const saveProjectBtn = document.getElementById('save-creative-project');
+        const refineAiBtn = document.getElementById('refine-with-ai');
+        
+        if (saveProjectBtn) {
+            saveProjectBtn.addEventListener('click', () => {
+                this.handleSaveProject();
+            });
+        }
+        
+        if (refineAiBtn) {
+            refineAiBtn.addEventListener('click', () => {
+                this.handleRefineWithAI();
+            });
+        }
+    }
+
+    handleSplitScreenMessage(message) {
+        const chatMessages = document.getElementById('creative-chat-messages-split');
+        if (!chatMessages) return;
+
+        // Add user message
+        const userMessageHTML = `
+            <div class="chat-message user">
+                <div class="message-content">${message}</div>
+            </div>
+        `;
+        chatMessages.innerHTML += userMessageHTML;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Add agent response
+        setTimeout(() => {
+            const agentResponseHTML = `
+                <div class="chat-message agent">
+                    <div class="agent-avatar"><i class="fas fa-palette"></i></div>
+                    <div class="message-content">
+                        <p>I'd be happy to help refine your creative assets further. Let me know what specific changes you'd like to make!</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.innerHTML += agentResponseHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+    }
+
+    returnToCreativeWorkspace() {
+        console.log('🔙 Returning to Creative Workspace');
+        
+        const creativeContainer = document.querySelector('.creative-container');
+        const suiteInterface = document.getElementById('creative-suite-interface');
+        
+        if (creativeContainer) {
+            creativeContainer.style.display = 'flex';
+            console.log('✅ Showing creative-container');
+        } else {
+            console.error('❌ creative-container not found for return');
+        }
+        
+        if (suiteInterface) {
+            suiteInterface.style.display = 'none';
+            console.log('✅ Hidden suite-interface');
+        } else {
+            console.error('❌ suite-interface not found for return');
+        }
+    }
+
+    handleSaveProject() {
+        console.log('💾 Saving Creative Project');
+        
+        // Show save confirmation
+        const contentMain = document.getElementById('creative-content-main');
+        if (contentMain) {
+            const originalContent = contentMain.innerHTML;
+            
+            contentMain.innerHTML = `
+                <div class="save-confirmation">
+                    <div class="confirmation-content">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4>Project Saved Successfully</h4>
+                        <p>Your creative assets and project data have been saved to your workspace.</p>
+                    </div>
+                </div>
+            `;
+            
+            // Restore original content after 2 seconds
+            setTimeout(() => {
+                contentMain.innerHTML = originalContent;
+            }, 2000);
+        }
+    }
+
+    handleRefineWithAI() {
+        console.log('✨ Refining with AI');
+        
+        // Add AI refinement message to chat
+        const chatMessages = document.getElementById('creative-chat-messages-split');
+        if (chatMessages) {
+            const refinementHTML = `
+                <div class="chat-message agent">
+                    <div class="agent-avatar"><i class="fas fa-magic"></i></div>
+                    <div class="message-content">
+                        <p>I'll help refine your creative assets. Here are some AI-powered suggestions:</p>
+                        <ul>
+                            <li><strong>Color optimization</strong> - Adjust colors for better brand alignment</li>
+                            <li><strong>Copy enhancement</strong> - Improve messaging for higher engagement</li>
+                            <li><strong>Layout adjustments</strong> - Optimize visual hierarchy</li>
+                            <li><strong>A/B test variations</strong> - Generate alternative versions</li>
+                        </ul>
+                        <p>Would you like me to apply any of these refinements?</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.innerHTML += refinementHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
     }
 
     showEngageInterface() {
+        // Clean up Creative-specific classes
+        const workspaceContent = document.querySelector('.workspace-content');
+        if (workspaceContent) workspaceContent.classList.remove('creative-active');
+
         // Transition to working interface
         this.showWorkingInterface();
 
@@ -990,11 +1491,15 @@ class MarketingSuperAgentV4 {
         const workingInterface = document.getElementById('working-interface');
         const appHeader = document.querySelector('.app-header');
         const mainContent = document.querySelector('.main-content');
+        const workspaceContent = document.querySelector('.workspace-content');
 
         if (homeScreen) homeScreen.style.display = 'grid';
         if (workingInterface) workingInterface.style.display = 'none';
         if (appHeader) appHeader.style.display = 'none';
         if (mainContent) mainContent.classList.remove('working-mode');
+
+        // Clean up Creative-specific classes
+        if (workspaceContent) workspaceContent.classList.remove('creative-active');
 
         this.currentView = 'home';
     }
@@ -11454,6 +11959,1570 @@ class MarketingSuperAgentV4 {
 
     hideSparklineTooltip(e) {
         // Hide sparkline tooltip
+    }
+
+    setupCreativeEventListeners() {
+        const chatInput = document.getElementById('creative-chat-input');
+        const sendBtn = document.getElementById('creative-send-btn');
+
+        if (chatInput && sendBtn) {
+            const handleCreativeInput = () => {
+                const message = chatInput.value.trim();
+                if (message) {
+                    this.handleCreativeInput(message);
+                    chatInput.value = '';
+                }
+            };
+
+            sendBtn.addEventListener('click', handleCreativeInput);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleCreativeInput();
+                }
+            });
+        }
+
+        // Handle creative example card clicks
+        const exampleCards = document.querySelectorAll('.creative-example-suggestions .example-card');
+        exampleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const prompt = card.dataset.prompt;
+                if (prompt && chatInput) {
+                    chatInput.value = prompt;
+                    this.handleCreativeInput(prompt);
+                    chatInput.value = '';
+                }
+            });
+        });
+
+        // Creative area card clicks (replacing quick action tiles)
+        const creativeAreaCards = document.querySelectorAll('.creative-areas .area-card');
+        creativeAreaCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const action = card.dataset.action;
+                this.handleQuickAction(action);
+            });
+        });
+
+        // Workspace tile clicks
+        const workspaceTiles = document.querySelectorAll('.workspace-tile');
+        workspaceTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                const project = tile.dataset.project;
+                console.log('Workspace tile clicked:', project);
+                // You can add specific actions for each project here
+            });
+        });
+    }
+
+    handleQuickAction(action) {
+        console.log('Quick action clicked:', action);
+        
+        // Special handling for ideate action - triggers full Creative Blueprint flow
+        if (action === 'ideate') {
+            this.showCreativeIdeationFlow();
+            return;
+        }
+        
+        // Map other actions to their functionality
+        const actionPrompts = {
+            'briefs': 'Create a comprehensive campaign brief for my marketing initiative',
+            'assets': 'Generate creative assets for my campaign including images and copy',
+            'template': 'Create a template for consistent marketing materials'
+        };
+        
+        const prompt = actionPrompts[action];
+        if (prompt) {
+            this.handleCreativeInput(prompt);
+        }
+    }
+
+    handleCreativeInput(message) {
+        console.log('🚀 HandleCreativeInput called with:', message);
+        
+        // Transition to split-screen interface
+        this.showCreativeSplitInterface(message);
+        return; // Exit early to use new split-screen flow
+
+        // Legacy code below (kept for reference but not executed)
+        // Hide workspace and show chat interface
+        const workspaceSection = document.querySelector('.creative-workspace-section');
+        const chatMessages = document.getElementById('creative-chat-messages');
+        const placeholderContent = document.getElementById('creative-placeholder-content');
+
+        if (workspaceSection) workspaceSection.style.display = 'none';
+        if (chatMessages) chatMessages.style.display = 'block';
+        if (placeholderContent) placeholderContent.style.display = 'block';
+
+        // Add user message to chat
+        if (chatMessages) {
+            const userMessageHTML = `
+                <div class="chat-message user">
+                    <div class="message-content">${message}</div>
+                </div>
+            `;
+            chatMessages.innerHTML += userMessageHTML;
+        }
+
+        // Add thinking message
+        setTimeout(() => {
+            if (chatMessages) {
+                const thinkingHTML = `
+                    <div class="chat-message agent">
+                        <div class="agent-avatar">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="thinking-indicator">
+                                <div class="thinking-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                Generating creative assets for CDP World 2025...
+                            </div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.innerHTML += thinkingHTML;
+            }
+        }, 500);
+
+        // Show result after 5 seconds
+        setTimeout(() => {
+            if (placeholderContent) placeholderContent.style.display = 'none';
+            if (chatMessages) {
+                const resultHTML = `
+                    <div class="chat-message agent">
+                        <div class="agent-avatar">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="message-content">
+                            <h4>Creative Assets Generated for CDP World 2025</h4>
+                            <div class="creative-result">
+                                <img src="https://www.artefact.com//wp-content/uploads/2024/09/Capture-decran-2024-09-24-a-10.55.36.png" alt="Generated CDP World 2025 Banner" style="width: 100%; max-width: 400px; border-radius: 8px; margin: 1rem 0;" />
+                                <p><strong>Generated creative assets for CDP World 2025 conference marketing campaign:</strong></p>
+                                <ul>
+                                    <li>Hero banner design with professional branding</li>
+                                    <li>Call-to-action button optimized for conversion</li>
+                                    <li>Color scheme matching technology/data theme</li>
+                                    <li>Typography designed for maximum readability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                // Remove the thinking message and add the result
+                const messages = chatMessages.querySelectorAll('.chat-message');
+                const lastMessage = messages[messages.length - 1];
+                if (lastMessage && lastMessage.querySelector('.thinking-indicator')) {
+                    lastMessage.remove();
+                }
+                chatMessages.innerHTML += resultHTML;
+            }
+        }, 5000);
+    }
+
+    showCreativeIdeationFlow() {
+        // Get the workspace content container
+        const workspaceContent = document.querySelector('.workspace-content');
+        if (!workspaceContent) {
+            console.error('workspace-content div not found');
+            return;
+        }
+
+        // Add Creative ideation class and clear content
+        workspaceContent.classList.add('creative-ideation-active');
+        workspaceContent.innerHTML = `
+            <!-- Creative Project Creator 3-Panel Interface -->
+            <div class="creative-project-interface">
+                <!-- Left Chat Panel -->
+                <div class="project-chat-panel">
+                    <div class="chat-header">
+                        <button class="back-to-creative" onclick="app.showCreativeInterface()">←</button>
+                        <h3>Creative Assistant</h3>
+                    </div>
+                    <div class="chat-messages" id="ideation-chat">
+                        <!-- Initial agent message -->
+                        <div class="chat-message agent">
+                            <div class="agent-avatar">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="message-content">
+                                Hello! I'm the Creative Project Creator. I'm here to help you analyze requirements and create a new project. Would you like to connect to an ongoing campaign project or start from scratch?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="ideation-chat-input" placeholder="Refine your creative direction..." />
+                        <button class="send-btn" id="ideation-enter-btn">→</button>
+                    </div>
+                </div>
+                
+                <!-- Center Content Panel -->
+                <div class="project-content-panel">
+                    <div class="content-header">
+                        <h2>Creative Project Creator</h2>
+                        <div class="project-status">
+                            <span class="status-dot">●</span>
+                            <span class="project-name" id="project-name-display">Ready to Begin</span>
+                        </div>
+                    </div>
+                    <div class="content-display" id="project-content-display">
+                        <!-- Blueprint sections, mood boards, deliverables will appear here -->
+                        <div class="content-placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <h4>Ready to Create</h4>
+                                <p>Select a campaign or start from scratch to begin generating your creative blueprint.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Tools Panel -->
+                <div class="project-tools-panel">
+                    <button class="save-project-btn primary" id="save-project-btn" disabled>Save Project</button>
+                    <button class="generate-assets-btn secondary" id="generate-assets-btn" disabled>Generate Assets</button>
+                    <button class="create-variations-btn secondary" id="create-variations-btn" disabled>Create Variations</button>
+                </div>
+            </div>
+        `;
+
+        // Initialize the conversation state
+        this.conversationState = 'initial';
+        this.selectedCampaign = null;
+        
+        // Setup event listeners for the ideation flow
+        this.setupIdeationEventListeners();
+        
+        // Setup project tools event listeners
+        this.setupProjectToolsEventListeners();
+    }
+
+    setupIdeationEventListeners() {
+        const chatInput = document.getElementById('ideation-chat-input');
+        const enterBtn = document.getElementById('ideation-enter-btn');
+
+        const handleIdeationInput = () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                this.handleIdeationConversation(message);
+                chatInput.value = '';
+            }
+        };
+
+        if (enterBtn) {
+            enterBtn.addEventListener('click', handleIdeationInput);
+        }
+
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleIdeationInput();
+                }
+            });
+            chatInput.focus(); // Auto-focus for better UX
+        }
+    }
+
+    setupProjectToolsEventListeners() {
+        const saveProjectBtn = document.getElementById('save-project-btn');
+        const generateAssetsBtn = document.getElementById('generate-assets-btn');
+        const createVariationsBtn = document.getElementById('create-variations-btn');
+        
+        if (saveProjectBtn) {
+            saveProjectBtn.addEventListener('click', () => {
+                this.handleSaveProject();
+            });
+        }
+        
+        if (generateAssetsBtn) {
+            generateAssetsBtn.addEventListener('click', () => {
+                this.handleGenerateAssets();
+            });
+        }
+        
+        if (createVariationsBtn) {
+            createVariationsBtn.addEventListener('click', () => {
+                this.handleCreateVariations();
+            });
+        }
+    }
+
+    handleSaveProject() {
+        if (!this.selectedCampaign) return;
+        
+        console.log('💾 Saving Creative Project');
+        
+        // Show save confirmation in center panel
+        const contentDisplay = document.getElementById('project-content-display');
+        if (contentDisplay) {
+            const originalContent = contentDisplay.innerHTML;
+            
+            contentDisplay.innerHTML = `
+                <div class="save-confirmation">
+                    <div class="confirmation-content">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4>Project Saved Successfully</h4>
+                        <p>Your ${this.selectedCampaign} creative project and blueprint have been saved to your workspace.</p>
+                    </div>
+                </div>
+            `;
+            
+            // Restore original content after 3 seconds
+            setTimeout(() => {
+                contentDisplay.innerHTML = originalContent;
+            }, 3000);
+        }
+    }
+
+    handleGenerateAssets() {
+        if (!this.selectedCampaign) return;
+        
+        console.log('🎨 Generating Assets');
+        
+        // Add message to chat
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, `I'll generate assets for your ${this.selectedCampaign} project. This includes creating variations for different channels and formats based on your blueprint.`);
+        }
+        
+        // Show generation process in center panel
+        const contentDisplay = document.getElementById('project-content-display');
+        if (contentDisplay) {
+            const originalContent = contentDisplay.innerHTML;
+            
+            contentDisplay.innerHTML = `
+                <div class="asset-generation">
+                    <div class="generation-content">
+                        <div class="generation-icon">
+                            <i class="fas fa-cog fa-spin"></i>
+                        </div>
+                        <h4>Generating Assets</h4>
+                        <p>Creating assets for ${this.selectedCampaign} across multiple channels...</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Simulate progress and restore content
+            setTimeout(() => {
+                contentDisplay.innerHTML = originalContent;
+                if (chatContainer) {
+                    this.addChatMessage(chatContainer, `✨ Asset generation complete! I've created variations for Instagram, Facebook, and email marketing. All assets are optimized for their respective channels.`);
+                }
+            }, 4000);
+        }
+    }
+
+    handleCreateVariations() {
+        if (!this.selectedCampaign) return;
+        
+        console.log('🔄 Creating Variations');
+        
+        // Add message to chat
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, `Creating variations of your ${this.selectedCampaign} creative assets. I'll generate A/B test versions and format variations for different platforms.`);
+        }
+    }
+
+    updateProjectStatus(campaignName) {
+        // Update project name display
+        const projectNameDisplay = document.getElementById('project-name-display');
+        if (projectNameDisplay) {
+            projectNameDisplay.textContent = `${campaignName} Collection`;
+        }
+        
+        // Enable project tools
+        const saveBtn = document.getElementById('save-project-btn');
+        const generateBtn = document.getElementById('generate-assets-btn');
+        const variationsBtn = document.getElementById('create-variations-btn');
+        
+        if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.classList.remove('disabled');
+        }
+        if (generateBtn) {
+            generateBtn.disabled = false;
+            generateBtn.classList.remove('disabled');
+        }
+        if (variationsBtn) {
+            variationsBtn.disabled = false;
+            variationsBtn.classList.remove('disabled');
+        }
+    }
+
+    handleIdeationConversation(userMessage) {
+        const chatContainer = document.getElementById('ideation-chat');
+        if (!chatContainer) return;
+
+        // Add user message
+        this.addChatMessage(chatContainer, userMessage, 'user');
+
+        // Handle conversation flow based on current state
+        switch (this.conversationState) {
+            case 'initial':
+                this.handleInitialResponse(chatContainer, userMessage);
+                break;
+            case 'campaign_selection':
+                this.handleCampaignSelection(chatContainer, userMessage);
+                break;
+            case 'analysis':
+                this.handleAnalysisPhase(chatContainer, userMessage);
+                break;
+            default:
+                this.handleGeneralResponse(chatContainer, userMessage);
+        }
+    }
+
+    addChatMessage(container, message, type = 'agent') {
+        const messageHTML = `
+            <div class="chat-message ${type}">
+                ${type === 'agent' ? `
+                    <div class="agent-avatar">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                ` : ''}
+                <div class="message-content">
+                    ${message}
+                </div>
+            </div>
+        `;
+        container.innerHTML += messageHTML;
+        container.scrollTop = container.scrollHeight;
+    }
+
+    handleInitialResponse(chatContainer, userMessage) {
+        // Check if user wants to connect to existing campaign
+        if (userMessage.toLowerCase().includes('connect') || userMessage.toLowerCase().includes('campaign')) {
+            this.conversationState = 'campaign_selection';
+            
+            const agentResponse = `I see there are 6 ongoing marketing campaigns. Which one would you like to study?
+
+• Summer Sale 2025
+• Staycation Specials  
+• Last Call for Linen
+• Fall Athleisure Collection
+• Holiday Gift Guide 2025
+• Kids Bonanza`;
+
+            setTimeout(() => {
+                this.addChatMessage(chatContainer, agentResponse);
+            }, 1000);
+        } else {
+            // Handle "start from scratch" flow
+            const agentResponse = "Great! Let's start from scratch. What type of creative project are you working on? For example, a product launch, brand awareness campaign, or seasonal promotion?";
+            
+            setTimeout(() => {
+                this.addChatMessage(chatContainer, agentResponse);
+            }, 1000);
+        }
+    }
+
+    handleCampaignSelection(chatContainer, userMessage) {
+        // Extract campaign name from user message
+        const campaigns = ['Summer Sale', 'Staycation Specials', 'Last Call for Linen', 'Fall Athleisure', 'Holiday Gift Guide', 'Kids Bonanza'];
+        const selectedCampaign = campaigns.find(campaign => 
+            userMessage.toLowerCase().includes(campaign.toLowerCase())
+        );
+
+        if (selectedCampaign) {
+            this.selectedCampaign = selectedCampaign;
+            this.conversationState = 'analysis';
+
+            // Update project name display and enable tools
+            this.updateProjectStatus(selectedCampaign);
+
+            const agentResponse = `Great! Let me pull up the ${selectedCampaign} Collection paid media campaign details.`;
+            
+            setTimeout(() => {
+                this.addChatMessage(chatContainer, agentResponse);
+                
+                // Show thinking animation
+                setTimeout(() => {
+                    this.addChatMessage(chatContainer, `
+                        <div class="agent-thinking">
+                            <div class="thinking-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            Analyzing campaign data and generating creative strategy...
+                        </div>
+                    `);
+                    
+                    // Transition to blueprint after analysis
+                    setTimeout(() => {
+                        this.transitionToCreativeBlueprint();
+                    }, 4000);
+                    
+                }, 1500);
+            }, 1000);
+        } else {
+            const agentResponse = "I didn't catch which campaign you'd like to connect to. Could you please specify one of the campaigns from the list?";
+            setTimeout(() => {
+                this.addChatMessage(chatContainer, agentResponse);
+            }, 1000);
+        }
+    }
+
+    handleAnalysisPhase(chatContainer, userMessage) {
+        // This phase leads to blueprint generation
+        this.transitionToCreativeBlueprint();
+    }
+
+    handleGeneralResponse(chatContainer, userMessage) {
+        const agentResponse = "I understand. Let me help you with that creative project. Could you provide more details about your goals and target audience?";
+        setTimeout(() => {
+            this.addChatMessage(chatContainer, agentResponse);
+        }, 1000);
+    }
+
+    transitionToCreativeBlueprint() {
+        // Instead of replacing the workspace, update the center panel content
+        const contentDisplay = document.getElementById('project-content-display');
+        if (!contentDisplay) return;
+
+        // Clear placeholder and add blueprint container
+        contentDisplay.innerHTML = `
+            <div class="blueprint-content" id="blueprint-content">
+                <div class="blueprint-intro">
+                    <h3>Creative Blueprint: ${this.selectedCampaign || 'New Project'}</h3>
+                    <p class="blueprint-subtitle">Based on our conversation, here's your optimized creative strategy:</p>
+                </div>
+                <!-- Blueprint sections will be animated in sequentially -->
+            </div>
+        `;
+        
+        // Start ideation board generation
+        this.generateIdeationBoard();
+        
+        // Add completion message to chat
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            setTimeout(() => {
+                this.addChatMessage(chatContainer, `Perfect! I've generated your complete creative blueprint for the ${this.selectedCampaign} Collection. You can see all sections in the main panel and use the tools on the right to save or generate assets.`);
+            }, 2000);
+        }
+    }
+
+    generateIdeationBoard() {
+        const contentDisplay = document.getElementById('project-content-display');
+        if (!contentDisplay) return;
+
+        // Show loading state in center panel
+        this.showIdeationLoading();
+        
+        // Display specialist thinking in left chat
+        this.showSpecialistThinking();
+        
+        // Generate card categories sequentially (removing deliverables)
+        setTimeout(() => this.generateTargetAudienceCards(), 2000);
+        setTimeout(() => this.generateObjectiveCards(), 4000);
+        setTimeout(() => this.generateToneStyleCards(), 6000);
+        setTimeout(() => this.generateMessagingCards(), 8000);
+        setTimeout(() => this.generateCreativeDirectionCards(), 10000);
+        setTimeout(() => this.generateMoodBoardCards(), 12000);
+        
+        // Show AI approval system
+        setTimeout(() => this.showAIApprovals(), 14000);
+        
+        // Enable human review
+        setTimeout(() => this.enableHumanReview(), 16000);
+    }
+
+    showIdeationLoading() {
+        const contentDisplay = document.getElementById('project-content-display');
+        if (!contentDisplay) return;
+
+        contentDisplay.innerHTML = `
+            <div class="ideation-loading">
+                <div class="loading-header">
+                    <h3>Generating Creative Ideas</h3>
+                    <p>AI specialists are analyzing your campaign brief and generating creative concepts...</p>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="ideation-progress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progress-percentage">0%</span>
+                        <span id="current-task">Initializing...</span>
+                    </div>
+                </div>
+                
+                <div class="loading-animation">
+                    <div class="spinning-gear">
+                        <i class="fas fa-cog fa-spin"></i>
+                    </div>
+                </div>
+                
+                <div class="specialist-status">
+                    <div class="specialist active">
+                        <i class="fas fa-brain"></i>
+                        <span>Strategy Specialist</span>
+                        <div class="status-indicator working"></div>
+                    </div>
+                    <div class="specialist active">
+                        <i class="fas fa-palette"></i>
+                        <span>Creative Specialist</span>
+                        <div class="status-indicator working"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Animate progress bar
+        this.animateProgress();
+    }
+
+    animateProgress() {
+        const progressFill = document.getElementById('ideation-progress');
+        const progressPercentage = document.getElementById('progress-percentage');
+        const currentTask = document.getElementById('current-task');
+        
+        if (!progressFill || !progressPercentage || !currentTask) return;
+        
+        const tasks = [
+            'Initializing...',
+            'Analyzing campaign brief...',
+            'Identifying target segments...',
+            'Generating creative concepts...',
+            'Developing messaging strategy...',
+            'Creating mood boards...',
+            'Finalizing recommendations...'
+        ];
+        
+        let progress = 0;
+        let taskIndex = 0;
+        
+        const updateProgress = () => {
+            progress += Math.random() * 15 + 5; // Increase by 5-20%
+            if (progress > 100) progress = 100;
+            
+            progressFill.style.width = `${progress}%`;
+            progressPercentage.textContent = `${Math.round(progress)}%`;
+            
+            if (taskIndex < tasks.length - 1 && progress > (taskIndex + 1) * 14) {
+                taskIndex++;
+                currentTask.textContent = tasks[taskIndex];
+            }
+            
+            if (progress < 100) {
+                setTimeout(updateProgress, Math.random() * 1000 + 500);
+            } else {
+                currentTask.textContent = 'Complete!';
+            }
+        };
+        
+        setTimeout(updateProgress, 500);
+    }
+
+    showSpecialistThinking() {
+        const chatContainer = document.getElementById('ideation-chat');
+        if (!chatContainer) return;
+        
+        // Strategy Specialist messages
+        setTimeout(() => {
+            this.addSpecialistMessage('Strategy Specialist', 'Analyzing Fall Athleisure Collection campaign brief...', 'fas fa-brain');
+        }, 1000);
+        
+        setTimeout(() => {
+            this.addSpecialistMessage('Strategy Specialist', 'Identified 3 primary target segments: Performance Athletes, Casual Fitness, Fashion-Forward', 'fas fa-brain');
+        }, 3000);
+        
+        // Creative Specialist messages
+        setTimeout(() => {
+            this.addSpecialistMessage('Creative Specialist', 'Generating tone variations: Motivational, Comfortable, Trendy', 'fas fa-palette');
+        }, 5000);
+        
+        setTimeout(() => {
+            this.addSpecialistMessage('Creative Specialist', 'Creating mood board concepts with autumn color palettes...', 'fas fa-palette');
+        }, 7000);
+        
+        setTimeout(() => {
+            this.addSpecialistMessage('Strategy Specialist', 'Developing messaging frameworks for each target segment...', 'fas fa-brain');
+        }, 9000);
+        
+        setTimeout(() => {
+            this.addSpecialistMessage('Creative Specialist', 'Finalizing creative direction cards with campaign objectives...', 'fas fa-palette');
+        }, 11000);
+    }
+
+    addSpecialistMessage(specialist, message, icon) {
+        const chatContainer = document.getElementById('ideation-chat');
+        if (!chatContainer) return;
+        
+        const messageHTML = `
+            <div class="chat-message agent specialist-message">
+                <div class="agent-avatar specialist-avatar">
+                    <i class="${icon}"></i>
+                </div>
+                <div class="message-content">
+                    <div class="specialist-name">${specialist}</div>
+                    <div class="specialist-message">${message}</div>
+                </div>
+            </div>
+        `;
+        
+        chatContainer.innerHTML += messageHTML;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    generateTargetAudienceCards() {
+        this.addIdeationCategory('Target Audience', [
+            {
+                title: 'Performance Athletes',
+                description: 'Fitness enthusiasts who prioritize function over fashion, seeking high-performance activewear for intense training sessions.',
+                metrics: { 'Age Range': '25-40', 'Interests': 'CrossFit, Running, HIIT' }
+            },
+            {
+                title: 'Casual Fitness',
+                description: 'Health-conscious individuals looking for comfortable, versatile pieces that transition from gym to everyday activities.',
+                metrics: { 'Age Range': '28-45', 'Interests': 'Yoga, Walking, Lifestyle' }
+            },
+            {
+                title: 'Fashion-Forward',
+                description: 'Style-conscious consumers who want athleisure that makes a statement and reflects current trends.',
+                metrics: { 'Age Range': '22-35', 'Interests': 'Fashion, Social Media, Trends' }
+            }
+        ]);
+    }
+
+    generateObjectiveCards() {
+        this.addIdeationCategory('Objectives', [
+            {
+                title: 'Drive Fall Sales',
+                description: 'Increase revenue by 25% during fall season through targeted athleisure collection promotion.',
+                metrics: { 'Target': '25% increase', 'Timeline': 'Q4 2024' }
+            },
+            {
+                title: 'Brand Awareness',
+                description: 'Establish brand as premium athleisure choice among target demographics.',
+                metrics: { 'Reach': '2M impressions', 'Engagement': '5% CTR' }
+            },
+            {
+                title: 'Customer Acquisition',
+                description: 'Acquire new customers through compelling seasonal campaign messaging.',
+                metrics: { 'New Customers': '10K signups', 'Conversion': '3.5%' }
+            }
+        ]);
+    }
+
+    generateToneStyleCards() {
+        this.addIdeationCategory('Tone & Style', [
+            {
+                title: 'Motivational & Energetic',
+                description: 'Bold, empowering language that inspires action and athletic achievement.',
+                metrics: { 'Voice': 'Confident', 'Energy': 'High' }
+            },
+            {
+                title: 'Comfortable & Approachable',
+                description: 'Warm, inclusive tone that emphasizes comfort and everyday wearability.',
+                metrics: { 'Voice': 'Friendly', 'Energy': 'Moderate' }
+            },
+            {
+                title: 'Trendy & Aspirational',
+                description: 'Fashion-forward language that positions athleisure as lifestyle choice.',
+                metrics: { 'Voice': 'Sophisticated', 'Energy': 'Aspirational' }
+            }
+        ]);
+    }
+
+    generateMessagingCards() {
+        this.addIdeationCategory('Messaging', [
+            {
+                title: 'Performance Promise',
+                description: '"Engineered for your strongest self" - Focus on technical performance and durability.',
+                metrics: { 'Theme': 'Performance', 'Appeal': 'Functional' }
+            },
+            {
+                title: 'Comfort Connection',
+                description: '"Where comfort meets confidence" - Emphasize all-day comfort and versatility.',
+                metrics: { 'Theme': 'Comfort', 'Appeal': 'Lifestyle' }
+            },
+            {
+                title: 'Style Statement',
+                description: '"Autumn activewear that turns heads" - Highlight fashion and seasonal relevance.',
+                metrics: { 'Theme': 'Style', 'Appeal': 'Fashion' }
+            }
+        ]);
+    }
+
+    generateCreativeDirectionCards() {
+        this.addIdeationCategory('Creative Direction', [
+            {
+                title: 'The Power Move',
+                description: 'Dynamic shots of athletes in action, showcasing performance capabilities with bold autumn backdrops.',
+                metrics: { 'Mood': 'Energetic', 'Setting': 'Outdoor' }
+            },
+            {
+                title: 'Cozy Confidence',
+                description: 'Lifestyle moments featuring comfortable fits in warm, inviting fall environments.',
+                metrics: { 'Mood': 'Comfortable', 'Setting': 'Indoor/Outdoor' }
+            },
+            {
+                title: 'Autumn Aesthetic',
+                description: 'Fashion-focused styling with seasonal color palettes and trendy urban settings.',
+                metrics: { 'Mood': 'Stylish', 'Setting': 'Urban' }
+            }
+        ]);
+    }
+
+    generateMoodBoardCards() {
+        this.addIdeationCategory('Mood Board', [
+            {
+                title: 'Autumn Energy',
+                description: 'Rich oranges, deep burgundies, and golden yellows capturing fall\'s vibrant energy.',
+                metrics: { 'Palette': 'Warm tones', 'Vibe': 'Energetic' },
+                isVisual: true
+            },
+            {
+                title: 'Cozy Comfort',
+                description: 'Soft earth tones, warm grays, and neutral beiges for approachable comfort.',
+                metrics: { 'Palette': 'Earth tones', 'Vibe': 'Comfortable' },
+                isVisual: true
+            },
+            {
+                title: 'Modern Minimalist',
+                description: 'Clean blacks, crisp whites, and accent colors for contemporary sophistication.',
+                metrics: { 'Palette': 'Monochrome+', 'Vibe': 'Sophisticated' },
+                isVisual: true
+            }
+        ]);
+    }
+
+    addIdeationCategory(category, cards) {
+        const contentDisplay = document.getElementById('project-content-display');
+        if (!contentDisplay) return;
+
+        // Create ideation board if it doesn't exist
+        let ideationBoard = document.querySelector('.ideation-board');
+        if (!ideationBoard) {
+            contentDisplay.innerHTML = `
+                <div class="ideation-board-container">
+                    <div class="ideation-board-header">
+                        <h3>Creative Ideation Board</h3>
+                        <p>AI-generated concepts for ${this.selectedCampaign || 'your campaign'}</p>
+                    </div>
+                    <div class="ideation-board" id="ideation-board">
+                        <!-- Cards will be added here -->
+                    </div>
+                </div>
+            `;
+            ideationBoard = document.getElementById('ideation-board');
+        }
+
+        // Add category section
+        const categoryHTML = `
+            <div class="category-section ${category.toLowerCase().replace(/[^a-z0-9]/g, '-')}-category">
+                <div class="category-header">
+                    <h4>${category}</h4>
+                    <span class="card-count">${cards.length} variations</span>
+                </div>
+                <div class="category-cards">
+                    ${cards.map((card, index) => this.createIdeationCard(category, card, index)).join('')}
+                </div>
+            </div>
+        `;
+
+        ideationBoard.innerHTML += categoryHTML;
+
+        // Add to chat that category is complete
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addSpecialistMessage('Creative Specialist', `${category} concepts generated - ${cards.length} variations ready for review`, 'fas fa-palette');
+        }
+    }
+
+    createIdeationCard(category, card, index) {
+        const cardId = `${category.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${index}`;
+        
+        return `
+            <div class="ideation-card" data-category="${category}" data-approved="false" id="${cardId}">
+                <div class="card-header">
+                    <div class="category-badge">${category}</div>
+                    <div class="approval-status pending">
+                        <i class="fas fa-clock"></i>
+                        <span>Pending Review</span>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h5 class="card-title">${card.title}</h5>
+                    <div class="card-description">
+                        <p>${card.description}</p>
+                    </div>
+                    ${card.isVisual ? this.getVisualContent(card) : ''}
+                    <div class="card-metrics">
+                        ${Object.entries(card.metrics).map(([label, value]) => `
+                            <div class="metric">
+                                <span class="label">${label}:</span>
+                                <span class="value">${value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="approve-card" onclick="app.approveCard('${cardId}')">
+                        <i class="fas fa-check"></i>
+                        Approve
+                    </button>
+                    <button class="edit-card" onclick="app.editCard('${cardId}')">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                    <button class="generate-variation" onclick="app.generateVariation('${cardId}')">
+                        <i class="fas fa-magic"></i>
+                        Generate Variation
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    getVisualContent(card) {
+        // For mood board cards, show color palette
+        return `
+            <div class="visual-content">
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #D2691E" title="Autumn Orange"></div>
+                    <div class="color-swatch" style="background: #8B4513" title="Saddle Brown"></div>
+                    <div class="color-swatch" style="background: #DAA520" title="Goldenrod"></div>
+                    <div class="color-swatch" style="background: #CD853F" title="Peru"></div>
+                </div>
+            </div>
+        `;
+    }
+
+    showAIApprovals() {
+        const ideationBoard = document.querySelector('.ideation-board');
+        if (!ideationBoard) return;
+
+        const approvalsHTML = `
+            <div class="ai-approvals-section">
+                <div class="approvals-header">
+                    <h3>AI Approvals</h3>
+                    <p>Automated review and compliance analysis</p>
+                </div>
+                
+                <!-- Legal Review Component -->
+                <div class="approval-component legal-review">
+                    <div class="approval-header">
+                        <i class="fas fa-gavel"></i>
+                        <h4>Legal Review</h4>
+                        <span class="approval-status pending">Scanning...</span>
+                    </div>
+                    <div class="approval-details">
+                        <p>AI scans content for potential legal issues, claims, or regulatory compliance flags</p>
+                        <ul class="review-items">
+                            <li>Privacy rules compliance</li>
+                            <li>Disclaimer requirements</li>
+                            <li>Regulatory claims validation</li>
+                        </ul>
+                    </div>
+                    <div class="approval-score">
+                        <div class="score-bar">
+                            <div class="score-fill" data-score="85"></div>
+                        </div>
+                        <span class="score-text">85% Compliant</span>
+                    </div>
+                </div>
+                
+                <!-- Branding Review Component -->
+                <div class="approval-component branding-review">
+                    <div class="approval-header">
+                        <i class="fas fa-palette"></i>
+                        <h4>Branding Review</h4>
+                        <span class="approval-status approved">Approved</span>
+                    </div>
+                    <div class="approval-details">
+                        <p>AI analyzes content against predefined brand guidelines</p>
+                        <ul class="review-items">
+                            <li>Voice & Tone alignment</li>
+                            <li>Brand values consistency</li>
+                            <li>Guiding principles adherence</li>
+                        </ul>
+                    </div>
+                    <div class="approval-score">
+                        <div class="score-bar">
+                            <div class="score-fill" data-score="92"></div>
+                        </div>
+                        <span class="score-text">92% Brand Aligned</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        ideationBoard.innerHTML += approvalsHTML;
+
+        // Animate approval scores
+        setTimeout(() => {
+            this.animateApprovalScores();
+        }, 500);
+
+        // Add to chat
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addSpecialistMessage('Compliance Specialist', 'AI approval analysis complete - Legal: 85%, Brand: 92%', 'fas fa-shield-alt');
+        }
+    }
+
+    animateApprovalScores() {
+        const scoreFills = document.querySelectorAll('.score-fill');
+        scoreFills.forEach(fill => {
+            const score = fill.getAttribute('data-score');
+            fill.style.width = `${score}%`;
+        });
+
+        // Update status indicators after animation
+        setTimeout(() => {
+            const legalStatus = document.querySelector('.legal-review .approval-status');
+            const brandingStatus = document.querySelector('.branding-review .approval-status');
+            
+            if (legalStatus) {
+                legalStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>Needs Review</span>';
+                legalStatus.className = 'approval-status warning';
+            }
+            
+            if (brandingStatus) {
+                brandingStatus.innerHTML = '<i class="fas fa-check"></i><span>Approved</span>';
+                brandingStatus.className = 'approval-status approved';
+            }
+        }, 1000);
+    }
+
+    enableHumanReview() {
+        const ideationBoard = document.querySelector('.ideation-board');
+        if (!ideationBoard) return;
+
+        const humanReviewHTML = `
+            <div class="human-review-section">
+                <div class="review-header">
+                    <h3>Human Review & Collaboration</h3>
+                    <p>Stakeholder approval and feedback system</p>
+                </div>
+                
+                <div class="stakeholder-actions">
+                    <div class="review-options">
+                        <button class="approve-btn primary" onclick="app.approveAllCards()">
+                            <i class="fas fa-check"></i>
+                            Approve All
+                        </button>
+                        <button class="deny-btn secondary" onclick="app.requestChanges()">
+                            <i class="fas fa-times"></i>
+                            Request Changes
+                        </button>
+                        <button class="comment-btn secondary" onclick="app.addComments()">
+                            <i class="fas fa-comment"></i>
+                            Add Comments
+                        </button>
+                    </div>
+                    
+                    <div class="ai-assistance">
+                        <div class="quick-generate">
+                            <input type="text" id="quick-generate-input" placeholder="Generate 5 new headlines that are more upbeat..." />
+                            <button class="generate-btn" onclick="app.quickGenerate()">
+                                <i class="fas fa-magic"></i>
+                                Generate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="idea-status-tracker">
+                    <div class="status-item approved">
+                        <span class="count" id="approved-count">0</span>
+                        <span class="label">Approved</span>
+                    </div>
+                    <div class="status-item pending">
+                        <span class="count" id="pending-count">18</span>
+                        <span class="label">Pending</span>
+                    </div>
+                    <div class="status-item denied">
+                        <span class="count" id="denied-count">0</span>
+                        <span class="label">Needs Revision</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        ideationBoard.innerHTML += humanReviewHTML;
+
+        // Add to chat
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addSpecialistMessage('Creative Specialist', 'Ideation board ready for human review - 18 concepts awaiting approval', 'fas fa-palette');
+        }
+    }
+
+    // Card interaction methods
+    approveCard(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+
+        const approvalStatus = card.querySelector('.approval-status');
+        approvalStatus.innerHTML = '<i class="fas fa-check"></i><span>Approved</span>';
+        approvalStatus.className = 'approval-status approved';
+        
+        card.setAttribute('data-approved', 'true');
+        
+        this.updateStatusCounts();
+        
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            const cardTitle = card.querySelector('.card-title').textContent;
+            this.addChatMessage(chatContainer, `✅ Approved: ${cardTitle}`, 'user');
+        }
+    }
+
+    editCard(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+
+        const cardTitle = card.querySelector('.card-title').textContent;
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, `✏️ Editing: ${cardTitle}`, 'user');
+            this.addSpecialistMessage('Creative Specialist', `Opening edit mode for ${cardTitle}. What changes would you like to make?`, 'fas fa-edit');
+        }
+    }
+
+    generateVariation(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+
+        const cardTitle = card.querySelector('.card-title').textContent;
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, `🔄 Generate variation for: ${cardTitle}`, 'user');
+            this.addSpecialistMessage('Creative Specialist', `Creating variation of ${cardTitle}... I'll generate a fresh take while maintaining the core concept.`, 'fas fa-magic');
+        }
+    }
+
+    approveAllCards() {
+        const cards = document.querySelectorAll('.ideation-card');
+        cards.forEach(card => {
+            const approvalStatus = card.querySelector('.approval-status');
+            approvalStatus.innerHTML = '<i class="fas fa-check"></i><span>Approved</span>';
+            approvalStatus.className = 'approval-status approved';
+            card.setAttribute('data-approved', 'true');
+        });
+        
+        this.updateStatusCounts();
+        
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, '✅ Approved all concepts', 'user');
+            this.addSpecialistMessage('Creative Specialist', 'All concepts approved! Ready to proceed to asset generation phase.', 'fas fa-check-circle');
+        }
+    }
+
+    requestChanges() {
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, '📝 Requesting changes to concepts', 'user');
+            this.addSpecialistMessage('Creative Specialist', 'What specific changes would you like me to make? I can adjust tone, messaging, target audience focus, or any other aspects.', 'fas fa-edit');
+        }
+    }
+
+    addComments() {
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, '💭 Adding comments for review', 'user');
+            this.addSpecialistMessage('Creative Specialist', 'Please share your feedback. I can incorporate your comments into revised concepts.', 'fas fa-comment');
+        }
+    }
+
+    quickGenerate() {
+        const input = document.getElementById('quick-generate-input');
+        if (!input || !input.value.trim()) return;
+
+        const request = input.value.trim();
+        const chatContainer = document.getElementById('ideation-chat');
+        if (chatContainer) {
+            this.addChatMessage(chatContainer, `🎯 Quick generate: ${request}`, 'user');
+            this.addSpecialistMessage('Creative Specialist', `Generating concepts based on: "${request}"... Creating fresh ideas now.`, 'fas fa-lightning-bolt');
+        }
+        
+        input.value = '';
+    }
+
+    updateStatusCounts() {
+        const approvedCount = document.querySelectorAll('.ideation-card[data-approved="true"]').length;
+        const totalCount = document.querySelectorAll('.ideation-card').length;
+        const pendingCount = totalCount - approvedCount;
+        
+        const approvedEl = document.getElementById('approved-count');
+        const pendingEl = document.getElementById('pending-count');
+        
+        if (approvedEl) approvedEl.textContent = approvedCount;
+        if (pendingEl) pendingEl.textContent = pendingCount;
+    }
+
+    addBlueprintSection(container, title, content) {
+        const sectionHTML = `
+            <div class="blueprint-section ${title.toLowerCase().replace('& ', '').replace(' ', '-')}-section" style="opacity: 0; animation: fadeInUp 0.6s ease forwards;">
+                <div class="section-header">
+                    <h3>${title}</h3>
+                    ${this.getSectionButton(title)}
+                </div>
+                <div class="section-content">
+                    ${content}
+                </div>
+            </div>
+        `;
+        container.innerHTML += sectionHTML;
+    }
+
+    getSectionButton(title) {
+        switch (title) {
+            case 'Objective':
+            case 'Mood Board':
+                return `<button class="refine-btn btn-secondary"><i class="fas fa-magic"></i> Refine with AI</button>`;
+            case 'Creative Direction':
+                return `<button class="explore-more-btn btn-secondary"><i class="fas fa-compass"></i> Explore More</button>`;
+            case 'Deliverables':
+                return `
+                    <div class="section-actions">
+                        <button class="create-plan-btn btn-secondary">
+                            <i class="fas fa-sparkles"></i>
+                            Create Production Plan
+                        </button>
+                        <button class="refine-btn btn-secondary">
+                            <i class="fas fa-sparkles"></i>
+                            Refine with AI
+                        </button>
+                    </div>
+                `;
+            default:
+                return '';
+        }
+    }
+
+    showAgentThinking(container) {
+        const thinkingHTML = `
+            <div class="agent-thinking-section">
+                <div class="agent-thinking">
+                    <div class="thinking-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    Analyzing and generating next section...
+                </div>
+            </div>
+        `;
+        container.innerHTML += thinkingHTML;
+        
+        // Remove thinking indicator after 2.5 seconds
+        setTimeout(() => {
+            const thinkingSection = container.querySelector('.agent-thinking-section');
+            if (thinkingSection) {
+                thinkingSection.remove();
+            }
+        }, 2500);
+    }
+
+    getObjectiveSection() {
+        return `
+            <p>Drive awareness and sales of the new Fall 2025 premium athleisure collection, targeting women 25–40, with the dual goal of boosting online purchases and increasing in-store visits for try-on experiences.</p>
+            <div class="launch-date">
+                <strong>Launch Date:</strong> October 27, 2025 (T-60 days)
+            </div>
+        `;
+    }
+
+    getToneStyleSection() {
+        return `
+            <div class="style-tags">
+                <span class="style-tag">Sophisticated</span>
+                <span class="style-tag">Modern</span>
+                <span class="style-tag">Aspirational</span>
+            </div>
+            <div class="avoid-section">
+                <h4>Avoid:</h4>
+                <ul>
+                    <li>Fitness-focused terminology</li>
+                    <li>Overly aspirational lifestyle imagery</li>
+                    <li>Seasonal clichés</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    getMessagingSection() {
+        return `
+            <ul class="messaging-points">
+                <li>"Premium style. Everyday comfort."</li>
+                <li>"Elevate your fall wardrobe with athleisure made to move with you."</li>
+                <li>"Emphasize premium fabrics, seasonal colors, and limited collection drops."</li>
+            </ul>
+        `;
+    }
+
+    getCreativeDirectionSection() {
+        return `
+            <div class="direction-details">
+                <p class="section-description">Drive awareness and sales of the new Fall 2025 premium athleisure collection, targeting women 25–40, with the dual goal of boosting online purchases and increasing in-store visits for try-on experiences.</p>
+                
+                <div class="creative-ideas-grid">
+                    <div class="idea-card approved">
+                        <div class="idea-header">
+                            <h4>The Cozy Commute</h4>
+                            <span class="status-badge approved">Approved</span>
+                        </div>
+                        <div class="target-audience">
+                            <strong>Target:</strong> Hybrid Worker
+                        </div>
+                        <div class="idea-description">
+                            "Capture the effortless transition from a relaxed indoor environment (e.g., minimalist home, coffee shop) to a quick, layered outdoor walk."
+                        </div>
+                    </div>
+                    
+                    <div class="idea-card approved">
+                        <div class="idea-header">
+                            <h4>Foggy Morning HIIT</h4>
+                            <span class="status-badge approved">Approved</span>
+                        </div>
+                        <div class="target-audience">
+                            <strong>Target:</strong> The Performance Athlete
+                        </div>
+                        <div class="idea-description">
+                            "Showcase high-intensity, technical performance outdoors in challenging conditions"
+                        </div>
+                    </div>
+                    
+                    <div class="idea-card approved">
+                        <div class="idea-header">
+                            <h4>Autumnal Color Blocking</h4>
+                            <span class="status-badge approved">Approved</span>
+                        </div>
+                        <div class="target-audience">
+                            <strong>Target:</strong> The Fashion Influencer/Trend Follower
+                        </div>
+                        <div class="idea-description">
+                            "A fashion-forward, studio-based approach focusing purely on the visual impact of the new seasonal color palette"
+                        </div>
+                    </div>
+                    
+                    <div class="idea-card approved">
+                        <div class="idea-header">
+                            <h4>The Weekend Escape</h4>
+                            <span class="status-badge approved">Approved</span>
+                        </div>
+                        <div class="target-audience">
+                            <strong>Target:</strong> The Wellness Seeker
+                        </div>
+                        <div class="idea-description">
+                            "Tell a narrative of light adventure and decompression. Feature the clothing being used in natural, rustic settings"
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    getMoodBoardSection() {
+        return `
+            <div class="mood-board-grid">
+                <div class="mood-item mood-item-large">
+                    <img src="https://images.stockcake.com/public/9/d/0/9d0b490b-e3c0-44c3-9fba-36a762b0995d_large/autumn-yoga-session-stockcake.jpg" alt="Autumn yoga session - peaceful wellness in nature" />
+                </div>
+                <div class="mood-item mood-item-square">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fall coffee and autumn elements - warm seasonal mood" />
+                </div>
+                <div class="mood-item mood-item-vertical">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sporty healthy active woman - wellness lifestyle" />
+                </div>
+                <div class="mood-item mood-item-square">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Woman doing yoga in peaceful natural setting" />
+                </div>
+                <div class="mood-item mood-item-horizontal">
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Natural park hiking landscape - outdoor wellness" />
+                </div>
+                <div class="mood-item mood-item-square">
+                    <img src="https://akns-images.eonline.com/eol_images/Entire_Site/2024914/rs_1024x759-241014105232-fall_athleisure_main_image.jpg?fit=around%7C1024:759&output-quality=90&crop=1024:759;center,top" alt="Fall athleisure collection - seasonal athletic wear" />
+                </div>
+            </div>
+        `;
+    }
+
+    getDeliverablesSection() {
+        return `
+            <p class="section-description">
+                Suggested deliverables based on your creative direction and target channels for maximum campaign impact.
+            </p>
+            <div class="deliverables-grid">
+                <!-- Instagram Image Card -->
+                <div class="deliverable-card instagram">
+                    <div class="deliverable-header">
+                        <div class="channel-branding">
+                            <i class="fab fa-instagram"></i>
+                            <span class="channel-name">Instagram</span>
+                        </div>
+                        <div class="format-badge image">Image</div>
+                    </div>
+                    
+                    <div class="deliverable-content">
+                        <div class="creative-directions">
+                            <h5>Creative Directions</h5>
+                            <ul>
+                                <li>The Cozy Commute</li>
+                                <li>Foggy Morning HIIT</li>
+                                <li>Autumnal Color Blocking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="deliverable-specs">
+                            <div class="spec-group">
+                                <strong>Languages:</strong>
+                                <div class="variant-tags">
+                                    <span class="variant-tag">English</span>
+                                    <span class="variant-tag">Spanish</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-group">
+                                <strong>Markets:</strong>
+                                <div class="variant-tags">
+                                    <span class="variant-tag">USA</span>
+                                    <span class="variant-tag">Canada</span>
+                                    <span class="variant-tag">UK</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-group">
+                                <strong>Size:</strong>
+                                <span class="size-spec">1080×1080</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="deliverable-footer">
+                        <span class="status-badge not-started">Not Started</span>
+                        <button class="generate-asset-btn btn-primary">
+                            <i class="fas fa-sparkles"></i>
+                            Generate
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Instagram Video Card -->
+                <div class="deliverable-card instagram">
+                    <div class="deliverable-header">
+                        <div class="channel-branding">
+                            <i class="fab fa-instagram"></i>
+                            <span class="channel-name">Instagram</span>
+                        </div>
+                        <div class="format-badge video">Video</div>
+                    </div>
+                    
+                    <div class="deliverable-content">
+                        <div class="creative-directions">
+                            <h5>Creative Directions</h5>
+                            <ul>
+                                <li>The Cozy Commute</li>
+                                <li>Foggy Morning HIIT</li>
+                                <li>Autumnal Color Blocking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="deliverable-specs">
+                            <div class="spec-group">
+                                <strong>Languages:</strong>
+                                <div class="variant-tags">
+                                    <span class="variant-tag">English</span>
+                                    <span class="variant-tag">Spanish</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-group">
+                                <strong>Markets:</strong>
+                                <div class="variant-tags">
+                                    <span class="variant-tag">USA</span>
+                                    <span class="variant-tag">Canada</span>
+                                    <span class="variant-tag">UK</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-group">
+                                <strong>Size:</strong>
+                                <span class="size-spec">1080×1080</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="deliverable-footer">
+                        <span class="status-badge not-started">Not Started</span>
+                        <button class="generate-asset-btn btn-primary">
+                            <i class="fas fa-sparkles"></i>
+                            Generate
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Facebook Image Card -->
+                <div class="deliverable-card facebook">
+                    <div class="deliverable-header">
+                        <div class="channel-branding">
+                            <i class="fab fa-facebook-f"></i>
+                            <span class="channel-name">Facebook</span>
+                        </div>
+                        <div class="format-badge image">Image</div>
+                    </div>
+                    
+                    <div class="deliverable-content">
+                        <div class="creative-directions">
+                            <h5>Creative Directions</h5>
+                            <ul>
+                                <li>The Cozy Commute</li>
+                                <li>Foggy Morning HIIT</li>
+                                <li>Autumnal Color Blocking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="deliverable-specs">
+                            <div class="spec-group">
+                                <strong>Languages:</strong>
+                                <div class="variant-tags">
+                                    <span class="variant-tag">English</span>
+                                    <span class="variant-tag">Spanish</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-group">
+                                <strong>Markets:</strong>
+                                <div class="variant-tags">
+                                    <span class="variant-tag">USA</span>
+                                    <span class="variant-tag">Canada</span>
+                                    <span class="variant-tag">UK</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-group">
+                                <strong>Size:</strong>
+                                <span class="size-spec">1200×628</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="deliverable-footer">
+                        <span class="status-badge not-started">Not Started</span>
+                        <button class="generate-asset-btn btn-primary">
+                            <i class="fas fa-sparkles"></i>
+                            Generate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 }
 
