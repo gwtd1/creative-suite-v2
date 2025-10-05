@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Brief to Assets Chat - Test</title>
+    
+    <!-- CLAUDE.md Design System Base -->
+    <style>
+        :root {
+            /* CLAUDE.md Design System Variables */
+            --font-primary: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --accent-primary: #1957db;
+            --accent-secondary: #6b7280;
+            --accent-purple: #9256d9;
+            --accent-orange: #ea580c;
+            --accent-green: #2d9d78;
+            --accent-blue: #0ea5e9;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --background-primary: #ffffff;
+            --surface-primary: #ffffff;
+            --surface-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --border-primary: #e5e7eb;
+            --border-secondary: #d1d5db;
+            --border-radius-lg: 12px;
+            --border-radius-md: 8px;
+            --border-radius-full: 9999px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--background-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .test-container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--surface-secondary);
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .test-header h1 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .test-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        .feature-demo {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--surface-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--border-radius-md);
+        }
+        
+        .feature-demo h3 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .demo-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--border-radius-md);
+            background: var(--surface-primary);
+            color: var(--accent-primary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .demo-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+    </style>
+    
+    <!-- Enhanced Chat Interface CSS -->
+    <link rel="stylesheet" href="css/chat-interface-enhanced.css">
+    <!-- AI-Native Chat Interface CSS -->
+    <link rel="stylesheet" href="css/ai-native-chat.css">
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>Enhanced Brief to Assets Chat Interface</h1>
+            <p>AI-native conversational creative brief workflow with performance optimization and real-time simulation</p>
+        </div>
+        
+        <div class="feature-demo">
+            <h3>🧠 AI Intelligence Features</h3>
+            <p>Test the enhanced AI agent system with confidence tracking, contextual responses, and intelligent campaign recommendations.</p>
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="testAIIntelligence()">Test AI Responses</button>
+                <button class="demo-btn" onclick="testAgentHandoff()">Test Agent Handoff</button>
+                <button class="demo-btn" onclick="testConfidenceUpdates()">Test Confidence Updates</button>
+            </div>
+        </div>
+        
+        <div class="feature-demo">
+            <h3>⚡ Performance Features</h3>
+            <p>Demonstrate performance optimization patterns including message pooling, virtual scrolling, and memory management.</p>
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="testPerformanceOptimization()">Load 100 Messages</button>
+                <button class="demo-btn" onclick="testMemoryManagement()">Test Memory Cleanup</button>
+                <button class="demo-btn" onclick="testRenderOptimization()">Test Render Performance</button>
+            </div>
+        </div>
+        
+        <div class="feature-demo">
+            <h3>🔄 Real-time Simulation</h3>
+            <p>Test WebSocket simulation patterns, connection state management, and message queueing systems.</p>
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="simulateConnectionIssue()">Simulate Connection Issue</button>
+                <button class="demo-btn" onclick="testMessageQueueing()">Test Message Queueing</button>
+                <button class="demo-btn" onclick="testRealtimeUpdates()">Test Real-time Updates</button>
+            </div>
+        </div>
+        
+        <div class="feature-demo">
+            <h3>🎨 AI-Native Visual Features</h3>
+            <p>Test the enhanced AI-native visual language including confidence indicators, agent avatars, and micro-interactions.</p>
+            <div class="demo-buttons">
+                <button class="demo-btn" onclick="testConfidenceVisualization()">Test Confidence Visualization</button>
+                <button class="demo-btn" onclick="testAgentAvatars()">Test Enhanced Avatars</button>
+                <button class="demo-btn" onclick="testMicroInteractions()">Test Micro-interactions</button>
+                <button class="demo-btn" onclick="testCampaignIntelligence()">Test Campaign Intelligence</button>
+            </div>
+        </div>
+        
+        <!-- Chat Interface Container -->
+        <div id="creative-suite-interface">
+            <!-- Enhanced chat will be injected here -->
+        </div>
+    </div>
+    
+    <!-- Enhanced Chat Component -->
+    <script src="js/components/BriefToAssetsChat.js"></script>
+    
+    <!-- Test Functions -->
+    <script>
+        let chatInstance;
+        
+        // Initialize the enhanced chat interface
+        document.addEventListener('DOMContentLoaded', function() {
+            chatInstance = new BriefToAssetsChat();
+            console.log('🚀 Enhanced Brief to Assets Chat initialized');
+        });
+        
+        // Test AI Intelligence Features
+        function testAIIntelligence() {
+            if (!chatInstance) return;
+            
+            const testMessages = [
+                'Tell me about performance athletes segment',
+                'Show me visual concepts for this campaign',
+                'What about brand positioning strategy?'
+            ];
+            
+            testMessages.forEach((message, index) => {
+                setTimeout(() => {
+                    chatInstance.addMessage(message, 'user');
+                    chatInstance.generateAIResponse(message);
+                }, index * 3000);
+            });
+        }
+        
+        function testAgentHandoff() {
+            if (!chatInstance) return;
+            
+            // Simulate agent status changes
+            setTimeout(() => chatInstance.updateAgentStatus('strategy', 'working'), 500);
+            setTimeout(() => chatInstance.updateAgentStatus('strategy', 'ready'), 2000);
+            setTimeout(() => chatInstance.updateAgentStatus('creative', 'working'), 2500);
+            setTimeout(() => chatInstance.updateAgentStatus('creative', 'ready'), 4000);
+        }
+        
+        function testConfidenceUpdates() {
+            if (!chatInstance) return;
+            
+            // Simulate confidence changes
+            const agents = ['strategy', 'creative', 'copy', 'design'];
+            agents.forEach((agent, index) => {
+                setTimeout(() => {
+                    const newConfidence = 0.5 + Math.random() * 0.5;
+                    chatInstance.updateAgentConfidence(agent, newConfidence);
+                }, index * 1000);
+            });
+        }
+        
+        // Test Performance Features
+        function testPerformanceOptimization() {
+            if (!chatInstance) return;
+            
+            console.time('Load 100 Messages');
+            
+            for (let i = 0; i < 100; i++) {
+                const isAI = i % 3 === 0;
+                const agents = ['strategy', 'creative', 'copy', 'design'];
+                const agent = agents[i % agents.length];
+                
+                if (isAI) {
+                    chatInstance.addMessage(
+                        `AI message ${i + 1}: This is a test message to evaluate performance with large message volumes.`,
+                        'ai',
+                        agent,
+                        chatInstance.getAgentName(agent)
+                    );
+                } else {
+                    chatInstance.addMessage(
+                        `User message ${i + 1}: Testing performance with multiple messages.`,
+                        'user'
+                    );
+                }
+            }
+            
+            console.timeEnd('Load 100 Messages');
+            console.log('📊 Performance metrics:', chatInstance.performanceMetrics);
+        }
+        
+        function testMemoryManagement() {
+            if (!chatInstance) return;
+            
+            console.log('🧹 Before cleanup:', {
+                messages: chatInstance.messages.length,
+                messagePool: chatInstance.messagePool.length
+            });
+            
+            chatInstance.cleanupMemory();
+            
+            console.log('🧹 After cleanup:', {
+                messages: chatInstance.messages.length,
+                messagePool: chatInstance.messagePool.length
+            });
+        }
+        
+        function testRenderOptimization() {
+            if (!chatInstance) return;
+            
+            console.time('Render Optimization Test');
+            
+            // Add multiple messages quickly to test render batching
+            for (let i = 0; i < 20; i++) {
+                chatInstance.addMessage(`Render test message ${i + 1}`, 'user');
+            }
+            
+            console.timeEnd('Render Optimization Test');
+        }
+        
+        // Test Real-time Simulation
+        function simulateConnectionIssue() {
+            if (!chatInstance) return;
+            
+            console.log('🔄 Simulating connection issue...');
+            chatInstance.connectionState = 'reconnecting';
+            chatInstance.updateConnectionUI('reconnecting');
+            
+            setTimeout(() => {
+                chatInstance.connectionState = 'connected';
+                chatInstance.updateConnectionUI('connected');
+                console.log('✅ Connection restored');
+            }, 3000);
+        }
+        
+        function testMessageQueueing() {
+            if (!chatInstance) return;
+            
+            // Disconnect and queue messages
+            chatInstance.connectionState = 'disconnected';
+            chatInstance.updateConnectionUI('disconnected');
+            
+            // Add messages while disconnected
+            chatInstance.addMessage('This message should be queued', 'ai', 'strategy', 'Strategy Specialist');
+            chatInstance.addMessage('This message should also be queued', 'ai', 'creative', 'Creative Specialist');
+            
+            console.log('📦 Messages queued:', chatInstance.messageQueue.length);
+            
+            // Reconnect after 2 seconds
+            setTimeout(() => {
+                chatInstance.connectionState = 'connected';
+                chatInstance.updateConnectionUI('connected');
+                chatInstance.processMessageQueue();
+                console.log('📨 Messages delivered from queue');
+            }, 2000);
+        }
+        
+        function testRealtimeUpdates() {
+            if (!chatInstance) return;
+            
+            // Subscribe to real-time events
+            const unsubscribe = chatInstance.eventManager.subscribe('message:added', (data) => {
+                console.log('📨 Real-time message event:', data);
+            });
+            
+            // Add some messages to trigger events
+            chatInstance.addMessage('Testing real-time events', 'user');
+            
+            setTimeout(() => {
+                chatInstance.addMessage('Another real-time test message', 'ai', 'strategy', 'Strategy Specialist');
+            }, 1000);
+            
+            // Unsubscribe after test
+            setTimeout(() => {
+                unsubscribe();
+                console.log('🔇 Unsubscribed from real-time events');
+            }, 3000);
+        }
+        
+        // Campaign switching test
+        function testCampaignSwitch() {
+            if (!chatInstance) return;
+            
+            const campaigns = ['athleisure-2024', 'ai-productivity', 'eco-fashion'];
+            let currentIndex = 0;
+            
+            const switchInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % campaigns.length;
+                chatInstance.handleCampaignSwitch(campaigns[currentIndex]);
+                console.log('🎯 Switched to campaign:', campaigns[currentIndex]);
+                
+                if (currentIndex === 0) {
+                    clearInterval(switchInterval);
+                }
+            }, 2000);
+        }
+        
+        // AI-Native Visual Features Tests
+        function testConfidenceVisualization() {
+            if (!chatInstance) return;
+            
+            console.log('🎨 Testing confidence visualization...');
+            
+            // Test confidence updates for all agents
+            const agents = ['strategy', 'creative', 'copy', 'design'];
+            let index = 0;
+            
+            const confidenceInterval = setInterval(() => {
+                const agent = agents[index % agents.length];
+                const newConfidence = 0.3 + Math.random() * 0.7;
+                
+                chatInstance.updateAgentConfidence(agent, newConfidence);
+                console.log(`📊 Updated ${agent} confidence to ${(newConfidence * 100).toFixed(1)}%`);
+                
+                index++;
+                if (index >= agents.length * 3) {
+                    clearInterval(confidenceInterval);
+                    console.log('✅ Confidence visualization test completed');
+                }
+            }, 800);
+        }
+        
+        function testAgentAvatars() {
+            if (!chatInstance) return;
+            
+            console.log('🤖 Testing enhanced agent avatars...');
+            
+            // Test different agent states
+            const agents = ['strategy', 'creative', 'copy', 'design'];
+            const states = ['ready', 'working', 'active'];
+            let index = 0;
+            
+            const avatarInterval = setInterval(() => {
+                const agent = agents[index % agents.length];
+                const state = states[Math.floor(Math.random() * states.length)];
+                
+                chatInstance.updateAgentStatus(agent, state);
+                console.log(`🎭 Updated ${agent} status to ${state}`);
+                
+                index++;
+                if (index >= agents.length * 2) {
+                    clearInterval(avatarInterval);
+                    console.log('✅ Agent avatar test completed');
+                }
+            }, 1500);
+        }
+        
+        function testMicroInteractions() {
+            if (!chatInstance) return;
+            
+            console.log('✨ Testing micro-interactions...');
+            
+            // Test typing indicator with different agents
+            const agents = ['strategy', 'creative', 'copy', 'design'];
+            let index = 0;
+            
+            const typingInterval = setInterval(() => {
+                const agent = agents[index % agents.length];
+                
+                chatInstance.showTypingIndicator(agent);
+                console.log(`⌨️ Showing typing indicator for ${agent}`);
+                
+                setTimeout(() => {
+                    chatInstance.hideTypingIndicator();
+                    console.log(`🔕 Hidden typing indicator for ${agent}`);
+                }, 2000);
+                
+                index++;
+                if (index >= agents.length) {
+                    clearInterval(typingInterval);
+                    console.log('✅ Micro-interactions test completed');
+                }
+            }, 3000);
+        }
+        
+        function testCampaignIntelligence() {
+            if (!chatInstance) return;
+            
+            console.log('🧠 Testing campaign intelligence features...');
+            
+            // Test AI recommendation indicators
+            chatInstance.campaigns.forEach(campaign => {
+                campaign.aiRecommended = Math.random() > 0.5;
+                campaign.confidenceScore = 60 + Math.random() * 40;
+            });
+            
+            // Update campaign pills
+            const campaignContainer = document.querySelector('.campaign-pills');
+            if (campaignContainer) {
+                campaignContainer.innerHTML = chatInstance.renderIntelligentCampaignPills();
+                console.log('📈 Updated campaign intelligence indicators');
+            }
+            
+            // Test contextual suggestions
+            const suggestions = chatInstance.generateContextualSuggestions();
+            console.log('💡 Generated contextual suggestions:', suggestions);
+            
+            console.log('✅ Campaign intelligence test completed');
+        }
+        
+        // Add keyboard shortcuts for testing
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        testAIIntelligence();
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        testPerformanceOptimization();
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        simulateConnectionIssue();
+                        break;
+                    case '4':
+                        e.preventDefault();
+                        testCampaignSwitch();
+                        break;
+                    case '5':
+                        e.preventDefault();
+                        testConfidenceVisualization();
+                        break;
+                    case '6':
+                        e.preventDefault();
+                        testAgentAvatars();
+                        break;
+                    case '7':
+                        e.preventDefault();
+                        testMicroInteractions();
+                        break;
+                    case '8':
+                        e.preventDefault();
+                        testCampaignIntelligence();
+                        break;
+                }
+            }
+        });
+        
+        console.log('🎮 Test controls loaded. Use demo buttons or keyboard shortcuts:');
+        console.log('  Ctrl/Cmd + 1: Test AI Intelligence');
+        console.log('  Ctrl/Cmd + 2: Test Performance');
+        console.log('  Ctrl/Cmd + 3: Test Connection Simulation');
+        console.log('  Ctrl/Cmd + 4: Test Campaign Switching');
+        console.log('  Ctrl/Cmd + 5: Test Confidence Visualization');
+        console.log('  Ctrl/Cmd + 6: Test Agent Avatars');
+        console.log('  Ctrl/Cmd + 7: Test Micro-interactions');
+        console.log('  Ctrl/Cmd + 8: Test Campaign Intelligence');
+    </script>
+</body>
+</html>

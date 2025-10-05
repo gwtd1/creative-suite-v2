@@ -814,7 +814,7 @@ class MarketingSuperAgentV4 {
                                 <i class="fas fa-file-alt"></i>
                             </div>
                             <div class="area-content">
-                                <h4>Campaign Briefs</h4>
+                                <h4>Brief to Assets</h4>
                                 <p>Create comprehensive creative briefs and guidelines</p>
                             </div>
                         </div>
@@ -832,7 +832,7 @@ class MarketingSuperAgentV4 {
                                 <i class="fas fa-layer-group"></i>
                             </div>
                             <div class="area-content">
-                                <h4>Create Template</h4>
+                                <h4>New Experience</h4>
                                 <p>Build reusable templates and brand assets</p>
                             </div>
                         </div>
@@ -965,6 +965,95 @@ class MarketingSuperAgentV4 {
         // Debug: Verify three-panel interface was added
         const suiteInterface = document.getElementById('creative-suite-interface');
         console.log('🔧 Creative workspace setup complete. Suite interface found:', !!suiteInterface);
+    }
+
+    showBriefToAssetsChat() {
+        console.log('💬 Launching Brief to Assets Chat Interface');
+        
+        // Initialize and show the chat interface
+        if (window.BriefToAssetsChat) {
+            // Hide the main creative interface
+            const creativeContainer = document.querySelector('.creative-container');
+            const suiteInterface = document.getElementById('creative-suite-interface');
+            
+            if (creativeContainer) {
+                creativeContainer.style.display = 'none';
+            }
+            
+            if (suiteInterface) {
+                suiteInterface.style.display = 'block';
+            }
+            
+            // Create new chat instance
+            this.chatInstance = new window.BriefToAssetsChat();
+            
+            // Add close button functionality
+            this.addChatCloseButton();
+        } else {
+            console.error('❌ BriefToAssetsChat class not found');
+        }
+    }
+
+    addChatCloseButton() {
+        // Add a close button to return to Creative Suite
+        const chatContainer = document.querySelector('.brief-to-assets-chat');
+        if (chatContainer) {
+            const closeButton = document.createElement('button');
+            closeButton.className = 'chat-close-btn';
+            closeButton.innerHTML = '← Back to Creative Suite';
+            closeButton.style.cssText = `
+                position: absolute;
+                top: 16px;
+                right: 24px;
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 8px 16px;
+                font-size: var(--font-sm);
+                cursor: pointer;
+                z-index: 1001;
+                transition: all 0.2s ease;
+            `;
+            
+            closeButton.addEventListener('click', () => {
+                this.closeBriefToAssetsChat();
+            });
+            
+            chatContainer.appendChild(closeButton);
+        }
+    }
+
+    closeBriefToAssetsChat() {
+        console.log('📤 Closing Brief to Assets Chat Interface');
+        
+        // Remove chat interface
+        const chatContainer = document.querySelector('.brief-to-assets-chat');
+        if (chatContainer) {
+            chatContainer.remove();
+        }
+        
+        // Show the main creative interface
+        const creativeContainer = document.querySelector('.creative-container');
+        if (creativeContainer) {
+            creativeContainer.style.display = 'block';
+        }
+        
+        // Clean up chat instance
+        if (this.chatInstance) {
+            this.chatInstance = null;
+        }
+    }
+
+    showAICreativeExperience() {
+        console.log('🤖 Launching AI Creative Experience');
+        
+        // Initialize and show the AI Creative Experience
+        if (window.AICreativeExperience) {
+            // Create new AI Creative Experience instance
+            this.aiExperienceInstance = new window.AICreativeExperience(this);
+        } else {
+            console.error('❌ AICreativeExperience class not found');
+        }
     }
 
     showCreativeSplitInterface(userMessage) {
@@ -12025,11 +12114,21 @@ class MarketingSuperAgentV4 {
             return;
         }
         
+        // Special handling for briefs action - launches AI chat interface
+        if (action === 'briefs') {
+            this.showBriefToAssetsChat();
+            return;
+        }
+        
+        // Special handling for template action - launches AI Creative Experience
+        if (action === 'template') {
+            this.showAICreativeExperience();
+            return;
+        }
+        
         // Map other actions to their functionality
         const actionPrompts = {
-            'briefs': 'Create a comprehensive campaign brief for my marketing initiative',
-            'assets': 'Generate creative assets for my campaign including images and copy',
-            'template': 'Create a template for consistent marketing materials'
+            'assets': 'Generate creative assets for my campaign including images and copy'
         };
         
         const prompt = actionPrompts[action];

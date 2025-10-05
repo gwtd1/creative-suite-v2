@@ -1,0 +1,574 @@
+/**
+ * AI Creative Experience Styles
+ * Implementation of AI-Native Conversational Interface
+ * Using Marketing SuperAgent v4 Design System (CLAUDE.md)
+ */
+
+/* ==========================================================================
+   AI Creative Experience Container
+   ========================================================================== */
+
+.ai-creative-experience {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--primary-bg, #fafafa);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.ai-creative-experience.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.ai-creative-experience.closing {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+/* ==========================================================================
+   AI Experience Header
+   ========================================================================== */
+
+.ai-experience-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color, #e1e5e9);
+    background: var(--card-bg, #ffffff);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
+}
+
+.ai-branding {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-branding h1 {
+    font-size: var(--h1, 28px);
+    font-weight: 700;
+    color: var(--text-primary, #2c2c2c);
+    margin: 0;
+}
+
+.ai-branding .fas.fa-robot {
+    font-size: 28px;
+    color: var(--accent-purple, #9256d9);
+}
+
+.beta-badge {
+    background: linear-gradient(135deg, var(--accent-orange, #e68619), var(--accent-secondary, #4475e6));
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: var(--font-xs, 12px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.close-experience-btn {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary, #6e6e6e);
+}
+
+.close-experience-btn:hover {
+    background: var(--border-color, #e1e5e9);
+    color: var(--text-primary, #2c2c2c);
+}
+
+/* ==========================================================================
+   Conversation Container
+   ========================================================================== */
+
+.conversation-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.conversation-thread {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+.conversation-thread::-webkit-scrollbar {
+    width: 6px;
+}
+
+.conversation-thread::-webkit-scrollbar-track {
+    background: var(--border-color, #e1e5e9);
+    border-radius: 3px;
+}
+
+.conversation-thread::-webkit-scrollbar-thumb {
+    background: var(--text-secondary, #6e6e6e);
+    border-radius: 3px;
+}
+
+.conversation-thread::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary, #1957db);
+}
+
+/* ==========================================================================
+   Message Styling
+   ========================================================================== */
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    animation: messageSlideIn 0.4s ease;
+}
+
+/* AI Message Styling */
+.ai-message {
+    align-self: flex-start;
+    max-width: 85%;
+}
+
+.ai-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-purple, #9256d9), var(--accent-secondary, #4475e6));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(146, 86, 217, 0.3);
+}
+
+.ai-message .message-content {
+    background: var(--card-bg, #ffffff);
+    border-radius: 16px 16px 16px 4px;
+    padding: 16px 20px;
+    border-left: 4px solid var(--accent-purple, #9256d9);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* User Message Styling */
+.user-message {
+    align-self: flex-end;
+    max-width: 75%;
+    margin-left: auto;
+}
+
+.user-message .message-content {
+    background: linear-gradient(135deg, var(--accent-primary, #1957db), var(--accent-secondary, #4475e6));
+    color: white;
+    border-radius: 16px 16px 4px 16px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 12px rgba(25, 87, 219, 0.3);
+}
+
+/* Message Content Styling */
+.ai-response {
+    font-size: var(--font-lg, 16px);
+    line-height: 1.6;
+    color: var(--text-primary, #2c2c2c);
+}
+
+.ai-response strong {
+    font-weight: 600;
+    color: var(--accent-primary, #1957db);
+}
+
+.ai-response .emoji {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.ai-response .bullet {
+    color: var(--accent-purple, #9256d9);
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.message-timestamp {
+    font-size: var(--font-xs, 12px);
+    color: var(--text-secondary, #6e6e6e);
+    margin-top: 8px;
+    text-align: right;
+}
+
+/* ==========================================================================
+   Concept Cards
+   ========================================================================== */
+
+.concept-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.concept-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e1e5e9);
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.concept-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent-primary, #1957db);
+}
+
+.concept-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.concept-header h4 {
+    font-size: var(--h3, 16px);
+    font-weight: 600;
+    color: var(--text-primary, #2c2c2c);
+    margin: 0;
+}
+
+.confidence-badge {
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: var(--font-xs, 12px);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.confidence-badge.high {
+    background: color-mix(in srgb, var(--accent-green, #2d9d78) 20%, transparent);
+    color: var(--accent-green, #2d9d78);
+}
+
+.confidence-badge.medium {
+    background: color-mix(in srgb, var(--accent-orange, #e68619) 20%, transparent);
+    color: var(--accent-orange, #e68619);
+}
+
+.confidence-badge.low {
+    background: color-mix(in srgb, var(--accent-red, #e34850) 20%, transparent);
+    color: var(--accent-red, #e34850);
+}
+
+.concept-description {
+    font-size: var(--font-base, 14px);
+    color: var(--text-secondary, #6e6e6e);
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+}
+
+.concept-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-concept-develop,
+.btn-concept-refine {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color, #e1e5e9);
+    border-radius: 8px;
+    background: var(--card-bg, #ffffff);
+    color: var(--text-primary, #2c2c2c);
+    font-size: var(--font-sm, 13px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-concept-develop:hover {
+    background: var(--accent-primary, #1957db);
+    border-color: var(--accent-primary, #1957db);
+    color: white;
+}
+
+.btn-concept-refine:hover {
+    background: var(--accent-purple, #9256d9);
+    border-color: var(--accent-purple, #9256d9);
+    color: white;
+}
+
+/* ==========================================================================
+   AI Input Interface
+   ========================================================================== */
+
+.ai-input-container {
+    padding: 20px;
+    border-top: 1px solid var(--border-color, #e1e5e9);
+    background: var(--card-bg, #ffffff);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 12px;
+}
+
+.ai-chat-input {
+    flex: 1;
+    padding: 16px 20px;
+    border: 2px solid var(--border-color, #e1e5e9);
+    border-radius: 12px;
+    background: var(--card-bg, #ffffff);
+    color: var(--text-primary, #2c2c2c);
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: var(--font-base, 14px);
+    resize: none;
+    transition: all 0.2s ease;
+    min-height: 24px;
+    max-height: 120px;
+}
+
+.ai-chat-input:focus {
+    outline: none;
+    border-color: var(--accent-primary, #1957db);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary, #1957db) 10%, transparent);
+}
+
+.ai-chat-input::placeholder {
+    color: var(--text-secondary, #6e6e6e);
+}
+
+.input-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.voice-input-btn,
+.send-message-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 16px;
+}
+
+.voice-input-btn {
+    background: var(--border-color, #e1e5e9);
+    color: var(--text-secondary, #6e6e6e);
+}
+
+.voice-input-btn:hover {
+    background: var(--accent-orange, #e68619);
+    color: white;
+}
+
+.send-message-btn {
+    background: var(--accent-primary, #1957db);
+    color: white;
+}
+
+.send-message-btn:hover {
+    background: var(--accent-secondary, #4475e6);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(25, 87, 219, 0.3);
+}
+
+/* ==========================================================================
+   AI Status Indicator
+   ========================================================================== */
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.status-indicator {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-indicator.ready {
+    color: var(--accent-green, #2d9d78);
+}
+
+.status-indicator.thinking {
+    color: var(--accent-orange, #e68619);
+}
+
+.status-indicator.generating {
+    color: var(--accent-purple, #9256d9);
+}
+
+.pulse-ring {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    opacity: 0.6;
+}
+
+.status-text {
+    font-size: var(--font-xs, 12px);
+    color: var(--text-secondary, #6e6e6e);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.2;
+    }
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .conversation-container {
+        padding: 16px;
+    }
+    
+    .ai-experience-header {
+        padding: 16px 20px;
+    }
+    
+    .ai-branding h1 {
+        font-size: var(--h2, 20px);
+    }
+    
+    .conversation-thread {
+        padding: 16px 0;
+        gap: 16px;
+    }
+    
+    .ai-message,
+    .user-message {
+        max-width: 95%;
+    }
+    
+    .ai-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    
+    .message-content {
+        padding: 12px 16px;
+    }
+    
+    .concept-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .ai-input-container {
+        padding: 16px;
+    }
+    
+    .input-wrapper {
+        gap: 8px;
+    }
+    
+    .voice-input-btn,
+    .send-message-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* ==========================================================================
+   Performance Optimizations
+   ========================================================================== */
+
+/* GPU acceleration for smooth animations */
+.ai-creative-experience,
+.message,
+.concept-card,
+.ai-chat-input,
+.voice-input-btn,
+.send-message-btn {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .ai-creative-experience,
+    .message,
+    .concept-card,
+    .pulse-ring {
+        animation: none !important;
+        transition: none !important;
+    }
+}
