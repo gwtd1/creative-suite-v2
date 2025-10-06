@@ -844,7 +844,7 @@ class MarketingSuperAgentV4 {
             <div class="creative-workspace-section">
                 <h3>My Creative Workspace</h3>
                 <div class="creative-workspace-tiles">
-                    <div class="workspace-tile" data-project="summer-sale">
+                    <div class="workspace-tile" data-project="summer-sale-2025">
                         <div class="tile-thumbnail">
                             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNGRkE1MDAiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjM1IiByPSIxOCIgZmlsbD0iI0ZGRDcwMCIvPjx0ZXh0IHg9IjUwIiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+U0FMRTU8L3RleHQ+PC9zdmc+" alt="Summer Sale" />
                         </div>
@@ -882,6 +882,23 @@ class MarketingSuperAgentV4 {
                                 <p class="launch-date">Launch Date: November 22, 2025</p>
                                 <p class="asset-count">Assets Count: 31 assets</p>
                                 <p class="asset-types">Types: Image, Video Remix</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workspace-tile" data-project="test-experience">
+                        <div class="tile-thumbnail">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjOTI1NkQ5Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjIwIiBmaWxsPSIjRkZGRkZGIiBvcGFjaXR5PSIwLjMiLz4KPHN2ZyB4PSIzNSIgeT0iMzUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCI+CjxwYXRoIGQ9Ik0xNSA1TDI1IDEwTDE1IDE1VjVaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik01IDEwTDE1IDVWMTVMNSAxMFoiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuNyIvPgo8L3N2Zz4KPC9zdmc+" alt="Test Experience" />
+                        </div>
+                        <div class="tile-content">
+                            <h4>TEST EXPERIENCE</h4>
+                            <p class="tile-description">Experimental workspace for new feature development</p>
+                            <div class="tile-meta">
+                                <span class="status-indicator">
+                                    <span class="status-dot development"></span>
+                                    Development
+                                </span>
+                                <span class="project-type">Prototype</span>
                             </div>
                         </div>
                     </div>
@@ -7585,6 +7602,125 @@ class MarketingSuperAgentV4 {
         }
     }
 
+    openProject(projectId) {
+        console.log('Opening project:', projectId);
+        // Generic project opening - could show a project details modal or navigate to project page
+        alert(`Opening project: ${projectId}`);
+    }
+
+    openTestExperience() {
+        console.log('🧪 Opening TEST EXPERIENCE - Development Workspace');
+        
+        // Show development placeholder
+        this.showDevelopmentPlaceholder();
+    }
+
+    showDevelopmentPlaceholder() {
+        // Create and show a simple modal indicating this is under development
+        const modal = document.createElement('div');
+        modal.className = 'development-modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="development-header">
+                    <h2>🧪 TEST EXPERIENCE</h2>
+                    <span class="development-badge">UNDER DEVELOPMENT</span>
+                </div>
+                <div class="development-body">
+                    <p>This workspace is reserved for experimental features and new functionality development.</p>
+                    <div class="development-features">
+                        <h4>Planned Features:</h4>
+                        <ul>
+                            <li>Advanced AI capabilities</li>
+                            <li>Custom workflow integration</li>
+                            <li>Experimental UI components</li>
+                            <li>Performance testing environment</li>
+                        </ul>
+                    </div>
+                    <div class="development-actions">
+                        <button class="btn-close-dev" onclick="this.closest('.development-modal').remove()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Style the modal
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        `;
+        
+        modal.querySelector('.modal-content').style.cssText = `
+            background: var(--card-bg, #ffffff);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+
+    openSummerSaleProject() {
+        console.log('🌞 Opening Summer Sale 2025 project with AI enhancements');
+        
+        // Show AI asset intelligence modal if available
+        if (window.aiAssetIntelligence) {
+            console.log('🤖 Showing AI Asset Selection Modal');
+            window.aiAssetIntelligence.showAssetSelectionModal('summer-sale-2025');
+        } else {
+            console.log('💬 AI Asset Intelligence not available, launching Brief to Assets chat');
+            // Fallback to brief-to-assets chat interface
+            this.showBriefToAssetsChat();
+            
+            // Set campaign context after showing the chat
+            setTimeout(() => {
+                this.setSummerSaleCampaignContext();
+            }, 500);
+        }
+    }
+
+    setSummerSaleCampaignContext() {
+        console.log('🏖️ Setting Summer Sale 2025 campaign context');
+        
+        // Set campaign context
+        this.selectedCampaign = 'summer-sale-2025';
+        
+        // Initialize brief to assets chat with project context if available
+        if (this.chatInstance && this.chatInstance.addMessage) {
+            // Add an initial message explaining the AI-enhanced project
+            const welcomeMessage = `🌞 **Summer Sale 2025 Campaign** - AI-Enhanced Workspace
+            
+Welcome to your AI-optimized Summer Sale 2025 campaign! This workspace has been enhanced with intelligent asset recommendations based on your campaign context:
+
+• **Target Audience**: Beach lifestyle enthusiasts, 25-40
+• **Launch Date**: June 15, 2025  
+• **Brand Mood**: Energetic, fresh, summery
+• **Channels**: Instagram, Email, Website
+
+I'm ready to help you create compelling marketing assets. What would you like to work on first?`;
+            
+            this.chatInstance.addMessage(welcomeMessage, 'assistant');
+        }
+    }
+
     hideAllPages() {
         const pages = [
             'home-screen',
@@ -12100,7 +12236,14 @@ class MarketingSuperAgentV4 {
             tile.addEventListener('click', () => {
                 const project = tile.dataset.project;
                 console.log('Workspace tile clicked:', project);
-                // You can add specific actions for each project here
+                
+                // Special handling for test-experience
+                if (project === 'test-experience') {
+                    this.openTestExperience();
+                } else {
+                    // Generic project handling for other tiles
+                    this.openProject(project);
+                }
             });
         });
     }
