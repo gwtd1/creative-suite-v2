@@ -7609,10 +7609,32 @@ class MarketingSuperAgentV4 {
     }
 
     openTestExperience() {
-        console.log('🧪 Opening TEST EXPERIENCE - Development Workspace');
+        console.log('🧪 Opening TEST EXPERIENCE - Creative Studio Projects Interface');
         
-        // Show development placeholder
-        this.showDevelopmentPlaceholder();
+        // Show creative studio interface
+        this.showCreativeStudioInterface();
+    }
+
+    async showCreativeStudioInterface() {
+        console.log('🎨 Loading Creative Studio Projects interface...');
+        
+        try {
+            // Dynamically import the CreativeStudioProjects component
+            const { CreativeStudioProjects } = await import('./components/CreativeStudioProjects.js');
+            
+            // Initialize and show the interface
+            if (!this.creativeStudioProjects) {
+                this.creativeStudioProjects = new CreativeStudioProjects(this);
+            }
+            
+            this.creativeStudioProjects.showInterface();
+            
+        } catch (error) {
+            console.error('Failed to load Creative Studio Projects:', error);
+            
+            // Fallback to development placeholder
+            this.showDevelopmentPlaceholder();
+        }
     }
 
     showDevelopmentPlaceholder() {
