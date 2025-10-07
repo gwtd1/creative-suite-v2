@@ -283,6 +283,7 @@
 
         .objective-section,
         .target-audience-section,
+        .dam-assets-section,
         .asset-section {
             background: var(--card-bg);
             padding: var(--space-xl);
@@ -300,6 +301,7 @@
 
         .objective-header h2,
         .target-audience-section h2,
+        .dam-assets-section h2,
         .asset-section h2 {
             font-size: var(--h3);
             font-weight: var(--h3-weight);
@@ -657,19 +659,31 @@
             content: '✨';
         }
 
+        /* DAM Assets Grid */
+        #damAssetsContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: var(--space-lg);
+        }
+
         /* DAM Card */
         .dam-card {
-            background: var(--card-bg);
+            background: var(--primary-bg);
             border-radius: var(--radius-xl);
             padding: var(--space-xl);
             border: var(--border);
-            margin: var(--space-md) 0;
             box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
+        }
+
+        .dam-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
         }
 
         .dam-card-title {
-            font-size: var(--h2);
-            font-weight: var(--h2-weight);
+            font-size: var(--font-lg);
+            font-weight: 600;
             color: var(--text-primary);
             margin-bottom: var(--space-md);
         }
@@ -721,8 +735,8 @@
         }
 
         .dam-metric-value {
-            font-size: var(--h2);
-            font-weight: 700;
+            font-size: var(--font-xl);
+            font-weight: 600;
             color: var(--text-primary);
         }
 
@@ -852,11 +866,68 @@
             box-shadow: var(--shadow-lg);
         }
 
+        .asset-modal-item.selected {
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(25, 87, 219, 0.1);
+        }
+
         .asset-modal-item img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             display: block;
+        }
+
+        .asset-checkbox {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 10;
+            accent-color: var(--accent-primary);
+        }
+
+        .asset-modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-xl);
+            border-top: var(--border);
+            background: var(--primary-bg);
+        }
+
+        .selected-count {
+            font-size: var(--font-base);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .save-to-campaign-btn {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            color: var(--white);
+            border: none;
+            padding: 12px 28px;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-base);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .save-to-campaign-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .save-to-campaign-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
@@ -1029,9 +1100,9 @@
                     </div>
                 </div>
 
-                <!-- Asset Section -->
+                <!-- Asset Requirements Section -->
                 <div class="asset-section">
-                    <h2>Asset</h2>
+                    <h2>Asset Requirements</h2>
                     <table class="channel-table">
                         <thead>
                             <tr>
@@ -1078,6 +1149,16 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- DAM Assets Section -->
+                <div class="dam-assets-section" id="damAssetsSection" style="display: none;">
+                    <h2>DAM Assets</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Assets found from your Digital Asset Management system</p>
+
+                    <div id="damAssetsContainer">
+                        <!-- DAM cards will be inserted here by JavaScript -->
+                    </div>
                 </div>
             </div>
 
@@ -1277,6 +1358,7 @@
 
         // Track conversation state
         let findAssetsState = null;
+        let selectedDAMName = null;
 
         function handleFindAssetsFlow(userMessage) {
             if (findAssetsState === 'awaiting_description') {
@@ -1375,7 +1457,82 @@
 
         function selectDAM(damName) {
             addChatMessage(damName, 'user');
+            selectedDAMName = damName; // Store the selected DAM name
             handleFindAssetsFlow(damName);
+        }
+
+        function addDAMToBriefPage(damName) {
+            // Show the DAM Assets section
+            const damSection = document.getElementById('damAssetsSection');
+            const damContainer = document.getElementById('damAssetsContainer');
+
+            if (!damSection || !damContainer) return;
+
+            damSection.style.display = 'block';
+
+            // Sample DAM data (in production, this would come from the actual selection)
+            const damData = {
+                'Fall 2024 Assets': {
+                    title: 'Fall 2024 Assets',
+                    badge: 'Adobe',
+                    description: 'Explore emerging platforms and untapped opportunities',
+                    type: 'Images, Video, Composed',
+                    metrics: {
+                        assets: '248',
+                        clicks: '32,876',
+                        ctr: '7.11'
+                    }
+                },
+                'Fall Fitness Campaign': {
+                    title: 'Fall Fitness Campaign',
+                    badge: 'Adobe',
+                    description: 'Explore emerging platforms and untapped opportunities',
+                    type: 'Images, Video, Composed',
+                    metrics: {
+                        assets: '156',
+                        clicks: '21,543',
+                        ctr: '6.84'
+                    }
+                }
+            };
+
+            const selectedDAM = damData[damName];
+            if (!selectedDAM) return;
+
+            // Check if this DAM card already exists
+            const existingCards = damContainer.querySelectorAll('.dam-card');
+            for (let card of existingCards) {
+                if (card.dataset.damName === damName) {
+                    return; // Already added
+                }
+            }
+
+            // Create DAM card for the brief page
+            const damCard = document.createElement('div');
+            damCard.className = 'dam-card';
+            damCard.dataset.damName = damName;
+            damCard.innerHTML = `
+                <h3 class="dam-card-title">${selectedDAM.title}</h3>
+                <div class="dam-badge">${selectedDAM.badge}</div>
+                <p class="dam-description">${selectedDAM.description}</p>
+                <p class="dam-type">Type: ${selectedDAM.type}</p>
+                <div class="dam-metrics">
+                    <div class="dam-metric">
+                        <div class="dam-metric-label">ASSETS</div>
+                        <div class="dam-metric-value">${selectedDAM.metrics.assets}</div>
+                    </div>
+                    <div class="dam-metric">
+                        <div class="dam-metric-label">CLICKS</div>
+                        <div class="dam-metric-value">${selectedDAM.metrics.clicks}</div>
+                    </div>
+                    <div class="dam-metric">
+                        <div class="dam-metric-label">CTR</div>
+                        <div class="dam-metric-value">${selectedDAM.metrics.ctr}</div>
+                    </div>
+                </div>
+            `;
+
+            damContainer.appendChild(damCard);
         }
 
         function showSampleImages() {
@@ -1446,17 +1603,83 @@
                     </div>
                     <div class="asset-modal-body">
                         <div class="asset-modal-grid">
-                            ${allImages.map(url => `
-                                <div class="asset-modal-item">
-                                    <img src="${url}" alt="Asset">
+                            ${allImages.map((url, index) => `
+                                <div class="asset-modal-item" data-asset-index="${index}">
+                                    <input type="checkbox" class="asset-checkbox" id="asset-${index}" onchange="toggleAssetSelection(${index})">
+                                    <img src="${url}" alt="Asset" onclick="toggleCheckbox(${index})">
                                 </div>
                             `).join('')}
                         </div>
+                    </div>
+                    <div class="asset-modal-footer">
+                        <div class="selected-count" id="selectedCount">0 assets selected</div>
+                        <button class="save-to-campaign-btn" id="saveToCampaignBtn" onclick="saveToCampaign()" disabled>
+                            Save to campaign
+                        </button>
                     </div>
                 </div>
             `;
 
             document.body.appendChild(modal);
+        }
+
+        function toggleCheckbox(index) {
+            const checkbox = document.getElementById(`asset-${index}`);
+            checkbox.checked = !checkbox.checked;
+            toggleAssetSelection(index);
+        }
+
+        function toggleAssetSelection(index) {
+            const item = document.querySelector(`.asset-modal-item[data-asset-index="${index}"]`);
+            const checkbox = document.getElementById(`asset-${index}`);
+
+            if (checkbox.checked) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+            const count = checkboxes.length;
+            const countElement = document.getElementById('selectedCount');
+            const saveBtn = document.getElementById('saveToCampaignBtn');
+
+            if (countElement) {
+                countElement.textContent = `${count} asset${count !== 1 ? 's' : ''} selected`;
+            }
+
+            if (saveBtn) {
+                saveBtn.disabled = count === 0;
+            }
+        }
+
+        function saveToCampaign() {
+            const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+            const count = checkboxes.length;
+
+            if (count === 0) return;
+
+            // Close the modal
+            closeAssetModal();
+
+            // Add DAM assets to the creative brief page
+            if (selectedDAMName) {
+                addDAMToBriefPage(selectedDAMName);
+            }
+
+            // Add a confirmation message to the chat
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                addChatMessage(`Successfully saved ${count} asset${count !== 1 ? 's' : ''} to your campaign! You can find them in the DAM Assets section on the Creative Brief page.`, 'ai');
+            }, 1000);
+
+            // Reset the find assets flow
+            findAssetsState = null;
         }
 
         function closeAssetModal() {
