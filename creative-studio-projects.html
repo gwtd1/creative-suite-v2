@@ -284,6 +284,7 @@
         .objective-section,
         .target-audience-section,
         .dam-assets-section,
+        .moodboard-section,
         .asset-section {
             background: var(--card-bg);
             padding: var(--space-xl);
@@ -302,6 +303,7 @@
         .objective-header h2,
         .target-audience-section h2,
         .dam-assets-section h2,
+        .moodboard-section h2,
         .asset-section h2 {
             font-size: var(--h3);
             font-weight: var(--h3-weight);
@@ -664,6 +666,54 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: var(--space-lg);
+        }
+
+        /* Mood Board Grid */
+        .moodboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .moodboard-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            border: var(--border);
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .moodboard-image:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .generate-moodboard-btn {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            color: var(--white);
+            border: none;
+            padding: 12px 28px;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-base);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: var(--transition-fast);
+            margin-bottom: var(--space-lg);
+        }
+
+        .generate-moodboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .generate-moodboard-btn::before {
+            content: '✨';
         }
 
         /* DAM Card */
@@ -1158,6 +1208,18 @@
 
                     <div id="damAssetsContainer">
                         <!-- DAM cards will be inserted here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- AI Recommended Mood Board Section -->
+                <div class="moodboard-section">
+                    <h2>AI Recommended Mood Board</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">AI-curated visual inspiration based on your campaign brief</p>
+
+                    <button class="generate-moodboard-btn" onclick="generateMoodBoard()">Generate Mood Board</button>
+
+                    <div class="moodboard-grid" id="moodboardGrid">
+                        <!-- Mood board images will be generated here -->
                     </div>
                 </div>
             </div>
@@ -1795,6 +1857,60 @@
                 event.preventDefault();
                 sendChatMessage();
             }
+        }
+
+        // Generate Mood Board function
+        function generateMoodBoard() {
+            const grid = document.getElementById('moodboardGrid');
+            const btn = document.querySelector('.generate-moodboard-btn');
+
+            // Disable button and show loading state
+            btn.disabled = true;
+            btn.textContent = 'Generating...';
+
+            // Clear existing images
+            grid.innerHTML = '';
+
+            // Sample mood board images (athleisure/fall theme)
+            const moodboardImages = [
+                'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=400&h=400&fit=crop'
+            ];
+
+            // Simulate AI generation delay
+            setTimeout(() => {
+                moodboardImages.forEach((url, index) => {
+                    setTimeout(() => {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.alt = `Mood board inspiration ${index + 1}`;
+                        img.className = 'moodboard-image';
+                        img.style.opacity = '0';
+                        img.style.transform = 'scale(0.8)';
+
+                        grid.appendChild(img);
+
+                        // Animate in
+                        setTimeout(() => {
+                            img.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                            img.style.opacity = '1';
+                            img.style.transform = 'scale(1)';
+                        }, 50);
+                    }, index * 100);
+                });
+
+                // Re-enable button
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span style="margin-right: 6px;">✨</span>Regenerate Mood Board';
+                }, moodboardImages.length * 100 + 500);
+            }, 1000);
         }
 
         // Ideate from Asset function
