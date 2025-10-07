@@ -632,6 +632,232 @@
             font-weight: 600;
             color: var(--accent-primary);
         }
+
+        .ideate-btn {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            color: var(--white);
+            border: none;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-sm);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: var(--transition-fast);
+        }
+
+        .ideate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .ideate-btn::before {
+            content: '✨';
+        }
+
+        /* DAM Card */
+        .dam-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border: var(--border);
+            margin: var(--space-md) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .dam-card-title {
+            font-size: var(--h2);
+            font-weight: var(--h2-weight);
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        .dam-badge {
+            display: inline-block;
+            background: var(--gray-100);
+            color: var(--text-secondary);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: var(--font-xs);
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .dam-description {
+            font-size: var(--font-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+            line-height: 1.6;
+        }
+
+        .dam-type {
+            font-size: var(--font-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-lg);
+            border-bottom: var(--border);
+        }
+
+        .dam-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .dam-metric {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xxs);
+        }
+
+        .dam-metric-label {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .dam-metric-value {
+            font-size: var(--h2);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Sample Images Grid */
+        .sample-images-grid {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .sample-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            border: var(--border);
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .sample-image:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Asset Modal */
+        .asset-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .asset-modal-content {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .asset-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-xl);
+            border-bottom: var(--border);
+        }
+
+        .asset-modal-header h2 {
+            font-size: var(--h1);
+            font-weight: var(--h1-weight);
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 32px;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+        }
+
+        .modal-close-btn:hover {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+        }
+
+        .asset-modal-body {
+            padding: var(--space-xl);
+            overflow-y: auto;
+        }
+
+        .asset-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .asset-modal-item {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: var(--border);
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .asset-modal-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .asset-modal-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -663,10 +889,10 @@
 
             <div class="chat-suggestions">
                 <div class="suggestion-chips">
-                    <div class="suggestion-chip" onclick="sendSuggestion('Suggest target audiences')">Suggest target audiences</div>
-                    <div class="suggestion-chip" onclick="sendSuggestion('Generate campaign ideas')">Generate campaign ideas</div>
-                    <div class="suggestion-chip" onclick="sendSuggestion('Find similar assets')">Find similar assets</div>
-                    <div class="suggestion-chip" onclick="sendSuggestion('Improve this brief')">Improve this brief</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Refine creative brief')">✨ Refine creative brief</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Write copy')">✍️ Write copy</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Find assets')">🔍 Find assets</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Generate creative assets')">🎨 Generate creative assets</div>
                 </div>
             </div>
 
@@ -814,6 +1040,7 @@
                                 <th>Asset Type</th>
                                 <th>General Size/Ratio</th>
                                 <th>Key Deliverable Type(s)</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -823,6 +1050,7 @@
                                 <td>Static Image</td>
                                 <td>1:1 or 4:5</td>
                                 <td>Feed Posts, Carousel Ads, Explore Page Ads.</td>
+                                <td><button class="ideate-btn" onclick="ideateFromAsset('Instagram', 'Static Image', 'Aesthetic Lifestyle & Quick Engagement', '1:1 or 4:5', 'Feed Posts, Carousel Ads, Explore Page Ads')">Ideate</button></td>
                             </tr>
                             <tr>
                                 <td><span class="channel-name">Instagram</span></td>
@@ -830,6 +1058,7 @@
                                 <td>Vertical Video</td>
                                 <td>9:16</td>
                                 <td>Reels, Stories, Video Ads.</td>
+                                <td><button class="ideate-btn" onclick="ideateFromAsset('Instagram', 'Vertical Video', 'Entertainment & Dynamic Storytelling', '9:16', 'Reels, Stories, Video Ads')">Ideate</button></td>
                             </tr>
                             <tr>
                                 <td><span class="channel-name">Pinterest</span></td>
@@ -837,6 +1066,7 @@
                                 <td>Standard Pin</td>
                                 <td>2:3</td>
                                 <td>Standard Product Pins, Promoted Pins.</td>
+                                <td><button class="ideate-btn" onclick="ideateFromAsset('Pinterest', 'Standard Pin', 'Aspirational & Utility-Focused', '2:3', 'Standard Product Pins, Promoted Pins')">Ideate</button></td>
                             </tr>
                             <tr>
                                 <td><span class="channel-name">Pinterest</span></td>
@@ -844,6 +1074,7 @@
                                 <td>Idea Pin</td>
                                 <td>9:16 (Full Screen)</td>
                                 <td>Styling Guides, Seasonal Lookbooks, Outfit Ideas.</td>
+                                <td><button class="ideate-btn" onclick="ideateFromAsset('Pinterest', 'Idea Pin', 'Discovery & Deep Engagement', '9:16 (Full Screen)', 'Styling Guides, Seasonal Lookbooks, Outfit Ideas')">Ideate</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -998,6 +1229,12 @@
             addChatMessage(message, 'user');
             input.value = '';
 
+            // Check if we're in find assets flow
+            if (findAssetsState) {
+                handleFindAssetsFlow(message);
+                return;
+            }
+
             // Show typing indicator
             showTypingIndicator();
 
@@ -1017,9 +1254,277 @@
         }
 
         function sendSuggestion(text) {
-            const input = document.getElementById('chatInput');
-            input.value = text;
-            sendChatMessage();
+            // Special handling for "Find assets"
+            if (text === 'Find assets') {
+                // Add user message
+                addChatMessage(text, 'user');
+
+                // Show typing indicator
+                showTypingIndicator();
+
+                // Step 1: Ask what they're looking for
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    addChatMessage("What assets are you looking for? You can describe the type, theme, or campaign.", 'ai');
+                    findAssetsState = 'awaiting_description'; // Set state to await user's description
+                }, 1000);
+            } else {
+                const input = document.getElementById('chatInput');
+                input.value = text;
+                sendChatMessage();
+            }
+        }
+
+        // Track conversation state
+        let findAssetsState = null;
+
+        function handleFindAssetsFlow(userMessage) {
+            if (findAssetsState === 'awaiting_description') {
+                // Step 2: Show DAM cards
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    addChatMessage(`Great! I found some relevant asset collections. Which DAM system would you like me to search?`, 'ai');
+                    addDAMSelectionCards();
+                    findAssetsState = 'awaiting_dam_selection';
+                }, 1000);
+            } else if (findAssetsState === 'awaiting_dam_selection') {
+                // Step 3: Show loading and search
+                showTypingIndicator();
+                addChatMessage("Searching...", 'ai');
+
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const totalAssets = Math.floor(Math.random() * 100) + 50;
+                    addChatMessage(`Found ${totalAssets} assets matching your criteria from Adobe DAM! Here are 5 sample images:`, 'ai');
+                    showSampleImages();
+                    findAssetsState = 'awaiting_view_all'; // Set state to await "see all" response
+                }, 2000);
+            } else if (findAssetsState === 'awaiting_view_all') {
+                // Step 4: Open modal with all images
+                if (userMessage.toLowerCase().includes('yes') || userMessage.toLowerCase().includes('all')) {
+                    addChatMessage("Opening all assets...", 'ai');
+                    setTimeout(() => {
+                        openAssetModal();
+                        findAssetsState = null; // Reset state
+                    }, 500);
+                } else {
+                    findAssetsState = null; // Reset state
+                }
+            }
+        }
+
+        function addDAMSelectionCards() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message ai';
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            messageDiv.innerHTML = `
+                <div class="message-bubble" style="max-width: 100%;">
+                    <div class="dam-card" style="cursor: pointer;" onclick="selectDAM('Fall 2024 Assets')">
+                        <h3 class="dam-card-title">Fall 2024 Assets</h3>
+                        <div class="dam-badge">Adobe</div>
+                        <p class="dam-description">Explore emerging platforms and untapped opportunities</p>
+                        <p class="dam-type">Type: Images, Video, Composed</p>
+                        <div class="dam-metrics">
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">ASSETS</div>
+                                <div class="dam-metric-value">248</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CLICKS</div>
+                                <div class="dam-metric-value">32,876</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CTR</div>
+                                <div class="dam-metric-value">7.11</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dam-card" style="cursor: pointer;" onclick="selectDAM('Fall Fitness Campaign')">
+                        <h3 class="dam-card-title">Fall Fitness Campaign</h3>
+                        <div class="dam-badge">Adobe</div>
+                        <p class="dam-description">Explore emerging platforms and untapped opportunities</p>
+                        <p class="dam-type">Type: Images, Video, Composed</p>
+                        <div class="dam-metrics">
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">ASSETS</div>
+                                <div class="dam-metric-value">156</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CLICKS</div>
+                                <div class="dam-metric-value">21,543</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CTR</div>
+                                <div class="dam-metric-value">6.84</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="message-time">${timeString}</span>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function selectDAM(damName) {
+            addChatMessage(damName, 'user');
+            handleFindAssetsFlow(damName);
+        }
+
+        function showSampleImages() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message ai';
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            // Sample image URLs (using placeholder images)
+            const sampleImages = [
+                'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1475403614135-5f1aa0eb5015?w=400&h=300&fit=crop'
+            ];
+
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="message-sender">Creative Brief Agent</span>
+                    <span class="message-time">${timeString}</span>
+                </div>
+                <div class="message-content">
+                    <div class="sample-images-grid">
+                        ${sampleImages.map(url => `
+                            <img src="${url}" alt="Asset preview" class="sample-image">
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: var(--space-md);">
+                        Would you like to see all assets?
+                    </div>
+                </div>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function openAssetModal() {
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.id = 'assetModal';
+            modal.className = 'asset-modal';
+
+            // Generate more images for the modal
+            const allImages = [
+                'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1475403614135-5f1aa0eb5015?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1532635270-c92ebcc42f4e?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?w=400&h=300&fit=crop'
+            ];
+
+            modal.innerHTML = `
+                <div class="asset-modal-content">
+                    <div class="asset-modal-header">
+                        <h2>All Assets from Adobe DAM</h2>
+                        <button class="modal-close-btn" onclick="closeAssetModal()">×</button>
+                    </div>
+                    <div class="asset-modal-body">
+                        <div class="asset-modal-grid">
+                            ${allImages.map(url => `
+                                <div class="asset-modal-item">
+                                    <img src="${url}" alt="Asset">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+        }
+
+        function closeAssetModal() {
+            const modal = document.getElementById('assetModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function addDAMCard() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message ai';
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            messageDiv.innerHTML = `
+                <div class="message-bubble" style="max-width: 100%;">
+                    <p style="margin-bottom: 12px;">I found relevant assets from your DAM system:</p>
+
+                    <div class="dam-card">
+                        <h3 class="dam-card-title">Fall 2024 Assets</h3>
+                        <div class="dam-badge">Adobe</div>
+                        <p class="dam-description">Explore emerging platforms and untapped opportunities</p>
+                        <p class="dam-type">Type: Images, Video, Composed</p>
+                        <div class="dam-metrics">
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">ASSETS</div>
+                                <div class="dam-metric-value">248</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CLICKS</div>
+                                <div class="dam-metric-value">32,876</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CTR</div>
+                                <div class="dam-metric-value">7.11</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dam-card">
+                        <h3 class="dam-card-title">Fall Fitness Campaign</h3>
+                        <div class="dam-badge">Adobe</div>
+                        <p class="dam-description">Explore emerging platforms and untapped opportunities</p>
+                        <p class="dam-type">Type: Images, Video, Composed</p>
+                        <div class="dam-metrics">
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">ASSETS</div>
+                                <div class="dam-metric-value">156</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CLICKS</div>
+                                <div class="dam-metric-value">21,543</div>
+                            </div>
+                            <div class="dam-metric">
+                                <div class="dam-metric-label">CTR</div>
+                                <div class="dam-metric-value">6.84</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="message-time">${timeString}</span>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
         function addChatMessage(text, type) {
@@ -1067,6 +1572,60 @@
                 event.preventDefault();
                 sendChatMessage();
             }
+        }
+
+        // Ideate from Asset function
+        function ideateFromAsset(channel, assetType, contentFocus, sizeRatio, deliverables) {
+            // Create a new idea tile based on the asset row data
+            const idea = {
+                title: `${channel} ${assetType} Campaign`,
+                audience: 'Target Audience',
+                description: contentFocus,
+                status: ['ai-generated'],
+                emoji: channel === 'Instagram' ? '📸' : '📌',
+                assetType: assetType,
+                sizeRatio: sizeRatio,
+                deliverables: deliverables
+            };
+
+            // Switch to ideation tab
+            switchTab('ideation');
+
+            // Generate the idea tile
+            const grid = document.getElementById('ideasGrid');
+            const ideaTile = document.createElement('div');
+            ideaTile.className = 'idea-tile';
+            ideaTile.style.opacity = '0';
+            ideaTile.style.transform = 'translateY(20px)';
+
+            ideaTile.innerHTML = `
+                <div class="idea-tile-image">${idea.emoji}</div>
+                <div class="idea-tile-content">
+                    <div class="idea-tile-title">${idea.title}</div>
+                    <div class="idea-status-tags">
+                        <span class="idea-status-tag ai-generated">AI Generated</span>
+                    </div>
+                    <div class="idea-audience">${idea.audience}</div>
+                    <div class="idea-description">${idea.description}</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                        <strong>Asset Type:</strong> ${idea.assetType}<br>
+                        <strong>Size/Ratio:</strong> ${idea.sizeRatio}<br>
+                        <strong>Deliverables:</strong> ${idea.deliverables}
+                    </div>
+                    <button class="brainstorm-btn" onclick="window.location.href='brainstorm-expanded.html'">
+                        💡 Brainstorm
+                    </button>
+                </div>
+            `;
+
+            grid.appendChild(ideaTile);
+
+            // Animate in
+            setTimeout(() => {
+                ideaTile.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                ideaTile.style.opacity = '1';
+                ideaTile.style.transform = 'translateY(0)';
+            }, 100);
         }
     </script>
 </body>

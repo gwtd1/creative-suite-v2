@@ -11,6 +11,209 @@
         body {
             background: var(--primary-bg);
             overflow-y: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .brainstorm-layout {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* AI Chat Panel */
+        .ai-chat-panel {
+            width: 380px;
+            background: var(--card-bg);
+            border-right: var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: var(--space-lg);
+            border-bottom: var(--border);
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            color: var(--white);
+        }
+
+        .chat-header h3 {
+            font-size: var(--font-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-xxs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .chat-header h3::before {
+            content: '✨';
+        }
+
+        .chat-header p {
+            font-size: var(--font-xs);
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .chat-message {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.ai {
+            align-items: flex-start;
+        }
+
+        .chat-message.user {
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: var(--font-base);
+            line-height: 1.5;
+        }
+
+        .chat-message.ai .message-bubble {
+            background: var(--gray-100);
+            color: var(--text-primary);
+            border-bottom-left-radius: var(--radius-sm);
+        }
+
+        .chat-message.user .message-bubble {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            color: var(--white);
+            border-bottom-right-radius: var(--radius-sm);
+        }
+
+        .message-time {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+            padding: 0 var(--space-xs);
+        }
+
+        .chat-suggestions {
+            padding: var(--space-sm) var(--space-lg);
+            border-top: var(--border);
+            background: var(--primary-bg);
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+        }
+
+        .suggestion-chip {
+            padding: 6px var(--space-sm);
+            background: var(--card-bg);
+            border: var(--border);
+            border-radius: var(--radius-full);
+            font-size: var(--font-xs);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .suggestion-chip:hover {
+            border-color: var(--accent-primary);
+            background: rgba(25, 87, 219, 0.05);
+            color: var(--accent-primary);
+        }
+
+        .chat-input-area {
+            padding: var(--space-md) var(--space-lg);
+            border-top: var(--border);
+            background: var(--card-bg);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: var(--space-xs);
+            align-items: flex-end;
+            background: var(--gray-100);
+            border-radius: var(--radius-full);
+            padding: var(--space-xs) var(--space-sm);
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: var(--font-base);
+            resize: none;
+            outline: none;
+            font-family: var(--font-family);
+            max-height: 120px;
+            min-height: 24px;
+        }
+
+        .chat-send-btn {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            border: none;
+            border-radius: 50%;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform var(--transition-fast);
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: var(--space-xxs);
+            padding: var(--space-sm) var(--space-md);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .brainstorm-main {
+            flex: 1;
+            overflow-y: auto;
         }
 
         .brainstorm-container {
@@ -657,7 +860,59 @@
     </style>
 </head>
 <body>
-    <div class="brainstorm-container">
+    <div class="brainstorm-layout">
+        <!-- AI Chat Panel -->
+        <div class="ai-chat-panel">
+            <div class="chat-header">
+                <h3>AI Assistant</h3>
+                <p>Get creative guidance and suggestions</p>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome Message -->
+                <div class="chat-message ai">
+                    <div class="message-bubble">
+                        Hi! I'm here to help you brainstorm "The Cozy Commute" campaign. I can assist with:
+                        <ul style="margin: 8px 0 0 20px; line-height: 1.8;">
+                            <li>Refining the scene description</li>
+                            <li>Suggesting alternative assets</li>
+                            <li>Improving ad copy</li>
+                            <li>Optimizing for your target audience</li>
+                        </ul>
+                        What would you like to work on?
+                    </div>
+                    <span class="message-time">Just now</span>
+                </div>
+            </div>
+
+            <div class="chat-suggestions">
+                <div class="suggestion-chips">
+                    <div class="suggestion-chip" onclick="sendSuggestion('Improve the scene description')">Improve scene</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Suggest better ad copy')">Better copy</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Find similar assets')">Find assets</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('What makes this effective?')">Why effective?</div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="chat-input-wrapper">
+                    <textarea
+                        class="chat-input"
+                        id="chatInput"
+                        placeholder="Ask me anything..."
+                        rows="1"
+                        onkeydown="handleChatKeydown(event)"
+                    ></textarea>
+                    <button class="chat-send-btn" onclick="sendChatMessage()">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brainstorm Main Content -->
+        <div class="brainstorm-main">
+            <div class="brainstorm-container">
         <div class="brainstorm-header">
             <div class="brainstorm-title-section">
                 <h2 id="brainstormTitle">The Cozy Commute</h2>
@@ -874,6 +1129,8 @@
                 </div>
             </div>
         </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -893,6 +1150,88 @@
         function showAlternatives() {
             const alternatives = document.getElementById('alternatives');
             alternatives.classList.toggle('active');
+        }
+
+        // AI Chat Functions
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Simulate AI response
+            setTimeout(() => {
+                hideTypingIndicator();
+                const responses = [
+                    "Great idea! For 'The Cozy Commute' scene, I'd suggest emphasizing the golden-hour lighting and the peaceful, mindful aspect of modern commuting. This resonates strongly with your hybrid worker audience.",
+                    "I can help refine that! The asset from Acme-Corp Global DAM has a 96% match score because it aligns with your brand's sustainability messaging and performs well with your target demographic.",
+                    "For the ad copy, consider emphasizing the transformation aspect - 'Turn travel time into your time' speaks directly to the pain point of wasted commute time and offers a solution.",
+                    "Based on similar campaigns, assets featuring natural lighting and authentic moments perform 34% better with your target audience. The cozy, aspirational tone is perfect for this segment.",
+                    "I'd recommend trying a variation that includes product close-ups alongside the lifestyle shot. This combination typically increases CTR by 15-20% for apparel campaigns."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addChatMessage(randomResponse, 'ai');
+            }, 1500);
+        }
+
+        function sendSuggestion(text) {
+            const input = document.getElementById('chatInput');
+            input.value = text;
+            sendChatMessage();
+        }
+
+        function addChatMessage(text, type) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${type}`;
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            messageDiv.innerHTML = `
+                <div class="message-bubble">${text}</div>
+                <span class="message-time">${timeString}</span>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message ai';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        function handleChatKeydown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendChatMessage();
+            }
         }
     </script>
 </body>
