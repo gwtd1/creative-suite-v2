@@ -858,7 +858,7 @@ class MarketingSuperAgentV4 {
                         </div>
                     </div>
                     
-                    <div class="workspace-tile" data-project="fall-athleisure">
+                    <div class="workspace-tile" data-project="fall-athleisure-collection">
                         <div class="tile-thumbnail">
                             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjOEI0NTEzIi8+CjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjgiIGZpbGw9IiNGRkZGRkYiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSIzMCIgcj0iOCIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNMjAgNDBMMzAgNDVMNDAgNDBMNTAgNDVMNjAgNDBMNzAgNDVMODAgNDBMODAgODBMMjAgODBaIiBmaWxsPSIjRkZGRkZGIi8+Cjx0ZXh0IHg9IjUwIiB5PSI5NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjgiIGZpbGw9IiNGRkZGRkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZBTEw8L3RleHQ+Cjwvc3ZnPgo=" alt="Fall Athleisure" />
                         </div>
@@ -7615,89 +7615,61 @@ class MarketingSuperAgentV4 {
         this.showCreativeStudioInterface();
     }
 
-    async showCreativeStudioInterface() {
+    openCreativeStudioProjects(projectType) {
+        console.log('🎨 Opening Creative Studio Projects for:', projectType);
+        
+        // Determine project configuration
+        const projectConfig = this.getProjectConfiguration(projectType);
+        console.log('🎨 Project config:', projectConfig);
+        
+        this.showCreativeStudioInterface(projectConfig);
+    }
+
+    getProjectConfiguration(projectType) {
+        const configurations = {
+            'test-experience': {
+                title: '🧪 TEST EXPERIENCE',
+                subtitle: 'Experimental Creative Suite Features',
+                campaign: 'Prototype Campaign',
+                isPrototype: true
+            },
+            'fall-athleisure-collection': {
+                title: '🍂 Fall Athleisure Collection',
+                subtitle: 'Premium Athleisure Campaign Development',
+                campaign: 'Fall Athleisure Collection',
+                isPrototype: false,
+                launchDate: 'October 27, 2025',
+                objective: 'Drive awareness and sales of the new Fall 2025 premium athleisure collection, targeting women 25-40, with the dual goal of boosting online purchases and increasing in-store visits for try-on experiences.'
+            }
+        };
+        
+        return configurations[projectType] || configurations['test-experience'];
+    }
+
+    async showCreativeStudioInterface(projectConfig = null) {
         console.log('🎨 Loading Creative Studio Projects interface...');
         
-        try {
-            // Dynamically import the CreativeStudioProjects component
-            const { CreativeStudioProjects } = await import('./components/CreativeStudioProjects.js');
-            
-            // Initialize and show the interface
-            if (!this.creativeStudioProjects) {
-                this.creativeStudioProjects = new CreativeStudioProjects(this);
-            }
-            
-            this.creativeStudioProjects.showInterface();
-            
-        } catch (error) {
-            console.error('Failed to load Creative Studio Projects:', error);
-            
-            // Fallback to development placeholder
-            this.showDevelopmentPlaceholder();
+        // Dynamically import the CreativeStudioProjects component
+        const { CreativeStudioProjects } = await import('./components/CreativeStudioProjects.js');
+        
+        // Always create a new instance when projectConfig is provided to ensure proper initialization
+        if (projectConfig) {
+            console.log('🔄 Creating new CreativeStudioProjects instance with projectConfig');
+            this.creativeStudioProjects = new CreativeStudioProjects(this, projectConfig);
+        } else if (!this.creativeStudioProjects) {
+            console.log('🔄 Creating new CreativeStudioProjects instance (default)');
+            this.creativeStudioProjects = new CreativeStudioProjects(this, projectConfig);
+        } else {
+            console.log('♻️ Reusing existing CreativeStudioProjects instance');
         }
+        
+        this.creativeStudioProjects.showInterface();
     }
 
     showDevelopmentPlaceholder() {
-        // Create and show a simple modal indicating this is under development
-        const modal = document.createElement('div');
-        modal.className = 'development-modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <div class="development-header">
-                    <h2>🧪 TEST EXPERIENCE</h2>
-                    <span class="development-badge">UNDER DEVELOPMENT</span>
-                </div>
-                <div class="development-body">
-                    <p>This workspace is reserved for experimental features and new functionality development.</p>
-                    <div class="development-features">
-                        <h4>Planned Features:</h4>
-                        <ul>
-                            <li>Advanced AI capabilities</li>
-                            <li>Custom workflow integration</li>
-                            <li>Experimental UI components</li>
-                            <li>Performance testing environment</li>
-                        </ul>
-                    </div>
-                    <div class="development-actions">
-                        <button class="btn-close-dev" onclick="this.closest('.development-modal').remove()">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Style the modal
-        modal.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        `;
-        
-        modal.querySelector('.modal-content').style.cssText = `
-            background: var(--card-bg, #ffffff);
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        `;
-        
-        document.body.appendChild(modal);
-        
-        // Close on background click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.remove();
-            }
-        });
+        // Disabled - no longer show development placeholder
+        console.log('🚫 Development placeholder disabled');
+        return;
     }
 
     openSummerSaleProject() {
@@ -12252,20 +12224,42 @@ I'm ready to help you create compelling marketing assets. What would you like to
             });
         });
 
-        // Workspace tile clicks
-        const workspaceTiles = document.querySelectorAll('.workspace-tile');
-        workspaceTiles.forEach(tile => {
-            tile.addEventListener('click', () => {
-                const project = tile.dataset.project;
-                console.log('Workspace tile clicked:', project);
-                
-                // Special handling for test-experience
-                if (project === 'test-experience') {
-                    this.openTestExperience();
-                } else {
-                    // Generic project handling for other tiles
-                    this.openProject(project);
-                }
+        // Setup workspace tile clicks with proper timing
+        this.setupWorkspaceTileListeners();
+    }
+
+    setupWorkspaceTileListeners() {
+        // Use requestAnimationFrame to ensure DOM is fully parsed after innerHTML
+        requestAnimationFrame(() => {
+            const workspaceTiles = document.querySelectorAll('.workspace-tile');
+            console.log('🔍 Found workspace tiles:', workspaceTiles.length);
+            
+            if (workspaceTiles.length === 0) {
+                console.warn('⚠️ No workspace tiles found, retrying in 100ms...');
+                setTimeout(() => this.setupWorkspaceTileListeners(), 100);
+                return;
+            }
+            
+            workspaceTiles.forEach((tile, index) => {
+                console.log(`🔍 Tile ${index}:`, tile.dataset.project);
+                tile.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const project = tile.dataset.project;
+                    console.log('🎯🎯🎯 WORKSPACE TILE CLICKED:', project);
+                    console.log('🎯🎯🎯 Event target:', e.target);
+                    console.log('🎯🎯🎯 Current target:', e.currentTarget);
+                    
+                    // Enhanced handling for creative suite projects
+                    if (project === 'test-experience' || project === 'fall-athleisure-collection') {
+                        console.log('🎯 Opening Creative Studio Projects for project:', project);
+                        this.openCreativeStudioProjects(project);
+                    } else {
+                        console.log('🎯 Opening generic project for:', project);
+                        // Generic project handling for other tiles
+                        this.openProject(project);
+                    }
+                });
             });
         });
     }

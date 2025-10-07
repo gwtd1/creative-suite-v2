@@ -247,16 +247,63 @@
 .campaign-page-header {
     display: flex;
     align-items: center;
-    gap: var(--space-sm, 12px);
+    justify-content: space-between;
     padding: var(--space-lg, 24px) var(--space-xl, 32px);
     background: var(--card-bg, #ffffff);
     border-bottom: 1px solid var(--border-color, #e1e5e9);
 }
 
-.campaign-page-header h1 {
-    font-size: var(--h2, 20px);
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 12px);
+}
+
+.header-content h1 {
+    font-size: var(--h1, 28px);
     font-weight: 600;
     margin: 0;
+    color: var(--text-primary, #2c2c2c);
+}
+
+.header-subtitle {
+    font-size: var(--font-base, 14px);
+    color: var(--text-secondary, #6e6e6e);
+    margin: 4px 0 0 0;
+}
+
+.launch-info {
+    font-size: var(--font-xs, 12px);
+    color: var(--text-muted, #8e8e93);
+    margin-top: var(--space-xs, 8px);
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.campaign-badge {
+    background: linear-gradient(135deg, var(--accent-green, #2d9d78) 0%, var(--accent-orange, #e68619) 100%);
+    color: var(--white, #ffffff);
+    padding: 6px 16px;
+    border-radius: var(--radius-full, 20px);
+    font-size: var(--font-xs, 12px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.prototype-badge {
+    background: linear-gradient(135deg, var(--accent-primary, #1957db) 0%, var(--accent-purple, #9256d9) 100%);
+    color: var(--white, #ffffff);
+    padding: 6px 16px;
+    border-radius: var(--radius-full, 20px);
+    font-size: var(--font-xs, 12px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .tab-navigation {

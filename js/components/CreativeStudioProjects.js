@@ -1,6 +1,14 @@
 class CreativeStudioProjects {
-    constructor(app) {
+    constructor(app, projectConfig = null) {
         this.app = app;
+        this.projectConfig = projectConfig || {
+            title: '🧪 TEST EXPERIENCE',
+            subtitle: 'Experimental Creative Suite Features',
+            campaign: 'Prototype Campaign',
+            isPrototype: true
+        };
+        
+        console.log('🏗️ CreativeStudioProjects constructor - projectConfig:', this.projectConfig);
         this.currentTab = 'brief';
         this.currentIdeaIndex = 0;
         this.chatMessages = [];
@@ -109,6 +117,9 @@ class CreativeStudioProjects {
             ]
         };
 
+        // Initialize campaign-specific data after campaignData is defined
+        this.initializeCampaignData();
+
         // Chat suggestions
         this.suggestions = [
             "Suggest target audiences",
@@ -116,6 +127,174 @@ class CreativeStudioProjects {
             "Find similar assets",
             "Improve this brief"
         ];
+    }
+
+    // Campaign Data Initialization
+    initializeCampaignData() {
+        console.log('🎯 Initializing campaign data for:', this.projectConfig.campaign);
+        if (this.projectConfig.campaign === 'Fall Athleisure Collection') {
+            console.log('✅ Initializing Fall Athleisure data');
+            this.initializeFallAthleisureData();
+        } else {
+            console.log('✅ Initializing Test data');
+            this.initializeTestData();
+        }
+    }
+
+    initializeFallAthleisureData() {
+        // Update creative ideas for Fall Athleisure Collection
+        this.allIdeas = [
+            {
+                title: 'Work-to-Workout Transition',
+                audience: 'Hybrid Worker',
+                description: 'Showcase seamless transition from virtual meeting to home workout with versatile athleisure pieces that perform in both environments.',
+                status: ['ai-generated', 'approved'],
+                emoji: '💼'
+            },
+            {
+                title: 'Sustainable Style Story',
+                audience: 'Wellness Enthusiast',
+                description: 'Highlight the eco-friendly materials and ethical production behind the collection while showcasing premium quality and style.',
+                status: ['ai-generated'],
+                emoji: '🌱'
+            },
+            {
+                title: 'Urban Comfort Collection',
+                audience: 'Young Professional',
+                description: 'Capture the energy of city life with athleisure that works for coffee shop meetings, walking commutes, and weekend adventures.',
+                status: ['ai-generated'],
+                emoji: '🏙️'
+            },
+            {
+                title: 'Seasonal Color Story',
+                audience: 'Wellness Enthusiast',
+                description: 'Feature the rich autumn palette of the collection against natural fall backdrops, emphasizing seasonal transition and style evolution.',
+                status: ['ai-generated'],
+                emoji: '🍂'
+            },
+            {
+                title: 'Movement & Mindfulness',
+                audience: 'Hybrid Worker',
+                description: 'Combine wellness practices with fashion moments, showing how the collection supports both physical activity and mental well-being.',
+                status: ['ai-generated'],
+                emoji: '🧘'
+            }
+        ];
+
+        // Update campaign data for Fall Athleisure Collection
+        this.campaignData.title = "Fall Athleisure Collection";
+        this.campaignData.objective = this.projectConfig.objective;
+        this.campaignData.launchDate = this.projectConfig.launchDate + " (T-60 days)";
+        this.campaignData.targetAudience = "Women 25-40, hybrid workers, wellness-focused professionals";
+        this.campaignData.budget = "$125,000 total campaign budget";
+        
+        // Enhanced personas for Fall Athleisure
+        this.campaignData.personas = [
+            {
+                name: "Hybrid Worker",
+                attributes: [
+                    "Gender: Female, Male",
+                    "Age: 25-40",
+                    "Income: $45k-$85k",
+                    "Location: Urban/Suburban",
+                    "Lifestyle: Work from home 2-3 days/week, values comfort and versatility"
+                ]
+            },
+            {
+                name: "Wellness Enthusiast",
+                attributes: [
+                    "Gender: Female",
+                    "Age: 28-42",
+                    "Income: $55k-$95k",
+                    "Location: Urban areas",
+                    "Lifestyle: Regular fitness routine, sustainability-conscious, premium quality focus"
+                ]
+            },
+            {
+                name: "Young Professional",
+                attributes: [
+                    "Gender: Female, Male",
+                    "Age: 22-35",
+                    "Income: $40k-$75k",
+                    "Location: Metropolitan areas",
+                    "Lifestyle: Career-focused, social media active, value-conscious but willing to invest in versatile pieces"
+                ]
+            }
+        ];
+
+        // Initialize Fall Athleisure brainstorm data
+        this.initializeFallAthleisureBrainstormData();
+    }
+
+    initializeTestData() {
+        // Keep existing test data structure - no changes needed for TEST EXPERIENCE
+    }
+
+    initializeFallAthleisureBrainstormData() {
+        this.brainstormData = {
+            sceneDescriptions: {
+                'Work-to-Workout Transition': 'A bright, modern home office transitioning to a workout space. Natural morning light fills the room as someone effortlessly moves from their laptop to exercise equipment, showcasing how athleisure enables this seamless lifestyle shift. The atmosphere is energetic yet professional, emphasizing versatility and comfort.',
+                'Sustainable Style Story': 'An eco-conscious lifestyle scene in a sustainable urban environment. Someone thoughtfully selects pieces from an organized, minimal wardrobe filled with quality athleisure. The setting emphasizes natural materials, earth tones, and conscious consumption while maintaining a premium, aspirational aesthetic.',
+                'Urban Comfort Collection': 'Dynamic urban scenes capturing city energy - walking through bustling streets, working from a trendy coffee shop, meeting friends in a park. The athleisure seamlessly fits every environment, showing comfort without compromising style in fast-paced city life.',
+                'Seasonal Color Story': 'Autumn outdoor scenes with rich, warm natural lighting. Models wear the collection\'s fall palette against golden leaves, warm brick buildings, and cozy urban spaces. The setting emphasizes seasonal transition and the collection\'s perfect harmony with autumn aesthetics.',
+                'Movement & Mindfulness': 'Serene morning scenes combining fitness and mindfulness. Yoga in a sunlit space, meditative walks, stretch sessions by windows. The athleisure supports both physical movement and mental wellness, creating aspirational lifestyle moments.',
+                // Keep existing scene descriptions for backwards compatibility
+                'The Cozy Commute': 'A warm, intimate morning scene inside a modern commuter train. Soft natural light streams through large windows, creating a golden-hour glow. A young professional sits comfortably in a window seat, wrapped in a cozy oversized cardigan, holding a reusable coffee cup. They\'re looking out at the passing autumn landscape with a content smile. The atmosphere is peaceful and aspirational, emphasizing comfort and mindful commuting.',
+                'Weekend Wanderlust': 'An energetic urban exploration scene in a vibrant city neighborhood. Natural afternoon light illuminates colorful street art and bustling cafes. A stylish adventurer walks confidently through the scene wearing versatile athleisure pieces that transition seamlessly from coffee shop to art gallery. The mood is spontaneous and dynamic, capturing the spirit of urban discovery.',
+                'Eco-Conscious Living': 'A sustainable lifestyle scene set in a modern, eco-friendly home or outdoor garden space. Warm natural lighting showcases someone choosing sustainable fashion options from a curated wardrobe. The setting emphasizes environmental consciousness with visible eco-friendly elements like plants, natural materials, and sustainable packaging. The atmosphere is mindful and purposeful.',
+                'Digital Nomad Essentials': 'A minimalist workspace scene in an inspiring location - perhaps a co-working space with mountain views or a cafe overlooking the ocean. Someone works comfortably in packable, versatile clothing that looks professional yet travel-ready. The setting emphasizes freedom, flexibility, and the modern remote work lifestyle.'
+            },
+            
+            assetRecommendations: {
+                'Work-to-Workout Transition': {
+                    title: 'Professional Home Workout - Lifestyle Series',
+                    source: 'Brand Asset Library Pro',
+                    filename: 'IMG_WorkoutTransition_Athleisure_Fall2025_v1.jpg',
+                    confidence: '94% Match',
+                    metrics: { performance: '+28%', compliance: '97%', ctr: '3.9%' },
+                    emoji: '💼',
+                    reasoning: 'This asset perfectly captures the work-from-home to workout transition that defines our hybrid worker persona. The professional yet comfortable styling aligns with our versatility messaging, and the lighting emphasizes the premium quality of our athleisure pieces. Similar lifestyle transformation content has shown strong engagement with our target demographic.'
+                },
+                'Sustainable Style Story': {
+                    title: 'Eco-Conscious Fashion Choice - Brand Values',
+                    source: 'Sustainability Assets Hub',
+                    filename: 'IMG_EcoAthleisure_Sustainable_Fall2025_v2.jpg',
+                    confidence: '96% Match',
+                    metrics: { performance: '+32%', compliance: '99%', ctr: '4.1%' },
+                    emoji: '🌱',
+                    reasoning: 'This asset strengthens our sustainability narrative while showcasing premium product quality. The natural styling and earth-tone palette match our fall collection perfectly, and the conscious consumption angle resonates strongly with wellness-focused consumers. Performance data shows sustainability messaging drives 30%+ higher engagement.'
+                },
+                // Keep existing asset recommendations for backwards compatibility
+                'The Cozy Commute': {
+                    title: 'Sustainable Summer Lifestyle - Beach Scene',
+                    source: 'Acme-Corp Global DAM',
+                    filename: 'IMG_SummerBeach_Sustainable_2024_v3.jpg',
+                    confidence: '96% Match',
+                    metrics: { performance: '+34%', compliance: '98%', ctr: '4.2%' },
+                    emoji: '🌿',
+                    reasoning: 'This asset aligns perfectly with your campaign\'s sustainability messaging and Gen Z aesthetic. It features diverse models in eco-friendly beachwear with natural lighting and authentic expressions. The color palette matches your brand guidelines (earth tones with vibrant accents), and similar images performed 34% above benchmark with your target demographic.'
+                }
+            },
+            
+            adCopyTemplates: {
+                'Work-to-Workout Transition': {
+                    title: 'From Desk to Mat, Seamlessly',
+                    hook: 'Athleisure that works as hard as you do. Professional comfort, workout performance.',
+                    cta: 'Shop the Collection →'
+                },
+                'Sustainable Style Story': {
+                    title: 'Style with Purpose',
+                    hook: 'Premium athleisure, responsibly made. Feel good about what you wear and how it\'s made.',
+                    cta: 'Discover Sustainability →'
+                },
+                // Keep existing ad copy templates for backwards compatibility
+                'The Cozy Commute': {
+                    title: 'Your Commute, Reimagined',
+                    hook: 'Turn travel time into your time. Comfort meets productivity.',
+                    cta: 'Discover More →'
+                }
+            }
+        };
     }
 
     showInterface() {
@@ -191,8 +370,22 @@ class CreativeStudioProjects {
                 <div class="campaign-detail-content">
                     <!-- Header with Back Button and Title -->
                     <div class="campaign-page-header">
-                        <button class="back-btn" onclick="window.creativeStudio.closeInterface()">←</button>
-                        <h1>${this.campaignData.title}</h1>
+                        <div class="header-left">
+                            <button class="back-btn" onclick="window.creativeStudio.closeInterface()">←</button>
+                            <div class="header-content">
+                                <h1>${this.projectConfig.title}</h1>
+                                <p class="header-subtitle">${this.projectConfig.subtitle}</p>
+                                ${this.projectConfig.launchDate ? 
+                                    `<div class="launch-info">Launch: ${this.projectConfig.launchDate}</div>` : ''
+                                }
+                            </div>
+                        </div>
+                        <div class="header-right">
+                            ${this.projectConfig.isPrototype ? 
+                                '<span class="prototype-badge">PROTOTYPE</span>' : 
+                                '<span class="campaign-badge">ACTIVE CAMPAIGN</span>'
+                            }
+                        </div>
                     </div>
 
                     <!-- Tab Navigation -->
