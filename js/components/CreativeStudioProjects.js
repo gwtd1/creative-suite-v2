@@ -122,11 +122,15 @@ class CreativeStudioProjects {
 
         // Chat suggestions
         this.suggestions = [
-            "Suggest target audiences",
-            "Generate campaign ideas", 
-            "Find similar assets",
-            "Improve this brief"
+            { text: "Refine creative brief", icon: "✨" },
+            { text: "Write copy", icon: "✍️" },
+            { text: "Find assets", icon: "🔍" },
+            { text: "Generate creative assets", icon: "🎨" }
         ];
+
+        // DAM search flow state
+        this.findAssetsState = null;
+        this.selectedDAMName = null;
     }
 
     // Campaign Data Initialization
@@ -344,8 +348,8 @@ class CreativeStudioProjects {
 
                     <div class="chat-suggestions">
                         <div class="suggestion-chips">
-                            ${this.suggestions.map(suggestion => 
-                                `<div class="suggestion-chip" onclick="window.creativeStudio.sendSuggestion('${suggestion}')">${suggestion}</div>`
+                            ${this.suggestions.map(suggestion =>
+                                `<div class="suggestion-chip" onclick="window.creativeStudio.sendSuggestion('${suggestion.text}')">${suggestion.icon} ${suggestion.text}</div>`
                             ).join('')}
                         </div>
                     </div>
@@ -673,6 +677,12 @@ How can I help you today?`;
         this.addChatMessage(message, 'user');
         input.value = '';
 
+        // Check if we're in find assets flow
+        if (this.findAssetsState) {
+            this.handleFindAssetsFlow(message);
+            return;
+        }
+
         // Show typing indicator
         this.showTypingIndicator();
 
@@ -685,9 +695,25 @@ How can I help you today?`;
     }
 
     sendSuggestion(text) {
-        const input = document.getElementById('chatInput');
-        input.value = text;
-        this.sendChatMessage();
+        // Special handling for "Find assets"
+        if (text === 'Find assets') {
+            // Add user message
+            this.addChatMessage(text, 'user');
+
+            // Show typing indicator
+            this.showTypingIndicator();
+
+            // Step 1: Ask what they're looking for
+            setTimeout(() => {
+                this.hideTypingIndicator();
+                this.addChatMessage("What assets are you looking for? You can describe the type, theme, or campaign.", 'ai');
+                this.findAssetsState = 'awaiting_description'; // Set state to await user's description
+            }, 1000);
+        } else {
+            const input = document.getElementById('chatInput');
+            input.value = text;
+            this.sendChatMessage();
+        }
     }
 
     addChatMessage(text, type) {
@@ -718,8 +744,343 @@ How can I help you today?`;
             "Based on similar campaigns in your industry, I'd recommend a multi-channel approach focusing on Instagram and Pinterest for visual appeal. The Fall season is perfect for warm, aspirational imagery.",
             "I've found 127 relevant assets in your DAM that match this campaign's aesthetic. The top performers show models in natural settings with warm lighting. Would you like to see them?"
         ];
-        
+
         return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    // Handle Find Assets Flow
+    handleFindAssetsFlow(userMessage) {
+        if (this.findAssetsState === 'awaiting_description') {
+            // Step 2: Show DAM cards
+            this.showTypingIndicator();
+            setTimeout(() => {
+                this.hideTypingIndicator();
+                this.addChatMessage(`Great! I found some relevant asset collections. Which DAM system would you like me to search?`, 'ai');
+                this.addDAMSelectionCards();
+                this.findAssetsState = 'awaiting_dam_selection';
+            }, 1000);
+        } else if (this.findAssetsState === 'awaiting_dam_selection') {
+            // Step 3: Show loading and search
+            this.showTypingIndicator();
+            this.addChatMessage("Searching...", 'ai');
+
+            setTimeout(() => {
+                this.hideTypingIndicator();
+                const totalAssets = Math.floor(Math.random() * 100) + 50;
+                this.addChatMessage(`Found ${totalAssets} assets matching your criteria from ${this.selectedDAMName}! Here are 5 sample images:`, 'ai');
+                this.showSampleImages();
+                this.findAssetsState = 'awaiting_view_all';
+            }, 2000);
+        } else if (this.findAssetsState === 'awaiting_view_all') {
+            // Step 4: Open modal with all images
+            if (userMessage.toLowerCase().includes('yes') || userMessage.toLowerCase().includes('all')) {
+                this.addChatMessage("Opening all assets...", 'ai');
+                setTimeout(() => {
+                    this.openAssetModal();
+                    this.findAssetsState = null; // Reset state
+                }, 500);
+            } else {
+                this.findAssetsState = null; // Reset state
+            }
+        }
+    }
+
+    addDAMSelectionCards() {
+        const messagesContainer = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message ai';
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        messageDiv.innerHTML = `
+            <div class="message-bubble" style="max-width: 100%;">
+                <div class="dam-card" style="cursor: pointer; margin-bottom: 16px;" onclick="window.creativeStudio.selectDAM('Fall 2024 Assets')">
+                    <h3 class="dam-card-title">Fall 2024 Assets</h3>
+                    <div class="dam-badge">Adobe</div>
+                    <p class="dam-description">Explore emerging platforms and untapped opportunities</p>
+                    <p class="dam-type">Type: Images, Video, Composed</p>
+                    <div class="dam-metrics">
+                        <div class="dam-metric">
+                            <div class="dam-metric-label">ASSETS</div>
+                            <div class="dam-metric-value">248</div>
+                        </div>
+                        <div class="dam-metric">
+                            <div class="dam-metric-label">CLICKS</div>
+                            <div class="dam-metric-value">32,876</div>
+                        </div>
+                        <div class="dam-metric">
+                            <div class="dam-metric-label">CTR</div>
+                            <div class="dam-metric-value">7.11</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dam-card" style="cursor: pointer;" onclick="window.creativeStudio.selectDAM('Fall Fitness Campaign')">
+                    <h3 class="dam-card-title">Fall Fitness Campaign</h3>
+                    <div class="dam-badge">Adobe</div>
+                    <p class="dam-description">Explore emerging platforms and untapped opportunities</p>
+                    <p class="dam-type">Type: Images, Video, Composed</p>
+                    <div class="dam-metrics">
+                        <div class="dam-metric">
+                            <div class="dam-metric-label">ASSETS</div>
+                            <div class="dam-metric-value">156</div>
+                        </div>
+                        <div class="dam-metric">
+                            <div class="dam-metric-label">CLICKS</div>
+                            <div class="dam-metric-value">21,543</div>
+                        </div>
+                        <div class="dam-metric">
+                            <div class="dam-metric-label">CTR</div>
+                            <div class="dam-metric-value">6.84</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="message-time">${timeString}</span>
+        `;
+
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    selectDAM(damName) {
+        this.addChatMessage(damName, 'user');
+        this.selectedDAMName = damName;
+        this.handleFindAssetsFlow(damName);
+    }
+
+    showSampleImages() {
+        const messagesContainer = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message ai';
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        // Sample image URLs (using placeholder images)
+        const sampleImages = [
+            'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1475403614135-5f1aa0eb5015?w=400&h=300&fit=crop'
+        ];
+
+        messageDiv.innerHTML = `
+            <div class="message-bubble" style="max-width: 100%;">
+                <div class="sample-images-grid" style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+                    ${sampleImages.map(url => `
+                        <img src="${url}" alt="Asset preview" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    `).join('')}
+                </div>
+                <div>Would you like to see all assets?</div>
+            </div>
+            <span class="message-time">${timeString}</span>
+        `;
+
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    openAssetModal() {
+        // Create modal overlay
+        const modal = document.createElement('div');
+        modal.id = 'assetModal';
+        modal.className = 'asset-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            animation: fadeIn 0.2s ease-out;
+        `;
+
+        // Generate more images for the modal
+        const allImages = [
+            'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1475403614135-5f1aa0eb5015?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1483721310020-03333e577078?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1532635270-c92ebcc42f4e?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?w=400&h=300&fit=crop'
+        ];
+
+        modal.innerHTML = `
+            <div class="asset-modal-content" style="background: var(--card-bg); border-radius: 12px; width: 90%; max-width: 1200px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                <div class="asset-modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 32px; border-bottom: 1px solid var(--border-color);">
+                    <h2 style="font-size: 28px; font-weight: 600; margin: 0;">All Assets from ${this.selectedDAMName}</h2>
+                    <button onclick="window.creativeStudio.closeAssetModal()" style="background: none; border: none; font-size: 32px; color: var(--text-muted); cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: 0.2s;">×</button>
+                </div>
+                <div class="asset-modal-body" style="padding: 32px; overflow-y: auto;">
+                    <div class="asset-modal-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px;">
+                        ${allImages.map((url, index) => `
+                            <div class="asset-modal-item" data-asset-index="${index}" style="position: relative; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color); transition: 0.2s; cursor: pointer;">
+                                <input type="checkbox" class="asset-checkbox" id="asset-${index}" onchange="window.creativeStudio.toggleAssetSelection(${index})" style="position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; cursor: pointer; z-index: 10; accent-color: var(--accent-primary);">
+                                <img src="${url}" alt="Asset" onclick="window.creativeStudio.toggleCheckbox(${index})" style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="asset-modal-footer" style="display: flex; justify-content: space-between; align-items: center; padding: 32px; border-top: 1px solid var(--border-color); background: var(--primary-bg);">
+                    <div class="selected-count" id="selectedCount" style="font-size: 14px; color: var(--text-secondary); font-weight: 500;">0 assets selected</div>
+                    <button class="save-to-campaign-btn" id="saveToCampaignBtn" onclick="window.creativeStudio.saveToCampaign()" disabled style="background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%); color: white; border: none; padding: 12px 28px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px;">
+                        Save to campaign
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+    }
+
+    toggleCheckbox(index) {
+        const checkbox = document.getElementById(`asset-${index}`);
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+            this.toggleAssetSelection(index);
+        }
+    }
+
+    toggleAssetSelection(index) {
+        const item = document.querySelector(`.asset-modal-item[data-asset-index="${index}"]`);
+        const checkbox = document.getElementById(`asset-${index}`);
+
+        if (item && checkbox) {
+            if (checkbox.checked) {
+                item.style.border = '2px solid var(--accent-primary)';
+                item.style.boxShadow = '0 0 0 3px rgba(25, 87, 219, 0.1)';
+            } else {
+                item.style.border = '2px solid var(--border-color)';
+                item.style.boxShadow = 'none';
+            }
+        }
+
+        this.updateSelectedCount();
+    }
+
+    updateSelectedCount() {
+        const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+        const count = checkboxes.length;
+        const countElement = document.getElementById('selectedCount');
+        const saveBtn = document.getElementById('saveToCampaignBtn');
+
+        if (countElement) {
+            countElement.textContent = `${count} asset${count !== 1 ? 's' : ''} selected`;
+        }
+
+        if (saveBtn) {
+            saveBtn.disabled = count === 0;
+            saveBtn.style.opacity = count === 0 ? '0.5' : '1';
+            saveBtn.style.cursor = count === 0 ? 'not-allowed' : 'pointer';
+        }
+    }
+
+    saveToCampaign() {
+        const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+        const count = checkboxes.length;
+
+        if (count === 0) return;
+
+        // Close the modal
+        this.closeAssetModal();
+
+        // Show DAM assets section on the Creative Brief page
+        const damSection = document.getElementById('damAssetsSection');
+        if (damSection && this.selectedDAMName) {
+            damSection.style.display = 'block';
+            this.addDAMToBriefPage(this.selectedDAMName);
+        }
+
+        // Add a confirmation message to the chat
+        this.showTypingIndicator();
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            this.addChatMessage(`Successfully saved ${count} asset${count !== 1 ? 's' : ''} to your campaign! You can find them in the DAM Assets section on the Creative Brief page.`, 'ai');
+        }, 1000);
+
+        // Reset the find assets flow
+        this.findAssetsState = null;
+    }
+
+    addDAMToBriefPage(damName) {
+        const damContainer = document.getElementById('damAssetsContainer');
+        if (!damContainer) return;
+
+        // Sample DAM data
+        const damData = {
+            'Fall 2024 Assets': {
+                title: 'Fall 2024 Assets',
+                badge: 'Adobe',
+                description: 'Explore emerging platforms and untapped opportunities',
+                type: 'Images, Video, Composed',
+                metrics: { assets: '248', clicks: '32,876', ctr: '7.11' }
+            },
+            'Fall Fitness Campaign': {
+                title: 'Fall Fitness Campaign',
+                badge: 'Adobe',
+                description: 'Explore emerging platforms and untapped opportunities',
+                type: 'Images, Video, Composed',
+                metrics: { assets: '156', clicks: '21,543', ctr: '6.84' }
+            }
+        };
+
+        const selectedDAM = damData[damName];
+        if (!selectedDAM) return;
+
+        // Check if this DAM card already exists
+        const existingCards = damContainer.querySelectorAll('.dam-card');
+        for (let card of existingCards) {
+            if (card.dataset.damName === damName) {
+                return; // Already added
+            }
+        }
+
+        // Create DAM card for the brief page
+        const damCard = document.createElement('div');
+        damCard.className = 'dam-card';
+        damCard.dataset.damName = damName;
+        damCard.innerHTML = `
+            <h3 class="dam-card-title">${selectedDAM.title}</h3>
+            <div class="dam-badge">${selectedDAM.badge}</div>
+            <p class="dam-description">${selectedDAM.description}</p>
+            <p class="dam-type">Type: ${selectedDAM.type}</p>
+            <div class="dam-metrics">
+                <div class="dam-metric">
+                    <div class="dam-metric-label">ASSETS</div>
+                    <div class="dam-metric-value">${selectedDAM.metrics.assets}</div>
+                </div>
+                <div class="dam-metric">
+                    <div class="dam-metric-label">CLICKS</div>
+                    <div class="dam-metric-value">${selectedDAM.metrics.clicks}</div>
+                </div>
+                <div class="dam-metric">
+                    <div class="dam-metric-label">CTR</div>
+                    <div class="dam-metric-value">${selectedDAM.metrics.ctr}</div>
+                </div>
+            </div>
+        `;
+
+        damContainer.appendChild(damCard);
+    }
+
+    closeAssetModal() {
+        const modal = document.getElementById('assetModal');
+        if (modal) {
+            modal.remove();
+        }
     }
 
     showTypingIndicator() {
