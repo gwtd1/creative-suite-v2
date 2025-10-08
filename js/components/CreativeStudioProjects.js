@@ -483,9 +483,9 @@ class CreativeStudioProjects {
                 </div>
             </div>
 
-            <!-- Asset Section -->
+            <!-- Asset Requirements Section -->
             <div class="asset-section">
-                <h2>Asset</h2>
+                <h2>Asset Requirements</h2>
                 <table class="channel-table">
                     <thead>
                         <tr>
@@ -494,6 +494,7 @@ class CreativeStudioProjects {
                             <th>Asset Type</th>
                             <th>General Size/Ratio</th>
                             <th>Key Deliverable Type(s)</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -504,10 +505,33 @@ class CreativeStudioProjects {
                                 <td>${channel.assetType}</td>
                                 <td>${channel.ratio}</td>
                                 <td>${channel.deliverables}</td>
+                                <td><button class="ideate-btn" onclick="window.creativeStudio.ideateFromAsset('${channel.name}', '${channel.assetType}', '${channel.contentFocus}', '${channel.ratio}', '${channel.deliverables}')">✨ Ideate</button></td>
                             </tr>
                         `).join('')}
                     </tbody>
                 </table>
+            </div>
+
+            <!-- AI Recommended Mood Board Section -->
+            <div class="moodboard-section">
+                <h2>AI Recommended Mood Board</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">AI-curated visual inspiration based on your campaign brief</p>
+
+                <button class="generate-moodboard-btn" onclick="window.creativeStudio.generateMoodBoard()">✨ Generate Mood Board</button>
+
+                <div class="moodboard-grid" id="moodboardGrid">
+                    <!-- Mood board images will be generated here -->
+                </div>
+            </div>
+
+            <!-- DAM Assets Section -->
+            <div class="dam-assets-section" id="damAssetsSection" style="display: none;">
+                <h2>DAM Assets</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Assets found from your Digital Asset Management system</p>
+
+                <div id="damAssetsContainer">
+                    <!-- DAM cards will be inserted here by JavaScript -->
+                </div>
             </div>
         `;
     }
@@ -1234,16 +1258,137 @@ How can I help you today?`;
 
     returnToIdeation() {
         console.log('🔙 Returning to ideation board');
-        
+
         // Re-create the main creative studio interface
         const modal = document.querySelector('.creative-studio-modal');
         if (modal) {
             modal.innerHTML = this.createInterfaceHTML();
             this.initializeEventListeners(modal);
-            
+
             // Switch to ideation tab
             this.switchTab('ideation');
         }
+    }
+
+    // Mood Board Generation
+    generateMoodBoard() {
+        console.log('🎨 Generating mood board...');
+        const grid = document.getElementById('moodboardGrid');
+        const btn = document.querySelector('.generate-moodboard-btn');
+
+        if (!grid || !btn) return;
+
+        // Disable button and show loading state
+        btn.disabled = true;
+        btn.textContent = 'Generating...';
+
+        // Clear existing images
+        grid.innerHTML = '';
+
+        // Sample mood board images (athleisure/fall theme)
+        const moodboardImages = [
+            'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=400&h=400&fit=crop'
+        ];
+
+        // Simulate AI generation delay
+        setTimeout(() => {
+            moodboardImages.forEach((url, index) => {
+                setTimeout(() => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = `Mood board inspiration ${index + 1}`;
+                    img.className = 'moodboard-image';
+                    img.style.opacity = '0';
+                    img.style.transform = 'scale(0.8)';
+
+                    grid.appendChild(img);
+
+                    // Animate in
+                    setTimeout(() => {
+                        img.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                        img.style.opacity = '1';
+                        img.style.transform = 'scale(1)';
+                    }, 50);
+                }, index * 100);
+            });
+
+            // Re-enable button
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '✨ Regenerate Mood Board';
+            }, moodboardImages.length * 100 + 500);
+        }, 1000);
+    }
+
+    // Ideate from Asset Table
+    ideateFromAsset(channel, assetType, contentFocus, sizeRatio, deliverables) {
+        console.log('💡 Ideating from asset:', channel, assetType);
+
+        // Create a new idea tile based on the asset row data
+        const idea = {
+            title: `${channel} ${assetType} Campaign`,
+            audience: 'Target Audience',
+            description: contentFocus,
+            status: ['ai-generated'],
+            emoji: channel === 'Instagram' ? '📸' : '📌',
+            assetType: assetType,
+            sizeRatio: sizeRatio,
+            deliverables: deliverables
+        };
+
+        // Switch to ideation tab
+        this.switchTab('ideation');
+
+        // Generate the idea tile
+        const grid = document.getElementById('ideasGrid');
+        if (!grid) return;
+
+        const ideaTile = document.createElement('div');
+        ideaTile.className = 'idea-tile';
+        ideaTile.style.opacity = '0';
+        ideaTile.style.transform = 'translateY(20px)';
+
+        ideaTile.innerHTML = `
+            <div class="idea-tile-image">${idea.emoji}</div>
+            <div class="idea-tile-content">
+                <div class="idea-tile-title">${idea.title}</div>
+                <div class="idea-status-tags">
+                    <span class="idea-status-tag ai-generated">AI Generated</span>
+                </div>
+                <div class="idea-audience">👥 ${idea.audience}</div>
+                <div class="idea-description">${idea.description}</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                    <strong>Asset Type:</strong> ${idea.assetType}<br>
+                    <strong>Size/Ratio:</strong> ${idea.sizeRatio}<br>
+                    <strong>Deliverables:</strong> ${idea.deliverables}
+                </div>
+                <button class="brainstorm-btn"
+                    data-idea-title="${idea.title}"
+                    data-idea-audience="${idea.audience}"
+                    data-idea-description="${idea.description}"
+                    data-idea-emoji="${idea.emoji}"
+                    data-idea-status="${idea.status.join(',')}"
+                    onclick="window.creativeStudio.handleBrainstormClick(this)">
+                    💡 Brainstorm
+                </button>
+            </div>
+        `;
+
+        grid.appendChild(ideaTile);
+
+        // Animate in
+        setTimeout(() => {
+            ideaTile.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            ideaTile.style.opacity = '1';
+            ideaTile.style.transform = 'translateY(0)';
+        }, 100);
     }
 }
 

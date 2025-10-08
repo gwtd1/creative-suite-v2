@@ -669,6 +669,184 @@
     color: var(--accent-primary, #1957db);
 }
 
+.ideate-btn {
+    background: linear-gradient(135deg, var(--accent-primary, #1957db) 0%, var(--accent-purple, #9256d9) 100%);
+    color: var(--white, #ffffff);
+    border: none;
+    padding: var(--space-xs, 8px) var(--space-md, 16px);
+    border-radius: var(--radius-lg, 12px);
+    font-size: var(--font-sm, 13px);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs, 8px);
+    transition: var(--transition-fast, 0.2s ease);
+}
+
+.ideate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25, 87, 219, 0.25);
+}
+
+/* Mood Board Section */
+.moodboard-section {
+    background: var(--card-bg, #ffffff);
+    padding: var(--space-xl, 32px);
+    border-radius: var(--radius-xl, 16px);
+    border: 1px solid var(--border-color, #e1e5e9);
+    margin-bottom: var(--space-xl, 32px);
+}
+
+.moodboard-section h2 {
+    font-size: var(--h3, 16px);
+    font-weight: 600;
+    margin: 0 0 var(--space-md, 16px) 0;
+}
+
+.generate-moodboard-btn {
+    background: linear-gradient(135deg, var(--accent-primary, #1957db) 0%, var(--accent-purple, #9256d9) 100%);
+    color: var(--white, #ffffff);
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius-lg, 12px);
+    font-size: var(--font-base, 14px);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs, 8px);
+    transition: var(--transition-fast, 0.2s ease);
+    margin-bottom: var(--space-lg, 24px);
+}
+
+.generate-moodboard-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25, 87, 219, 0.25);
+}
+
+.generate-moodboard-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.moodboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-md, 16px);
+    margin-top: var(--space-lg, 24px);
+}
+
+.moodboard-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-lg, 12px);
+    border: 1px solid var(--border-color, #e1e5e9);
+    transition: var(--transition-fast, 0.2s ease);
+    cursor: pointer;
+}
+
+.moodboard-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* DAM Assets Section */
+.dam-assets-section {
+    background: var(--card-bg, #ffffff);
+    padding: var(--space-xl, 32px);
+    border-radius: var(--radius-xl, 16px);
+    border: 1px solid var(--border-color, #e1e5e9);
+    margin-bottom: var(--space-xl, 32px);
+}
+
+.dam-assets-section h2 {
+    font-size: var(--h3, 16px);
+    font-weight: 600;
+    margin: 0 0 var(--space-md, 16px) 0;
+}
+
+#damAssetsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: var(--space-lg, 24px);
+}
+
+.dam-card {
+    background: var(--primary-bg, #fafafa);
+    border-radius: var(--radius-xl, 16px);
+    padding: var(--space-xl, 32px);
+    border: 1px solid var(--border-color, #e1e5e9);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-fast, 0.2s ease);
+}
+
+.dam-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-primary, #1957db);
+}
+
+.dam-card-title {
+    font-size: var(--font-lg, 16px);
+    font-weight: 600;
+    color: var(--text-primary, #2c2c2c);
+    margin-bottom: var(--space-md, 16px);
+}
+
+.dam-badge {
+    display: inline-block;
+    background: var(--gray-100, #f5f5f7);
+    color: var(--text-secondary, #6e6e6e);
+    padding: var(--space-xs, 8px) var(--space-md, 16px);
+    border-radius: var(--radius-full, 20px);
+    font-size: var(--font-xs, 12px);
+    font-weight: 600;
+    margin-bottom: var(--space-md, 16px);
+}
+
+.dam-description {
+    font-size: var(--font-base, 14px);
+    color: var(--text-secondary, #6e6e6e);
+    margin-bottom: var(--space-xs, 8px);
+    line-height: 1.6;
+}
+
+.dam-type {
+    font-size: var(--font-base, 14px);
+    color: var(--text-secondary, #6e6e6e);
+    margin-bottom: var(--space-lg, 24px);
+    padding-bottom: var(--space-lg, 24px);
+    border-bottom: 1px solid var(--border-color, #e1e5e9);
+}
+
+.dam-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg, 24px);
+}
+
+.dam-metric {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs, 4px);
+}
+
+.dam-metric-label {
+    font-size: var(--font-xs, 12px);
+    color: var(--text-muted, #8e8e93);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.dam-metric-value {
+    font-size: var(--font-xl, 20px);
+    font-weight: 600;
+    color: var(--text-primary, #2c2c2c);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .campaign-detail-view {
