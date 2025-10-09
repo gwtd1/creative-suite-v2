@@ -196,32 +196,30 @@ class CreativeStudioProjects {
         this.campaignData.personas = [
             {
                 name: "Hybrid Worker",
+                description: "The Seamless Transition. The clothing must erase the friction between distinct parts of her day—the high-intensity workout, the high-stakes video call, the sustainable coffee run, and the evening recovery.",
+                coreMessage: "Core Message: The Only Transition You Need.",
                 attributes: [
                     "Gender: Female, Male",
-                    "Age: 25-40",
-                    "Income: $45k-$85k",
-                    "Location: Urban/Suburban",
-                    "Lifestyle: Work from home 2-3 days/week, values comfort and versatility"
+                    "Age: 30-40 year old",
+                    "Interests: Work-life balance, Productivity hacks, coffee culture, fitness, sustainability, sustainable fashion, comfort-clothing."
+                ],
+                painpoints: [
+                    "The anxiety of having to constantly change clothes to look put-together for an impromptu video call or client meeting after a morning workout or before running errands.",
+                    "She struggles to find premium, versatile clothing that also meets her sustainable and ethical standards."
                 ]
             },
             {
                 name: "Wellness Enthusiast",
+                description: "The Mindful Movement. Clothing that supports both physical performance and mental well-being, seamlessly transitioning from yoga studio to brunch to evening relaxation.",
+                coreMessage: "Core Message: Performance Meets Peace of Mind.",
                 attributes: [
                     "Gender: Female",
-                    "Age: 28-42",
-                    "Income: $55k-$95k",
-                    "Location: Urban areas",
-                    "Lifestyle: Regular fitness routine, sustainability-conscious, premium quality focus"
-                ]
-            },
-            {
-                name: "Young Professional",
-                attributes: [
-                    "Gender: Female, Male",
-                    "Age: 22-35",
-                    "Income: $40k-$75k",
-                    "Location: Metropolitan areas",
-                    "Lifestyle: Career-focused, social media active, value-conscious but willing to invest in versatile pieces"
+                    "Age: 28-42 year old",
+                    "Interests: Fitness, yoga, meditation, sustainability, clean eating, holistic wellness, premium quality products."
+                ],
+                painpoints: [
+                    "Difficulty finding athleisure that is both high-performance and environmentally responsible without compromising on style.",
+                    "The need for versatile pieces that work for multiple activities throughout the day without requiring outfit changes."
                 ]
             }
         ];
@@ -445,9 +443,30 @@ class CreativeStudioProjects {
                     <h2>Objective</h2>
                     <button class="refine-ai-btn" onclick="window.creativeStudio.refineObjective()">✨ Refine with AI</button>
                 </div>
-                <p class="objective-text">${this.campaignData.objective}</p>
-                <p class="launch-date">Launch Date: ${this.campaignData.launchDate}</p>
+                <p class="objective-text">Launch Fall Athleisure Collection targeting active lifestyle women with premium positioning and versatile studio-to-street messaging.</p>
+                <div style="margin-top: 16px;">
+                    <p style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">Key Message</p>
+                    <p style="font-size: 14px; color: #3C4257; line-height: 1.6;">Blending elegance with performance, highlighting versatility from studio to street.</p>
+                </div>
+                <p class="launch-date" style="margin-top: 16px;">Launch Date: ${this.campaignData.launchDate}</p>
                 <div class="reasoning-toggle">💡 Reasoning ›</div>
+            </div>
+
+            <!-- Voice and Tone Section -->
+            <div class="objective-section">
+                <div class="objective-header">
+                    <h2>Voice and Tone</h2>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 16px;">
+                    <div>
+                        <p style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">Voice</p>
+                        <p style="font-size: 14px; color: #3C4257; line-height: 1.6;">Confident, sophisticated, and empowering. Speaks to the modern woman who values both style and substance.</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">Tone</p>
+                        <p style="font-size: 14px; color: #3C4257; line-height: 1.6;">Aspirational yet approachable, premium without being pretentious, energetic but refined.</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Target Audience Section -->
@@ -465,15 +484,52 @@ class CreativeStudioProjects {
                     ${this.campaignData.personas.map(persona => `
                         <div class="persona-card">
                             <div class="persona-card-header">
-                                <div class="persona-name">${persona.name}</div>
+                                <div class="persona-header-left">
+                                    <div class="persona-name">${persona.name}</div>
+                                    <span class="persona-tag primary">Primary</span>
+                                    <span class="persona-tag draft">Draft</span>
+                                </div>
                                 <div class="persona-menu">⋯</div>
                             </div>
-                            <div class="persona-attributes">
-                                <strong>Attributes:</strong>
-                                <ul style="margin: 8px 0 0 20px;">
-                                    ${persona.attributes.map(attr => `<li>${attr}</li>`).join('')}
-                                </ul>
+
+                            <p class="persona-description">${persona.description}</p>
+
+                            <p class="persona-core-message">${persona.coreMessage}</p>
+
+                            <div class="persona-details-grid">
+                                <div class="persona-detail-section">
+                                    <strong class="persona-detail-label">Attributes:</strong>
+                                    <ul class="persona-detail-list">
+                                        ${persona.attributes.map(attr => `<li>${attr}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="persona-detail-section">
+                                    <strong class="persona-detail-label">Painpoints:</strong>
+                                    <ul class="persona-detail-list">
+                                        ${persona.painpoints.map(pain => `<li>${pain}</li>`).join('')}
+                                    </ul>
+                                </div>
                             </div>
+
+                            <div class="persona-divider"></div>
+
+                            <div class="creative-direction-header">
+                                <div class="creative-direction-left">
+                                    <span class="creative-direction-icon">▼</span>
+                                    <span class="creative-direction-title">Creative Direction</span>
+                                </div>
+                                <div class="persona-menu">⋯</div>
+                            </div>
+
+                            <button class="brainstorm-btn-new"
+                                data-idea-title="${persona.name}"
+                                data-idea-audience="${persona.name}"
+                                data-idea-description="${persona.description}"
+                                data-idea-emoji="👥"
+                                data-idea-status="ai-generated"
+                                onclick="window.creativeStudio.handleBrainstormClick(this)">
+                                ✨ Brainstorm
+                            </button>
                         </div>
                     `).join('')}
                 </div>
@@ -493,23 +549,17 @@ class CreativeStudioProjects {
                 <table class="channel-table">
                     <thead>
                         <tr>
-                            <th>Channel Name</th>
-                            <th>Content Focus</th>
-                            <th>Asset Type</th>
-                            <th>General Size/Ratio</th>
-                            <th>Key Deliverable Type(s)</th>
-                            <th>Actions</th>
+                            <th>Channel</th>
+                            <th>Type</th>
+                            <th>Aspect Ratio</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${this.campaignData.channels.map(channel => `
                             <tr>
                                 <td><span class="channel-name">${channel.name}</span></td>
-                                <td>${channel.contentFocus}</td>
                                 <td>${channel.assetType}</td>
                                 <td>${channel.ratio}</td>
-                                <td>${channel.deliverables}</td>
-                                <td><button class="ideate-btn" onclick="window.creativeStudio.ideateFromAsset('${channel.name}', '${channel.assetType}', '${channel.contentFocus}', '${channel.ratio}', '${channel.deliverables}')">✨ Ideate</button></td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -542,15 +592,20 @@ class CreativeStudioProjects {
 
     createIdeationTabContent() {
         return `
-            <div style="margin-bottom: 32px;">
-                <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Creative Ideation</h2>
-                <p style="color: #6e6e73; font-size: 14px;">AI-powered campaign ideas based on your brief</p>
-            </div>
+            <div class="ideation-container">
+                <!-- Main Content Area -->
+                <div class="ideation-main-content" id="ideationMainContent" style="padding-top: 32px;">
+                    <div style="margin-bottom: 32px;">
+                        <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Creative Ideation</h2>
+                        <p style="color: #6e6e73; font-size: 14px;">AI-powered campaign ideas based on your brief</p>
+                    </div>
 
-            <button class="create-ideas-btn" onclick="window.creativeStudio.generateIdeas()">✨ Create Ideas</button>
+                    <button class="create-ideas-btn" onclick="window.creativeStudio.generateIdeas()">✨ Create Ideas</button>
 
-            <div class="ideas-grid" id="ideasGrid">
-                <!-- Ideas will be generated here -->
+                    <div class="ideas-grid" id="ideasGrid">
+                        <!-- Ideas will be generated here -->
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -587,6 +642,97 @@ class CreativeStudioProjects {
 How can I help you today?`;
 
         this.addChatMessage(welcomeMessage, 'ai');
+
+        // Add Next Steps recommendations
+        this.addNextStepsRecommendations();
+    }
+
+    addNextStepsRecommendations() {
+        const messagesContainer = document.getElementById('chatMessages');
+        const nextStepsDiv = document.createElement('div');
+        nextStepsDiv.className = 'chat-message ai';
+        nextStepsDiv.style.maxWidth = '100%';
+
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        nextStepsDiv.innerHTML = `
+            <div class="message-bubble" style="max-width: 100%;">
+                <div style="margin-bottom: 12px; font-weight: 600; font-size: 14px; color: var(--text-primary);">Next Steps</div>
+
+                <!-- Recommendation Cards -->
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Card 1: Brainstorm Hybrid Worker -->
+                    <div onclick="window.creativeStudio.executeRecommendation('brainstorm-hybrid')" style="background: white; border: 1px solid #dce1ea; border-radius: 4px; padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="font-weight: 600; font-size: 16px; color: #212121; line-height: 1.3;">Brainstorm creative direction for Hybrid Worker</div>
+                            <div style="font-size: 14px; color: #6d6d6d; line-height: 1.5;">Define the narrative that will be used to create assets.</div>
+                            <div style="height: 1px; background: #dce1ea;"></div>
+                            <div style="background: #e7faea; padding: 8px; border-radius: 4px; display: flex; align-items: center; gap: 8px;">
+                                <span style="color: #3b8c4a; font-size: 14px;">✓</span>
+                                <span style="color: #3b8c4a; font-size: 14px; font-weight: 500;">Recommended</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Brainstorm Wellness Enthusiast -->
+                    <div onclick="window.creativeStudio.executeRecommendation('brainstorm-wellness')" style="background: white; border: 1px solid #dce1ea; border-radius: 4px; padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="font-weight: 600; font-size: 16px; color: #212121; line-height: 1.3;">Brainstorm creative direction for Wellness Enthusiast</div>
+                            <div style="font-size: 14px; color: #6d6d6d; line-height: 1.5;">Define the narrative that will be used to create assets.</div>
+                            <div style="height: 1px; background: #dce1ea;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Create Mood Board -->
+                    <div onclick="window.creativeStudio.executeRecommendation('moodboard')" style="background: white; border: 1px solid #dce1ea; border-radius: 4px; padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="font-weight: 600; font-size: 16px; color: #212121; line-height: 1.3;">Create a mood board.</div>
+                            <div style="font-size: 14px; color: #6d6d6d; line-height: 1.5;">Create a visual guide for inspiration.</div>
+                            <div style="height: 1px; background: #dce1ea;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="message-time">${timeString}</span>
+        `;
+
+        messagesContainer.appendChild(nextStepsDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    executeRecommendation(recommendationType) {
+        console.log('📋 Executing recommendation:', recommendationType);
+
+        if (recommendationType === 'brainstorm-hybrid') {
+            // Find the Hybrid Worker persona brainstorm button and click it
+            const hybridWorkerBtn = document.querySelector('[data-idea-title="Hybrid Worker"]');
+            if (hybridWorkerBtn) {
+                hybridWorkerBtn.click();
+            } else {
+                this.addChatMessage("Let me help you brainstorm creative direction for the Hybrid Worker persona. Switching to the Creative Brief tab...", 'ai');
+                this.switchTab('brief');
+            }
+        } else if (recommendationType === 'brainstorm-wellness') {
+            // Find the Wellness Enthusiast persona brainstorm button and click it
+            const wellnessBtn = document.querySelector('[data-idea-title="Wellness Enthusiast"]');
+            if (wellnessBtn) {
+                wellnessBtn.click();
+            } else {
+                this.addChatMessage("Let me help you brainstorm creative direction for the Wellness Enthusiast persona. Switching to the Creative Brief tab...", 'ai');
+                this.switchTab('brief');
+            }
+        } else if (recommendationType === 'moodboard') {
+            this.addChatMessage("I'll help you create a mood board. Switching to the Creative Brief tab where you can generate a mood board...", 'ai');
+            this.switchTab('brief');
+            // Scroll to mood board section
+            setTimeout(() => {
+                const moodboardSection = document.querySelector('.moodboard-section');
+                if (moodboardSection) {
+                    moodboardSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 300);
+        }
     }
 
     switchTab(tabName) {
@@ -643,14 +789,14 @@ How can I help you today?`;
                 </div>
                 <div class="idea-audience">👥 ${idea.audience}</div>
                 <div class="idea-description">${idea.description}</div>
-                <button class="brainstorm-btn" 
+                <button class="brainstorm-btn"
                     data-idea-title="${idea.title}"
                     data-idea-audience="${idea.audience}"
                     data-idea-description="${idea.description}"
                     data-idea-emoji="${idea.emoji}"
                     data-idea-status="${idea.status.join(',')}"
-                    onclick="window.creativeStudio.handleBrainstormClick(this)">
-                    💡 Brainstorm
+                    onclick="window.creativeStudio.openBrainstormFromCard(this)">
+                    ✨ Brainstorm with AI
                 </button>
             </div>
         `;
@@ -1218,10 +1364,11 @@ How can I help you today?`;
     }
 
     showBrainstormInterface(ideaData) {
-        // Create full-screen brainstorm interface
-        const modal = document.querySelector('.creative-studio-modal');
-        if (modal) {
-            modal.innerHTML = this.createBrainstormHTML(ideaData);
+        // Save current ideation board state before replacing
+        const mainContent = document.getElementById('ideationMainContent');
+        if (mainContent) {
+            this.savedIdeationHTML = mainContent.innerHTML;
+            mainContent.innerHTML = this.createBrainstormHTML(ideaData);
             this.initializeBrainstormEventListeners();
         }
     }
@@ -1229,25 +1376,28 @@ How can I help you today?`;
     // Brainstorm HTML Structure Creation
     createBrainstormHTML(ideaData) {
         return `
-            <div class="brainstorm-container">
-                <div class="brainstorm-header">
-                    <div class="brainstorm-title-section">
-                        <h2>${ideaData.title}</h2>
-                        <div class="idea-status-tags" style="display: flex; gap: 6px; margin-top: 8px;">
-                            <span style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%); color: var(--accent-primary);">AI Generated</span>
-                            <span style="font-size: 13px; color: var(--accent-primary); font-weight: 600; display: flex; align-items: center; gap: 6px;">👥 ${ideaData.audience}</span>
+            <div class="brainstorm-workspace">
+                <!-- Brainstorm Header -->
+                <div class="brainstorm-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <button class="back-btn" onclick="window.creativeStudio.returnToIdeation()" style="width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-color); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">←</button>
+                        <div class="brainstorm-title-section">
+                            <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">${ideaData.title}</h2>
+                            <div class="idea-status-tags" style="display: flex; gap: 6px; margin-top: 8px;">
+                                <span style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%); color: var(--accent-primary);">AI Generated</span>
+                                <span style="font-size: 13px; color: var(--accent-primary); font-weight: 600; display: flex; align-items: center; gap: 6px;">👥 ${ideaData.audience}</span>
+                            </div>
                         </div>
                     </div>
-                    <button class="back-btn" onclick="window.creativeStudio.returnToIdeation()">← Back to Ideas</button>
+                    <button class="create-asset-btn" onclick="window.creativeStudio.createAsset()" style="padding: 12px 24px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%); color: white; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">✨ Create Asset</button>
                 </div>
 
-                <div class="brainstorm-canvas">
+                <!-- Creative Output Content -->
+                <div class="output-content-area">
                     ${this.createSceneDescriptionPanel(ideaData)}
                     ${this.createAssetRecommendationPanel(ideaData)}
                     ${this.createAdCopyPanel(ideaData)}
                 </div>
-
-                ${this.createCoreAssetsSection(ideaData)}
             </div>
         `;
     }
@@ -1513,7 +1663,142 @@ How can I help you today?`;
     // Handle brainstorm button clicks
     handleBrainstormClick(button) {
         console.log('💡 Brainstorm button clicked');
-        
+
+        const ideaData = {
+            title: `Creative Direction: ${button.dataset.ideaTitle}`,
+            audience: button.dataset.ideaAudience,
+            description: button.dataset.ideaDescription,
+            emoji: button.dataset.ideaEmoji,
+            status: ['ai-generated', 'brainstorm'],
+            originalTitle: button.dataset.ideaTitle
+        };
+
+        console.log('💡 Creating ideation card for:', ideaData);
+
+        // Switch to ideation tab
+        this.switchTab('ideation');
+
+        // Add the new card to the ideation board
+        this.addIdeationCard(ideaData);
+    }
+
+    // Add new ideation card
+    addIdeationCard(ideaData) {
+        const grid = document.getElementById('ideasGrid');
+        if (!grid) return;
+
+        // Generate unique ID for this idea
+        const ideaId = `idea-${Date.now()}`;
+        ideaData.id = ideaId;
+
+        const ideaTile = document.createElement('div');
+        ideaTile.className = 'idea-tile';
+        ideaTile.id = ideaId;
+        ideaTile.style.opacity = '0';
+        ideaTile.style.transform = 'translateY(20px)';
+
+        ideaTile.innerHTML = `
+            <div class="idea-tile-image">${ideaData.emoji}</div>
+            <div class="idea-tile-content">
+                <div class="idea-tile-title">${ideaData.title}</div>
+                <div class="idea-status-tags">
+                    ${ideaData.status.includes('ai-generated') ? '<span class="idea-status-tag ai-generated">AI Generated</span>' : ''}
+                    ${ideaData.status.includes('brainstorm') ? '<span class="idea-status-tag brainstorm">From Persona</span>' : ''}
+                    ${ideaData.status.includes('approved') ? '<span class="idea-status-tag approved">Approved</span>' : ''}
+                </div>
+                <div class="idea-audience">👥 ${ideaData.audience}</div>
+                <div class="idea-description">${ideaData.description}</div>
+                <button class="view-brainstorm-btn"
+                    data-idea-title="${ideaData.title}"
+                    data-idea-audience="${ideaData.audience}"
+                    data-idea-description="${ideaData.description}"
+                    data-idea-emoji="${ideaData.emoji}"
+                    data-idea-status="${ideaData.status.join(',')}"
+                    onclick="window.creativeStudio.openBrainstormFromCard(this)">
+                    ✨ Brainstorm with AI
+                </button>
+            </div>
+        `;
+
+        grid.appendChild(ideaTile);
+
+        // Add navigation item
+        this.addIdeationNavItem(ideaData);
+
+        // Animate in
+        setTimeout(() => {
+            ideaTile.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            ideaTile.style.opacity = '1';
+            ideaTile.style.transform = 'translateY(0)';
+        }, 100);
+    }
+
+    // Add navigation item for idea
+    addIdeationNavItem(ideaData) {
+        const navItems = document.getElementById('ideationNavItems');
+        if (!navItems) return;
+
+        const navItem = document.createElement('div');
+        navItem.className = 'ideation-nav-item';
+        navItem.dataset.ideaId = ideaData.id;
+        navItem.title = ideaData.title;
+        navItem.onclick = () => this.scrollToIdea(ideaData.id);
+
+        navItem.innerHTML = `<span class="ideation-nav-item-icon">${ideaData.emoji}</span>`;
+
+        navItems.appendChild(navItem);
+    }
+
+    // Scroll to specific idea card
+    scrollToIdea(ideaId) {
+        const ideaCard = document.getElementById(ideaId);
+        if (ideaCard) {
+            ideaCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Highlight the card briefly
+            ideaCard.style.transition = 'box-shadow 0.3s ease';
+            ideaCard.style.boxShadow = '0 0 0 3px rgba(25, 87, 219, 0.3)';
+
+            setTimeout(() => {
+                ideaCard.style.boxShadow = '';
+            }, 2000);
+        }
+    }
+
+    // Scroll to top of ideation board
+    scrollToIdeationTop() {
+        const mainContent = document.getElementById('ideationMainContent');
+        if (mainContent) {
+            mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // Return to ideation board from brainstorm view
+    returnToIdeation() {
+        const mainContent = document.getElementById('ideationMainContent');
+        if (mainContent) {
+            // Restore saved ideation HTML if it exists, otherwise show default
+            if (this.savedIdeationHTML) {
+                mainContent.innerHTML = this.savedIdeationHTML;
+            } else {
+                mainContent.innerHTML = `
+                    <div style="margin-bottom: 32px;">
+                        <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Creative Ideation</h2>
+                        <p style="color: #6e6e73; font-size: 14px;">AI-powered campaign ideas based on your brief</p>
+                    </div>
+
+                    <button class="create-ideas-btn" onclick="window.creativeStudio.generateIdeas()">✨ Create Ideas</button>
+
+                    <div class="ideas-grid" id="ideasGrid">
+                        <!-- Ideas will be generated here -->
+                    </div>
+                `;
+            }
+        }
+    }
+
+    // Open brainstorm view from card
+    openBrainstormFromCard(button) {
         const ideaData = {
             title: button.dataset.ideaTitle,
             audience: button.dataset.ideaAudience,
@@ -1521,9 +1806,43 @@ How can I help you today?`;
             emoji: button.dataset.ideaEmoji,
             status: button.dataset.ideaStatus.split(',')
         };
-        
-        console.log('💡 Extracted idea data:', ideaData);
+
+        // Generate unique ID if not exists
+        if (!ideaData.id) {
+            ideaData.id = `brainstorm-${Date.now()}`;
+        }
+
+        // Add icon to left navigation panel
+        this.addBrainstormNavItem(ideaData);
+
+        // Open brainstorm view
         this.openBrainstormView(ideaData);
+    }
+
+    // Add brainstorm navigation item
+    addBrainstormNavItem(ideaData) {
+        const navItems = document.getElementById('ideationNavItems');
+        if (!navItems) return;
+
+        // Check if item already exists
+        const existingItem = navItems.querySelector(`[data-brainstorm-id="${ideaData.id}"]`);
+        if (existingItem) return;
+
+        const navItem = document.createElement('div');
+        navItem.className = 'ideation-nav-item brainstorm-nav-item';
+        navItem.dataset.brainstormId = ideaData.id;
+        navItem.title = ideaData.title;
+        navItem.onclick = () => this.openBrainstormView(ideaData);
+
+        navItem.innerHTML = `<span class="ideation-nav-item-icon">💡</span>`;
+
+        navItems.appendChild(navItem);
+
+        // Animate in
+        setTimeout(() => {
+            navItem.style.opacity = '1';
+            navItem.style.transform = 'translateX(0)';
+        }, 100);
     }
 
     toggleSourceDetails(event) {
@@ -1567,6 +1886,252 @@ How can I help you today?`;
     addNewAsset() {
         console.log('➕ Adding new asset');
         alert('Add new asset feature coming soon!');
+    }
+
+    createAsset() {
+        console.log('✨ Opening Creative Canvas');
+        this.openCreativeCanvas();
+    }
+
+    openCreativeCanvas() {
+        const mainContent = document.getElementById('ideationMainContent');
+        if (mainContent) {
+            this.savedBrainstormHTML = mainContent.innerHTML;
+            mainContent.innerHTML = this.createCreativeCanvasHTML();
+            this.initializeCanvasEventListeners();
+        }
+    }
+
+    createCreativeCanvasHTML() {
+        return `
+            <div class="creative-canvas-workspace">
+                <!-- Canvas Header -->
+                <div class="canvas-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <button class="back-btn" onclick="window.creativeStudio.returnFromCanvas()" style="width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-color); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">←</button>
+                        <h2 style="font-size: 24px; font-weight: 600; margin: 0;">Creative Canvas</h2>
+                    </div>
+                    <button class="canvas-settings-btn" style="width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-color); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">⚙️</button>
+                </div>
+
+                <!-- Two Column Layout -->
+                <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px; height: calc(100vh - 300px);">
+                    <!-- Left Panel: Quick Tools -->
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <!-- Tools Panel -->
+                        <div style="border: 1px solid var(--border-color); border-radius: 12px; background: white; padding: 20px;">
+                            <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text-primary);">Quick Tools</h3>
+
+                            <!-- Tool Buttons -->
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <button onclick="window.creativeStudio.selectTool('text')" class="tool-btn" style="width: 48px; height: 48px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                                    <span>T</span>
+                                </button>
+
+                                <button onclick="window.creativeStudio.selectTool('image')" class="tool-btn" style="width: 48px; height: 48px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                                    <span>🖼️</span>
+                                </button>
+
+                                <button onclick="window.creativeStudio.selectTool('ai-generate')" class="tool-btn" style="width: 48px; height: 48px; border: 1px solid var(--accent-primary); border-radius: 8px; background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%); cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; color: var(--accent-primary);">
+                                    <span>✨</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Properties Panel -->
+                        <div id="propertiesPanel" style="border: 1px solid var(--border-color); border-radius: 12px; background: white; padding: 20px; flex: 1; overflow-y: auto;">
+                            <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text-primary);">Properties</h3>
+                            <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Select an element to edit its properties</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Canvas Area -->
+                    <div id="canvasPreviewArea" style="border: 1px solid var(--border-color); border-radius: 12px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                        <div style="text-align: center; color: var(--text-secondary);">
+                            <div style="font-size: 48px; margin-bottom: 16px;">🎨</div>
+                            <p style="font-size: 16px; font-weight: 500; margin: 0;">Your canvas</p>
+                            <p style="font-size: 14px; margin-top: 8px;">Use tools on the left or chat with AI to create</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    initializeCanvasEventListeners() {
+        window.creativeStudio = this;
+        this.selectedTool = null;
+    }
+
+    returnFromCanvas() {
+        const mainContent = document.getElementById('ideationMainContent');
+        if (mainContent && this.savedBrainstormHTML) {
+            mainContent.innerHTML = this.savedBrainstormHTML;
+        }
+    }
+
+    selectTool(toolName) {
+        console.log('🔧 Selected tool:', toolName);
+        this.selectedTool = toolName;
+
+        // Update properties panel based on selected tool
+        const propertiesPanel = document.getElementById('propertiesPanel');
+
+        if (toolName === 'ai-generate') {
+            propertiesPanel.innerHTML = `
+                <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text-primary);">AI Generate</h3>
+                <p style="margin: 0 0 12px 0; font-size: 13px; color: var(--text-secondary);">Use the chat to describe what you want to generate</p>
+                <div style="padding: 12px; background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%); border-radius: 8px; font-size: 13px; color: var(--accent-primary);">
+                    💡 Tip: Be specific about style, colors, and composition
+                </div>
+            `;
+        } else if (toolName === 'text') {
+            propertiesPanel.innerHTML = `
+                <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text-primary);">Text Properties</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);">Font Size</label>
+                        <input type="range" min="12" max="72" value="16" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);">Font Weight</label>
+                        <select style="width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            <option>Regular</option>
+                            <option>Bold</option>
+                            <option>Light</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);">Color</label>
+                        <input type="color" value="#000000" style="width: 100%; height: 40px; border: 1px solid var(--border-color); border-radius: 6px;">
+                    </div>
+                </div>
+            `;
+        } else if (toolName === 'image') {
+            propertiesPanel.innerHTML = `
+                <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text-primary);">Image Properties</h3>
+                <button onclick="window.creativeStudio.uploadImage()" style="width: 100%; padding: 12px; border: 1px dashed var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 14px; color: var(--text-secondary);">
+                    📁 Upload Image
+                </button>
+            `;
+        } else if (toolName === 'shape') {
+            propertiesPanel.innerHTML = `
+                <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text-primary);">Shape Properties</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);">Fill Color</label>
+                        <input type="color" value="#1957db" style="width: 100%; height: 40px; border: 1px solid var(--border-color); border-radius: 6px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);">Border</label>
+                        <input type="range" min="0" max="10" value="1" style="width: 100%;">
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    uploadImage() {
+        console.log('📁 Upload image');
+        alert('Image upload feature coming soon!');
+    }
+
+    addCanvasChatMessage(text, type) {
+        const messagesContainer = document.getElementById('canvasChatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `canvas-message ${type}`;
+
+        if (type === 'agent') {
+            messageDiv.innerHTML = `
+                <div style="display: flex; gap: 12px;">
+                    <div class="agent-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">💎</div>
+                    <div class="message-content" style="flex: 1;">
+                        <p style="margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-primary);">${text}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div style="display: flex; justify-content: flex-end;">
+                    <div style="background: var(--accent-primary); color: white; padding: 12px 16px; border-radius: 12px; max-width: 80%; font-size: 14px; line-height: 1.6;">
+                        ${text}
+                    </div>
+                </div>
+            `;
+        }
+
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    showCanvasTypingIndicator() {
+        const messagesContainer = document.getElementById('canvasChatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'canvasTypingIndicator';
+        typingDiv.className = 'canvas-message agent';
+        typingDiv.innerHTML = `
+            <div style="display: flex; gap: 12px;">
+                <div class="agent-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">💎</div>
+                <div class="typing-indicator" style="display: flex; gap: 4px; padding: 12px;">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-secondary); animation: typing 1.4s infinite;"></div>
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-secondary); animation: typing 1.4s infinite 0.2s;"></div>
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-secondary); animation: typing 1.4s infinite 0.4s;"></div>
+                </div>
+            </div>
+        `;
+        messagesContainer.appendChild(typingDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    hideCanvasTypingIndicator() {
+        const indicator = document.getElementById('canvasTypingIndicator');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
+
+    showGeneratedImage() {
+        const previewArea = document.getElementById('canvasPreviewArea');
+        previewArea.innerHTML = `
+            <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+                <div style="flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="text-align: center; color: white;">
+                        <div style="font-size: 64px; margin-bottom: 16px;">🎨</div>
+                        <p style="font-size: 18px; font-weight: 600;">Generated Image Preview</p>
+                        <p style="font-size: 14px; opacity: 0.9; margin-top: 8px;">Your AI-generated asset</p>
+                    </div>
+                </div>
+                <div style="padding: 16px; border-top: 1px solid var(--border-color); display: flex; gap: 12px; justify-content: flex-end; background: white;">
+                    <button onclick="window.creativeStudio.regenerateImage()" style="padding: 10px 20px; border: 1px solid var(--border-color); border-radius: 8px; background: white; cursor: pointer; font-size: 14px; font-weight: 500;">Regenerate</button>
+                    <button onclick="window.creativeStudio.saveToAssets()" style="padding: 10px 20px; border: none; border-radius: 8px; background: var(--accent-primary); color: white; cursor: pointer; font-size: 14px; font-weight: 600;">Save to Assets</button>
+                </div>
+            </div>
+        `;
+    }
+
+    handleCanvasChatKeydown(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            this.sendCanvasMessage();
+        }
+    }
+
+    attachFile() {
+        console.log('📎 Attach file');
+        alert('File attachment feature coming soon!');
+    }
+
+    regenerateImage() {
+        console.log('🔄 Regenerating image');
+        this.addCanvasChatMessage('Regenerating with variations...', 'agent');
+        setTimeout(() => {
+            this.showGeneratedImage();
+        }, 2000);
+    }
+
+    saveToAssets() {
+        console.log('💾 Saving to assets');
+        alert('Asset saved successfully!');
     }
 
     showSuccessMessage(message) {
@@ -1617,19 +2182,7 @@ How can I help you today?`;
         }, 2000);
     }
 
-    returnToIdeation() {
-        console.log('🔙 Returning to ideation board');
-
-        // Re-create the main creative studio interface
-        const modal = document.querySelector('.creative-studio-modal');
-        if (modal) {
-            modal.innerHTML = this.createInterfaceHTML();
-            this.initializeEventListeners(modal);
-
-            // Switch to ideation tab
-            this.switchTab('ideation');
-        }
-    }
+    // Duplicate method removed - using the one above at line ~1750
 
     // Mood Board Generation
     generateMoodBoard() {
@@ -1736,8 +2289,8 @@ How can I help you today?`;
                     data-idea-description="${idea.description}"
                     data-idea-emoji="${idea.emoji}"
                     data-idea-status="${idea.status.join(',')}"
-                    onclick="window.creativeStudio.handleBrainstormClick(this)">
-                    💡 Brainstorm
+                    onclick="window.creativeStudio.openBrainstormFromCard(this)">
+                    ✨ Brainstorm with AI
                 </button>
             </div>
         `;
