@@ -237,9 +237,267 @@
 
         .brainstorm-canvas {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: var(--space-xl);
             margin-bottom: var(--space-xl);
+        }
+
+        /* AI Generation Panel */
+        .ai-generation-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border: 2px solid var(--border-color);
+            margin-bottom: var(--space-xl);
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        }
+
+        .generation-status {
+            margin-bottom: var(--space-lg);
+        }
+
+        .ai-thinking {
+            font-size: var(--font-base);
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .ai-thinking::before {
+            content: '🎨';
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--gray-200);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .concept-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .concept-card {
+            background: var(--primary-bg);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            transition: var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .concept-card.active {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .concept-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .concept-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .concept-overlay {
+            padding: var(--space-lg);
+        }
+
+        .ai-confidence {
+            font-size: var(--font-xs);
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .concept-reasoning {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: var(--space-md);
+        }
+
+        .concept-actions {
+            display: flex;
+            gap: var(--space-sm);
+            padding: 0 var(--space-lg) var(--space-lg);
+        }
+
+        .concept-actions .action-btn {
+            flex: 1;
+            padding: var(--space-sm);
+            font-size: var(--font-sm);
+        }
+
+        .generation-controls {
+            background: var(--gray-100);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-top: var(--space-lg);
+        }
+
+        .prompt-input {
+            margin-bottom: var(--space-lg);
+        }
+
+        .prompt-input textarea {
+            width: 100%;
+            padding: var(--space-md);
+            border: var(--border);
+            border-radius: var(--radius-lg);
+            font-family: var(--font-family);
+            font-size: var(--font-base);
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+            color: var(--white);
+            border: none;
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-base);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: var(--space-sm);
+            transition: var(--transition-fast);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .style-controls, .target-controls {
+            margin-bottom: var(--space-lg);
+        }
+
+        .style-controls h4, .target-controls h4 {
+            font-size: var(--font-base);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .style-options, .audience-options {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+
+        .style-btn, .audience-btn {
+            padding: var(--space-xs) var(--space-md);
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .style-btn.active, .audience-btn.active {
+            border-color: var(--accent-primary);
+            background: rgba(25, 87, 219, 0.1);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .style-btn:hover, .audience-btn:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .ai-status-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            border: 2px solid var(--border-color);
+            margin-bottom: var(--space-xl);
+        }
+
+        .ai-agent-thinking {
+            margin-bottom: var(--space-lg);
+        }
+
+        .agent {
+            font-size: var(--font-sm);
+            margin-bottom: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .agent.creative {
+            background: rgba(146, 86, 217, 0.1);
+            color: var(--accent-purple);
+        }
+
+        .agent.strategy {
+            background: rgba(25, 87, 219, 0.1);
+            color: var(--accent-primary);
+        }
+
+        .agent.design {
+            background: rgba(45, 157, 120, 0.1);
+            color: var(--accent-green);
+        }
+
+        .generation-insights {
+            border-top: var(--border);
+            padding-top: var(--space-lg);
+        }
+
+        .generation-insights h4 {
+            font-size: var(--font-base);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .generation-insights ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .generation-insights li {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+            padding-left: var(--space-lg);
+            position: relative;
+        }
+
+        .generation-insights li::before {
+            position: absolute;
+            left: 0;
+            font-size: var(--font-sm);
         }
 
         /* Scene Description Panel */
@@ -576,6 +834,51 @@
             background: var(--gray-200);
         }
 
+        .action-btn.approve {
+            background: linear-gradient(135deg, var(--accent-green) 0%, #22c55e 100%);
+            color: var(--white);
+        }
+
+        .action-btn.approve:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .brainstorm-layout {
+                flex-direction: column;
+            }
+            
+            .ai-chat-panel {
+                width: 100%;
+                height: auto;
+                order: 2;
+            }
+            
+            .concept-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .style-options, .audience-options {
+                flex-direction: column;
+            }
+            
+            .concept-actions {
+                flex-direction: column;
+            }
+            
+            .concept-actions .action-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .concept-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         .ai-reasoning {
             background: var(--gray-100);
             border-radius: var(--radius-lg);
@@ -887,9 +1190,9 @@
 
             <div class="chat-suggestions">
                 <div class="suggestion-chips">
-                    <div class="suggestion-chip" onclick="sendSuggestion('Improve the scene description')">Improve scene</div>
-                    <div class="suggestion-chip" onclick="sendSuggestion('Suggest better ad copy')">Better copy</div>
-                    <div class="suggestion-chip" onclick="sendSuggestion('Find similar assets')">Find assets</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Generate more concepts')">More concepts</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Refine selected concept')">Refine concept</div>
+                    <div class="suggestion-chip" onclick="sendSuggestion('Optimize for different audience')">Change audience</div>
                     <div class="suggestion-chip" onclick="sendSuggestion('What makes this effective?')">Why effective?</div>
                 </div>
             </div>
@@ -925,133 +1228,116 @@
         </div>
 
         <div class="brainstorm-canvas">
-            <!-- Scene Description Panel -->
-            <div class="scene-panel">
-                <div class="panel-label">Scene Description</div>
-                <div class="scene-description-text">
-                    A warm, intimate morning scene inside a modern commuter train. Soft natural light streams through large windows, creating a golden-hour glow. A young professional sits comfortably in a window seat, wrapped in a cozy oversized cardigan, holding a reusable coffee cup. They're looking out at the passing autumn landscape with a content smile. The atmosphere is peaceful and aspirational, emphasizing comfort and mindful commuting.
+            <!-- AI Generation Panel -->
+            <div class="ai-generation-panel">
+                <div class="generation-status">
+                    <div class="ai-thinking">Analyzing fall athleisure trends...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <!-- Generated Concept Images -->
+                <div class="concept-gallery">
+                    <div class="concept-card active">
+                        <img src="https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="The Cozy Commute" class="concept-image">
+                        <div class="concept-overlay">
+                            <h3 class="suggestion-title">The Cozy Commute</h3>
+                            <div class="ai-confidence">AI Confidence: 94%</div>
+                            <div class="concept-reasoning">
+                                Perfect blend of professional comfort and style. Targets hybrid workers who value versatility.
+                            </div>
+                        </div>
+                        <div class="concept-actions">
+                            <button class="action-btn primary">🔧 Refine Concept</button>
+                            <button class="action-btn secondary">🔄 Generate Variations</button>
+                            <button class="action-btn approve">✓ Use This Concept</button>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Seamless Transitions" class="concept-image">
+                        <div class="concept-overlay">
+                            <h3 class="suggestion-title">Seamless Transitions</h3>
+                            <div class="ai-confidence">AI Confidence: 91%</div>
+                            <div class="concept-reasoning">
+                                Emphasizes day-to-night versatility. Appeals to wellness enthusiasts and busy professionals.
+                            </div>
+                        </div>
+                        <div class="concept-actions">
+                            <button class="action-btn primary">🔧 Refine Concept</button>
+                            <button class="action-btn secondary">🔄 Generate Variations</button>
+                            <button class="action-btn approve">✓ Use This Concept</button>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <img src="https://images.unsplash.com/photo-1506629905607-21867cfa5842?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Premium Basics" class="concept-image">
+                        <div class="concept-overlay">
+                            <h3 class="suggestion-title">Premium Basics</h3>
+                            <div class="ai-confidence">AI Confidence: 88%</div>
+                            <div class="concept-reasoning">
+                                Focuses on quality and sustainability. Targets premium market segment with eco-conscious values.
+                            </div>
+                        </div>
+                        <div class="concept-actions">
+                            <button class="action-btn primary">🔧 Refine Concept</button>
+                            <button class="action-btn secondary">🔄 Generate Variations</button>
+                            <button class="action-btn approve">✓ Use This Concept</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Generation Controls -->
+            <div class="generation-controls">
+                <div class="prompt-input">
+                    <textarea placeholder="Describe additional concepts you'd like AI to generate..." rows="3"></textarea>
+                    <button class="generate-btn">🎨 Generate New Concepts</button>
+                </div>
+                
+                <div class="style-controls">
+                    <h4>Style Direction</h4>
+                    <div class="style-options">
+                        <button class="style-btn active" data-style="lifestyle">Lifestyle</button>
+                        <button class="style-btn" data-style="performance">Performance</button>
+                        <button class="style-btn" data-style="minimal">Minimal</button>
+                        <button class="style-btn" data-style="urban">Urban</button>
+                    </div>
+                </div>
+                
+                <div class="target-controls">
+                    <h4>Target Audience</h4>
+                    <div class="audience-options">
+                        <button class="audience-btn active" data-audience="hybrid-workers">Hybrid Workers</button>
+                        <button class="audience-btn" data-audience="wellness">Wellness Enthusiasts</button>
+                        <button class="audience-btn" data-audience="professionals">Young Professionals</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- AI Recommended Asset Panel -->
-            <div class="asset-panel">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-                    <div class="ai-badge">AI RECOMMENDED</div>
-                    <div class="ai-thinking-tag">Searched 2 DAM systems in 0.8s</div>
+            <!-- AI Status Panel -->
+            <div class="ai-status-panel">
+                <div class="ai-agent-thinking">
+                    <div class="agent creative">🎨 Creative Agent: Analyzing color palettes...</div>
+                    <div class="agent strategy">📊 Strategy Agent: Evaluating market fit...</div>
+                    <div class="agent design">🎯 Design Agent: Optimizing composition...</div>
                 </div>
-
-                <h3 class="suggestion-title">Sustainable Summer Lifestyle - Beach Scene</h3>
-
-                <!-- DAM Source Header -->
-                <div class="dam-source-header">
-                    <div class="dam-source-title">Asset Source</div>
-                    <div class="dam-name">Acme-Corp Global DAM</div>
-                    <div class="asset-name">IMG_SummerBeach_Sustainable_2024_v3.jpg</div>
-                    <button class="view-source-btn" onclick="toggleSourceDetails(event)">
-                        View Source →
-                    </button>
-                    <div class="source-details" id="sourceDetails">
-                        <div class="source-details-content">
-                            <div class="source-detail-row">
-                                <span class="source-detail-label">Query:</span>
-                                <span class="source-detail-value">"sustainable fashion Gen Z summer"</span>
-                            </div>
-                            <div class="source-detail-row">
-                                <span class="source-detail-label">Searched:</span>
-                                <span class="source-detail-value">2 DAM systems (0.8s)</span>
-                            </div>
-                            <div class="source-detail-row">
-                                <span class="source-detail-label">Results:</span>
-                                <span class="source-detail-value">127 assets analyzed</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="asset-image-container">
-                    <div class="suggestion-image-placeholder">🌿</div>
-                    <div class="confidence-badge">96% Match</div>
-
-                    <!-- Ephemeral DAM Source Attribution -->
-                    <div class="dam-source-overlay">
-                        <div class="dam-source-text">
-                            📦 Retrieved from Acme-Corp Global DAM
-                        </div>
-                    </div>
-
-                    <!-- Persistent Info Icon -->
-                    <div class="dam-info-trigger">ℹ️</div>
-                </div>
-
-                <div class="performance-metrics">
-                    <div class="metric">
-                        <div class="metric-label">Past Performance</div>
-                        <div class="metric-value">+34%</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Brand Compliance</div>
-                        <div class="metric-value">98%</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Predicted CTR</div>
-                        <div class="metric-value prediction">4.2%</div>
-                    </div>
-                </div>
-
-                <div class="suggestion-actions">
-                    <button class="action-btn primary">
-                        ✓ Accept & Add
-                    </button>
-                    <button class="action-btn secondary" onclick="showAlternatives()">
-                        ↻ Alternative
-                    </button>
-                    <button class="action-btn tertiary">
-                        🎨 Generate
-                    </button>
-                </div>
-
-                <!-- AI Reasoning Section -->
-                <div class="ai-reasoning" style="margin-top: 24px;">
-                    <div class="ai-reasoning-title" onclick="toggleReasoning()">Reasoning</div>
-                    <div class="ai-reasoning-content" id="reasoningContent">
-                        <div class="ai-reasoning-text">
-                            This asset aligns perfectly with your campaign's sustainability messaging and Gen Z aesthetic. It features diverse models in eco-friendly beachwear with natural lighting and authentic expressions. The color palette matches your brand guidelines (earth tones with vibrant accents), and similar images performed 34% above benchmark with your target demographic.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Alternatives Section (Hidden by default) -->
-                <div class="alternatives-section" id="alternatives" style="margin-top: 24px;">
-                    <div class="alternatives-title">Alternative Suggestions</div>
-                    <div class="alternatives-grid">
-                        <div class="alternative-card">
-                            <div class="alternative-image">🏖️</div>
-                            <div class="alternative-info">
-                                Urban Sustainability Scene<br>
-                                <span class="alternative-score">92% Match</span>
-                            </div>
-                        </div>
-                        <div class="alternative-card">
-                            <div class="alternative-image">🌊</div>
-                            <div class="alternative-info">
-                                Eco-Fashion Close-up<br>
-                                <span class="alternative-score">89% Match</span>
-                            </div>
-                        </div>
-                        <div class="alternative-card">
-                            <div class="alternative-image">🌱</div>
-                            <div class="alternative-info">
-                                Natural Materials Focus<br>
-                                <span class="alternative-score">87% Match</span>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="generation-insights">
+                    <h4>AI Insights</h4>
+                    <ul>
+                        <li>✓ High engagement potential with 25-40 demographic</li>
+                        <li>🎨 Fall 2025 trends align 94% with generated concepts</li>
+                        <li>📱 Optimal for Instagram and TikTok marketing channels</li>
+                        <li>🌱 Consider adding sustainability messaging for premium positioning</li>
+                    </ul>
                 </div>
             </div>
 
             <!-- Ad Copy Panel (Full Width) -->
             <div class="adcopy-panel">
-                <div class="panel-label">Ad Copy Preview</div>
+                <div class="panel-label">AI-Generated Ad Copy</div>
                 <div class="adcopy-preview">
                     <div class="adcopy-element">
                         <div class="adcopy-label">Line One (Title)</div>
@@ -1080,7 +1366,7 @@
                 <!-- Asset Card 1 -->
                 <div class="asset-card">
                     <div class="asset-card-image">
-                        📸
+                        <img src="https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" style="width: 100%; height: 100%; object-fit: cover;">
                         <div class="asset-type-badge">Image</div>
                     </div>
                     <div class="asset-card-info">
@@ -1095,7 +1381,7 @@
                 <!-- Asset Card 2 -->
                 <div class="asset-card">
                     <div class="asset-card-image">
-                        🎬
+                        <img src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" style="width: 100%; height: 100%; object-fit: cover;">
                         <div class="asset-type-badge">Video</div>
                     </div>
                     <div class="asset-card-info">
@@ -1110,7 +1396,7 @@
                 <!-- Asset Card 3 -->
                 <div class="asset-card">
                     <div class="asset-card-image">
-                        🎨
+                        <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" style="width: 100%; height: 100%; object-fit: cover;">
                         <div class="asset-type-badge">Graphic</div>
                     </div>
                     <div class="asset-card-info">
@@ -1134,23 +1420,116 @@
     </div>
 
     <script>
-        function toggleSourceDetails(event) {
-            event.preventDefault();
-            const details = document.getElementById('sourceDetails');
-            details.classList.toggle('expanded');
+        // Concept refinement functionality
+        function refineConceptImage(conceptId) {
+            showAIThinking("Refining concept based on your feedback...");
+            
+            // Simulate AI refinement process
+            setTimeout(() => {
+                updateConceptImage(conceptId, newGeneratedImage);
+                showAIInsight("Updated concept emphasizes premium comfort and urban versatility");
+            }, 2000);
         }
 
-        function toggleReasoning() {
-            const content = document.getElementById('reasoningContent');
-            const title = document.querySelector('.ai-reasoning-title');
-            content.classList.toggle('collapsed');
-            title.classList.toggle('collapsed');
+        // Generate variations functionality
+        function generateVariations(conceptId) {
+            showGenerationPanel();
+            displayProgressBar("Generating 3 concept variations...");
+            
+            // Show multiple variations
+            setTimeout(() => {
+                displayVariationGrid([variation1, variation2, variation3]);
+            }, 3000);
         }
 
-        function showAlternatives() {
-            const alternatives = document.getElementById('alternatives');
-            alternatives.classList.toggle('active');
+        function showAIThinking(message) {
+            const thinkingElement = document.querySelector('.ai-thinking');
+            if (thinkingElement) {
+                thinkingElement.textContent = message;
+                // Animate progress bar
+                const progressFill = document.querySelector('.progress-fill');
+                if (progressFill) {
+                    progressFill.style.width = '0%';
+                    setTimeout(() => {
+                        progressFill.style.width = '100%';
+                    }, 100);
+                }
+            }
         }
+
+        function showAIInsight(message) {
+            // Add insight to the insights list
+            const insightsList = document.querySelector('.generation-insights ul');
+            if (insightsList) {
+                const newInsight = document.createElement('li');
+                newInsight.textContent = `✨ ${message}`;
+                insightsList.appendChild(newInsight);
+            }
+        }
+
+        // Style and audience controls
+        function initializeControls() {
+            // Style buttons
+            document.querySelectorAll('.style-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const style = this.dataset.style;
+                    showAIThinking(`Adapting concepts for ${style} style...`);
+                });
+            });
+
+            // Audience buttons
+            document.querySelectorAll('.audience-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.audience-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const audience = this.dataset.audience;
+                    showAIThinking(`Optimizing for ${audience.replace('-', ' ')} audience...`);
+                });
+            });
+
+            // Generate button
+            document.querySelector('.generate-btn').addEventListener('click', function() {
+                const prompt = document.querySelector('.prompt-input textarea').value;
+                if (prompt.trim()) {
+                    showAIThinking(`Generating concepts: "${prompt}"...`);
+                    // Simulate generation process
+                    setTimeout(() => {
+                        showAIInsight(`Generated new concepts based on: "${prompt}"`);
+                    }, 3000);
+                }
+            });
+
+            // Concept action buttons
+            document.querySelectorAll('.concept-actions .action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.textContent.trim();
+                    const conceptCard = this.closest('.concept-card');
+                    const conceptTitle = conceptCard.querySelector('.suggestion-title').textContent;
+                    
+                    if (action.includes('Refine')) {
+                        showAIThinking(`Refining "${conceptTitle}" concept...`);
+                        setTimeout(() => {
+                            showAIInsight(`Refined "${conceptTitle}" with enhanced visual appeal`);
+                        }, 2000);
+                    } else if (action.includes('Variations')) {
+                        showAIThinking(`Generating variations of "${conceptTitle}"...`);
+                        setTimeout(() => {
+                            showAIInsight(`Generated 3 variations of "${conceptTitle}"`);
+                        }, 2500);
+                    } else if (action.includes('Use')) {
+                        // Set as active concept
+                        document.querySelectorAll('.concept-card').forEach(c => c.classList.remove('active'));
+                        conceptCard.classList.add('active');
+                        showAIInsight(`Selected "${conceptTitle}" as primary concept`);
+                    }
+                });
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeControls);
 
         // AI Chat Functions
         function sendChatMessage() {
@@ -1171,10 +1550,10 @@
                 hideTypingIndicator();
                 const responses = [
                     "Great idea! For 'The Cozy Commute' scene, I'd suggest emphasizing the golden-hour lighting and the peaceful, mindful aspect of modern commuting. This resonates strongly with your hybrid worker audience.",
-                    "I can help refine that! The asset from Acme-Corp Global DAM has a 96% match score because it aligns with your brand's sustainability messaging and performs well with your target demographic.",
+                    "I can help refine that! The AI-generated concept has a 94% confidence score because it aligns with your brand's sustainability messaging and performs well with your target demographic.",
                     "For the ad copy, consider emphasizing the transformation aspect - 'Turn travel time into your time' speaks directly to the pain point of wasted commute time and offers a solution.",
-                    "Based on similar campaigns, assets featuring natural lighting and authentic moments perform 34% better with your target audience. The cozy, aspirational tone is perfect for this segment.",
-                    "I'd recommend trying a variation that includes product close-ups alongside the lifestyle shot. This combination typically increases CTR by 15-20% for apparel campaigns."
+                    "Based on AI analysis, concepts featuring natural lighting and authentic moments show high engagement potential with your target audience. The cozy, aspirational tone is perfect for this segment.",
+                    "I'd recommend generating a variation that includes product close-ups alongside the lifestyle shot. This combination typically increases engagement for apparel campaigns."
                 ];
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                 addChatMessage(randomResponse, 'ai');

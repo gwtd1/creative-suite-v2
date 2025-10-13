@@ -259,6 +259,9 @@ class BriefToAssetsChat {
         this.isProcessing = false;
         this.conversationHistory = {};
         
+        // Initialize Claude API Service
+        this.claudeService = new ClaudeAPIService();
+        
         // Enhanced AI agent system with confidence tracking
         this.aiAgents = {
             strategy: { active: true, confidence: 0.85, status: 'ready', specialty: 'positioning' },
@@ -934,18 +937,48 @@ class BriefToAssetsChat {
     }
 
 
-    handleMessageSend() {
+    async handleMessageSend() {
         const input = document.getElementById('chat-input');
         const message = input.value.trim();
         
-        if (message) {
+        if (message && !this.isProcessing) {
+            this.isProcessing = true;
             this.addMessage(message, 'user');
             input.value = '';
             
-            // Generate AI response
-            setTimeout(() => {
-                this.generateAIResponse(message);
-            }, 1000);
+            // Show typing indicator
+            this.showTypingIndicator('strategy');
+            
+            try {
+                // Get campaign context
+                const campaignContext = this.campaigns.find(c => c.id === this.selectedCampaign);
+                
+                // Call Claude API
+                const response = await this.claudeService.sendMessage(message, campaignContext);
+                
+                if (response.success) {
+                    // Hide typing indicator
+                    this.hideTypingIndicator();
+                    
+                    // Add AI response
+                    this.addMessage(response.content, 'ai', 'strategy', 'Strategy Specialist');
+                    
+                    // Update workflow phase if detected
+                    if (response.phase) {
+                        this.updateWorkflowPhase(response.phase);
+                    }
+                } else {
+                    // Handle error gracefully
+                    this.hideTypingIndicator();
+                    this.addMessage(response.content, 'ai', 'strategy', 'Strategy Specialist');
+                }
+            } catch (error) {
+                console.error('Message handling error:', error);
+                this.hideTypingIndicator();
+                this.addMessage('I apologize, but I\'m experiencing technical difficulties. Please try again.', 'ai', 'strategy', 'Strategy Specialist');
+            } finally {
+                this.isProcessing = false;
+            }
         }
     }
 
@@ -1290,6 +1323,32 @@ class BriefToAssetsChat {
 
     requestMoreInfo() {
         this.addMessage('Tell me more about the Performance Athletes segment and why you recommend focusing on them.', 'user');
+    }
+    
+    updateWorkflowPhase(phase) {
+        // Update workflow phase indicators if they exist
+        const workflowElement = document.querySelector('.workflow-phases');
+        if (workflowElement) {
+            const phaseMap = {
+                'brief': 'brief',
+                'ideation': 'ideation', 
+                'approvals': 'approvals',
+                'creation': 'creation'
+            };
+            
+            const targetPhase = phaseMap[phase];
+            if (targetPhase) {
+                // Update active phase
+                workflowElement.querySelectorAll('.phase').forEach(el => {
+                    el.classList.remove('active');
+                    if (el.dataset.phase === targetPhase) {
+                        el.classList.add('active');
+                    }
+                });
+                
+                console.log(`🔄 Workflow updated to phase: ${targetPhase}`);
+            }
+        }
     }
 }
 
