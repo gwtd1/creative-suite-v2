@@ -276,6 +276,15 @@ class BriefToAssetsChat {
         this.visualEnhancer = new AIVisualEnhancer();
         this.interactionManager = new AIInteractionManager(this);
         
+        // Mood board and core asset management
+        this.selectedMoodboardImages = [];
+        this.coreAssetImages = [
+            'https://wolfnessathletics.com/cdn/shop/articles/Why-Every-Woman-Needs-a-Stylish-Athleisure-Set-in-Her-Closet-Wolfness-Athletics-190302390_589x.jpg?v=1725727501',
+            'https://www.alittlebirdboutique.com/cdn/shop/files/BA4DFF2E-BD2A-4F42-AFD5-4A0D38621B63_1_105_c.jpg?v=1730746648',
+            'https://www.highsnobiety.com/static-assets/dato/1679319196-athleisure-brands-9.jpg?fp-x=0.5&fp-y=0.5&fit=crop&auto=compress%2Cformat&cs=srgb&ar=800%3A1200&w=800'
+        ];
+        this.currentAssetIndex = 0;
+        
         // Campaign intelligence system with CLAUDE.md colors
         this.campaigns = [
             { 
@@ -574,20 +583,10 @@ class BriefToAssetsChat {
                     <div class="message-content">
                         <div class="agent-name">Strategy Specialist</div>
                         <div class="message-text">
-                            I've identified 3 primary target segments: Performance Athletes (primary), 
-                            Casual Fitness enthusiasts, and Fashion-Forward activewear consumers. 
-                            Should we focus primarily on the Performance Athletes segment?
+                            Welcome! Please select a campaign to begin your creative brief development. Each campaign card contains high-level information about objectives, target audiences, and strategic considerations.
                         </div>
-                        <div class="quick-actions">
-                            <button class="action-btn approve" data-action="approve" data-content="performance-athletes">
-                                ✅ Yes, focus on Performance Athletes
-                            </button>
-                            <button class="action-btn alternative" data-action="show-segments">
-                                📊 Show all segments
-                            </button>
-                            <button class="action-btn expand" data-action="tell-more">
-                                💬 Tell me more
-                            </button>
+                        <div class="campaign-selection-cards">
+                            ${this.renderCampaignCards()}
                         </div>
                     </div>
                 </div>
@@ -634,6 +633,204 @@ class BriefToAssetsChat {
                         ${action.label}
                     </button>`
                 ).join('')}
+            </div>
+        `;
+    }
+
+    renderCampaignCards() {
+        const campaigns = [
+            {
+                id: 'fall-athleisure-2025',
+                title: 'Fall 2025 Athleisure Collection',
+                objective: 'Drive awareness and sales of the new Fall 2025 premium athleisure collection, targeting women 25-40, with the dual goal of boosting online purchases and increasing in-store visits for try-on experiences.',
+                launchDate: 'October 27, 2025 (T-60 days)',
+                targetAudiences: [
+                    {
+                        name: 'Hybrid Worker',
+                        attributes: 'Age: 25-40, Income: $45k-$85k, Urban/Suburban'
+                    },
+                    {
+                        name: 'Wellness Enthusiast', 
+                        attributes: 'Age: 28-42, Income: $55k-$95k, Urban areas'
+                    },
+                    {
+                        name: 'Young Professional',
+                        attributes: 'Age: 22-35, Income: $40k-$75k, Metropolitan areas'
+                    }
+                ]
+            },
+            {
+                id: 'professional-workwear-2025',
+                title: 'Professional Workwear 2025',
+                objective: 'Drive sales of premium workwear targeting working professionals aged 25-50 returning to hybrid office environments.',
+                launchDate: 'September 10, 2025 (T-35 days)',
+                targetAudiences: [
+                    {
+                        name: 'Corporate Professional',
+                        attributes: 'Age: 28-45, Income: $60k-$120k, Urban'
+                    },
+                    {
+                        name: 'Hybrid Worker',
+                        attributes: 'Age: 25-40, Income: $45k-$85k, Urban/Suburban'
+                    }
+                ]
+            },
+            {
+                id: 'weekend-casual-luxe-2025',
+                title: 'Weekend Casual Luxe 2025',
+                objective: 'Promote premium casual wear targeting affluent adults aged 30-55 seeking sophisticated leisure clothing.',
+                launchDate: 'April 20, 2025 (T-40 days)',
+                targetAudiences: [
+                    {
+                        name: 'Affluent Suburbanite',
+                        attributes: 'Age: 35-55, Income: $80k-$150k, Suburban'
+                    },
+                    {
+                        name: 'Urban Sophisticate',
+                        attributes: 'Age: 30-45, Income: $70k-$130k, Urban'
+                    }
+                ]
+            },
+            {
+                id: 'date-night-elegance-2025',
+                title: 'Date Night & Special Occasion 2025',
+                objective: 'Drive revenue in special occasion wear targeting adults aged 25-50 for date nights and celebrations.',
+                launchDate: 'February 1, 2025 (T-28 days)',
+                targetAudiences: [
+                    {
+                        name: 'Young Professional',
+                        attributes: 'Age: 25-35, Income: $45k-$80k, Urban'
+                    },
+                    {
+                        name: 'Established Couple',
+                        attributes: 'Age: 35-50, Income: $80k-$140k, Urban/Suburban'
+                    }
+                ]
+            }
+        ];
+
+        return campaigns.map(campaign => `
+            <div class="campaign-card" data-campaign-id="${campaign.id}">
+                <div class="campaign-card-header">
+                    <h3 class="campaign-title">${campaign.title}</h3>
+                    <div class="launch-date">${campaign.launchDate}</div>
+                </div>
+                <div class="campaign-objective">
+                    ${campaign.objective.length > 120 ? campaign.objective.substring(0, 120) + '...' : campaign.objective}
+                </div>
+                <div class="target-audiences">
+                    <div class="audience-count">${campaign.targetAudiences.length} Target Audiences</div>
+                    <div class="audience-list">
+                        ${campaign.targetAudiences.map(audience => `
+                            <div class="audience-item">
+                                <span class="audience-name">${audience.name}</span>
+                                <span class="audience-attrs">${audience.attributes}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="campaign-card-footer">
+                    <button class="select-campaign-btn" data-campaign-id="${campaign.id}">
+                        Select Campaign
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderConceptCard() {
+        return `
+            <div class="concept-card wellness-concept compact">
+                <div class="concept-header">
+                    <div class="concept-persona">Wellness Enthusiast</div>
+                    <div class="concept-status-row">
+                        <span class="concept-priority">Primary</span>
+                        <span class="concept-phase">Draft</span>
+                    </div>
+                </div>
+                <div class="concept-content">
+                    <div class="concept-title-row">
+                        <h3 class="concept-title">The Mindful Movement</h3>
+                        <div class="core-message-inline">Performance Meets Peace of Mind</div>
+                    </div>
+                    <p class="concept-description compact">
+                        Seamless yoga-to-brunch-to-evening transitions for wellness-focused women.
+                    </p>
+                    <div class="concept-details-grid">
+                        <div class="detail-section">
+                            <span class="detail-label">Target:</span>
+                            <span class="detail-value">Female, 28-42, Fitness & Sustainability focused</span>
+                        </div>
+                        <div class="detail-section">
+                            <span class="detail-label">Key Need:</span>
+                            <span class="detail-value">High-performance + Eco-friendly + Versatile daily wear</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    renderPerformanceStats() {
+        return `
+            <div class="performance-stats compact">
+                <div class="stats-header-inline">
+                    <span class="stats-icon">📊</span>
+                    <span class="stats-title">Campaign Intelligence</span>
+                    <div class="stats-inline">
+                        <span class="stat-compact">Past Performance: <strong class="positive">+34%</strong></span>
+                        <span class="stat-compact">Brand Compliance: <strong class="high">98%</strong></span>
+                        <span class="stat-compact">Predicted CTR: <strong class="good">4.2%</strong></span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    renderMoodBoard() {
+        const images = [
+            'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=400&h=400&fit=crop'
+        ];
+
+        return `
+            <div class="mood-board">
+                <div class="mood-board-header">
+                    <h3>The Mindful Movement - Mood Board</h3>
+                    <div class="selection-counter">
+                        <span id="selection-count">0 of ${images.length} selected</span>
+                    </div>
+                </div>
+                <div class="mood-board-grid">
+                    ${images.map((imageUrl, index) => `
+                        <div class="mood-board-item selectable" style="grid-area: item${index + 1}" data-image-index="${index}">
+                            <img src="${imageUrl}" alt="Mood board inspiration ${index + 1}" loading="lazy">
+                            <div class="selection-indicator">
+                                <div class="checkbox-overlay"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="core-asset-actions" id="core-asset-actions" style="display: none;">
+                    <button class="generate-core-asset-btn" id="generate-core-asset-btn">Generate Core Asset</button>
+                </div>
+                <div class="core-asset-preview" id="core-asset-preview" style="display: none;">
+                    <h3>Generated Core Asset</h3>
+                    <div class="asset-container">
+                        <img id="generated-asset" src="" alt="Generated core asset">
+                        <div class="asset-metadata">
+                            <span class="asset-type">Image</span>
+                            <span class="asset-dimensions">1080x1080</span>
+                        </div>
+                    </div>
+                    <button class="generate-new-image-btn" id="generate-new-image-btn">Generate New Image</button>
+                </div>
             </div>
         `;
     }
@@ -775,6 +972,39 @@ class BriefToAssetsChat {
                 this.handleThreadSwitch(threadItem.dataset.thread);
             }
         });
+
+        // Campaign card selection
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('select-campaign-btn') || e.target.closest('.campaign-card')) {
+                const campaignId = e.target.dataset.campaignId || e.target.closest('.campaign-card')?.dataset.campaignId;
+                if (campaignId) {
+                    this.handleCampaignSelection(campaignId);
+                }
+            }
+        });
+
+        // Mood board image selection
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.mood-board-item.selectable')) {
+                const moodBoardItem = e.target.closest('.mood-board-item.selectable');
+                const imageIndex = parseInt(moodBoardItem.dataset.imageIndex);
+                this.toggleImageSelection(imageIndex);
+            }
+        });
+
+        // Generate core asset button
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'generate-core-asset-btn') {
+                this.generateCoreAsset();
+            }
+        });
+
+        // Generate new image button
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'generate-new-image-btn') {
+                this.generateNewImage();
+            }
+        });
     }
 
 
@@ -813,6 +1043,21 @@ class BriefToAssetsChat {
             case 'approve-positioning':
                 this.approvePositioning();
                 break;
+            case 'focus-wellness':
+                this.handleWellnessEnthusiastFocus();
+                break;
+            case 'create-mood-board':
+                this.createMoodBoard();
+                break;
+            case 'generate-new-asset-image':
+                this.generateNewAssetImage();
+                break;
+            case 'approve-asset':
+                this.approveGeneratedAsset();
+                break;
+            case 'refine-asset':
+                this.requestAssetRefinements();
+                break;
             default:
                 this.handleGenericAction(action);
         }
@@ -843,79 +1088,343 @@ class BriefToAssetsChat {
     generateMoodboards() {
         this.addMessage('Generate mood boards for Performance Athletes segment', 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('creative');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.addMessage(
                 'I\'ve created 3 mood board concepts focusing on: 1) Urban Performance (street workouts, city athletics), 2) Premium Training (high-end gym environments), and 3) Lifestyle Integration (athleisure in daily life). Each emphasizes authentic athlete stories and bold visual treatment.',
                 'ai',
                 'creative',
                 'Creative Specialist'
             );
-        }, 2000);
+        }, 1000);
     }
     
     showStyleAlternatives() {
         this.addMessage('Show me alternative style directions', 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('creative');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.addMessage(
                 'Here are 3 alternative approaches: 1) Minimalist Clean - focus on product and subtle typography, 2) Bold Dynamic - high contrast, energetic compositions, 3) Documentary Style - authentic behind-the-scenes athlete content. Which direction resonates with your vision?',
                 'ai',
                 'creative',
                 'Creative Specialist'
             );
-        }, 1800);
+        }, 1000);
     }
     
     exploreEnergyThemes() {
         this.addMessage('Focus on energy themes for the campaign', 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('strategy');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.addMessage(
                 'Energy themes could include: ⚡ "Unleash Your Power" - internal motivation, 🚀 "Push Beyond" - breaking limitations, 🔥 "Fuel Your Fire" - passion-driven performance. These themes work across all touchpoints and create emotional connection with Performance Athletes.',
                 'ai',
                 'strategy',
                 'Strategy Specialist'
             );
-        }, 2200);
+        }, 1000);
     }
     
     showMarketResearch() {
         this.addMessage('Show me the market research data', 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('strategy');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.addMessage(
                 'Market insights show: Performance Athletes segment grew 23% in 2024, with 67% preferring authentic content over polished ads. Key decision factors: product performance (89%), brand authenticity (76%), and social proof (71%). Optimal spend allocation: Digital 45%, Influencer 30%, Traditional 25%.',
                 'ai',
                 'strategy',
                 'Strategy Specialist'
             );
-        }, 2500);
+        }, 1000);
     }
     
     showCompetitiveAnalysis() {
         this.addMessage('Analyze the competitive landscape', 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('strategy');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.addMessage(
                 'Competitive analysis reveals: Nike dominates with performance storytelling (42% share), Adidas focuses on culture integration (28%), Under Armour emphasizes innovation (18%). Our opportunity: authentic athlete partnerships with premium positioning - a gap in the market worth $2.3B.',
                 'ai',
                 'strategy',
                 'Strategy Specialist'
             );
-        }, 2800);
+        }, 1000);
     }
     
     approvePositioning() {
         this.addMessage('I approve this positioning strategy', 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('strategy');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.addMessage(
                 'Excellent! I\'ll document this positioning and begin developing creative briefs. Next steps: 1) Create detailed buyer personas, 2) Develop messaging architecture, 3) Design initial creative concepts. Ready to move to creative development phase?',
                 'ai',
                 'strategy',
                 'Strategy Specialist'
             );
-        }, 1500);
+        }, 1000);
+    }
+
+    handleWellnessEnthusiastFocus() {
+        this.addMessage('Focus on Wellness Enthusiasts - they align perfectly with our premium positioning', 'user');
+        
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('creative');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            
+            const conceptContent = `
+                Perfect choice! I'm developing ideas specifically for Wellness Enthusiasts. Here's my primary concept:
+                
+                ${this.renderConceptCard()}
+                
+                ${this.renderPerformanceStats()}
+                
+                This concept shows strong potential based on our data. Would you like me to create a visual mood board to bring 'The Mindful Movement' concept to life?
+            `;
+            
+            this.addMessage(
+                conceptContent,
+                'ai',
+                'creative',
+                'Creative Specialist'
+            );
+            
+            // Add mood board creation action
+            const lastMessage = this.messages[this.messages.length - 1];
+            lastMessage.actions = [
+                { id: 'create-mood-board', type: 'approve', label: '🎨 Create Mood Board' },
+                { id: 'refine-concept', type: 'alternative', label: '✏️ Refine Concept' },
+                { id: 'explore-alternatives', type: 'expand', label: '🔍 Explore Alternatives' }
+            ];
+            this.updateMessageThread();
+        }, 1000);
+    }
+
+    createMoodBoard() {
+        this.addMessage('Yes, create a mood board for The Mindful Movement concept', 'user');
+        
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('creative');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            
+            const moodBoardContent = `
+                Creating visual inspiration for 'The Mindful Movement'...
+                
+                ${this.renderMoodBoard()}
+                
+                This mood board captures the essence of mindful movement - balancing performance with peace of mind. The imagery reflects yoga practices, sustainable materials, and the seamless transition from studio to street that our Wellness Enthusiasts need.
+            `;
+            
+            this.addMessage(
+                moodBoardContent,
+                'ai',
+                'creative',
+                'Creative Specialist'
+            );
+        }, 1000);
+    }
+
+    toggleImageSelection(imageIndex) {
+        const moodBoardItem = document.querySelector(`[data-image-index="${imageIndex}"]`);
+        if (!moodBoardItem) return;
+
+        const isSelected = this.selectedMoodboardImages.includes(imageIndex);
+        
+        if (isSelected) {
+            // Remove from selection
+            this.selectedMoodboardImages = this.selectedMoodboardImages.filter(index => index !== imageIndex);
+            moodBoardItem.classList.remove('selected');
+        } else {
+            // Add to selection
+            this.selectedMoodboardImages.push(imageIndex);
+            moodBoardItem.classList.add('selected');
+        }
+
+        // Update selection counter
+        this.updateSelectionCounter();
+        
+        // Show/hide generate button
+        this.updateGenerateButton();
+    }
+
+    updateSelectionCounter() {
+        const counter = document.getElementById('selection-count');
+        if (counter) {
+            const totalImages = 8;
+            counter.textContent = `${this.selectedMoodboardImages.length} of ${totalImages} selected`;
+        }
+    }
+
+    updateGenerateButton() {
+        const generateActions = document.getElementById('core-asset-actions');
+        if (generateActions) {
+            if (this.selectedMoodboardImages.length > 0) {
+                generateActions.style.display = 'block';
+            } else {
+                generateActions.style.display = 'none';
+            }
+        }
+    }
+
+    generateCoreAsset() {
+        // Update AI agent to design specialist
+        this.updateAgentStatus('design', 'working');
+        this.updateAgentStatus('creative', 'ready');
+        
+        // Add user message
+        this.addMessage(`Generate core asset from ${this.selectedMoodboardImages.length} selected mood board images`, 'user');
+        
+        // Show thinking animation for 1 second
+        this.showTypingIndicator('design');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            
+            // Show 5-second generation animation in chat
+            const generationMessage = `
+                <div class="generation-animation-inline">
+                    <div class="loading-spinner-inline"></div>
+                    <p>Generating your core asset using AI...</p>
+                </div>
+            `;
+            
+            this.addMessage(generationMessage, 'ai', 'design', 'Design Agent');
+            
+            // After 5 seconds, show the generated asset image in chat
+            setTimeout(() => {
+                this.displayGeneratedAssetInChat();
+            }, 5000);
+        }, 1000);
+    }
+
+    displayGeneratedAssetInChat() {
+        // Select random asset image
+        const randomIndex = Math.floor(Math.random() * this.coreAssetImages.length);
+        this.currentAssetIndex = randomIndex;
+        const selectedImage = this.coreAssetImages[this.currentAssetIndex];
+        
+        // Replace the animation message content with generated asset
+        const lastMessage = this.messages[this.messages.length - 1];
+        lastMessage.content = `
+            Core asset generated successfully! Here's your AI-created athleisure image:
+            
+            <div class="generated-asset-display">
+                <img src="${selectedImage}" alt="Generated athleisure core asset" class="core-asset-image">
+                <div class="asset-info">
+                    <span class="asset-type">Generated Image</span>
+                    <span class="asset-dimensions">High-Quality Athleisure Asset</span>
+                </div>
+            </div>
+        `;
+        
+        // Add generate new image action to the last message
+        lastMessage.actions = [
+            { id: 'generate-new-asset-image', type: 'alternative', label: '🔄 Generate New Image' },
+            { id: 'approve-asset', type: 'approve', label: '✅ Approve Asset' },
+            { id: 'refine-asset', type: 'expand', label: '✏️ Request Refinements' }
+        ];
+        this.updateMessageThread();
+        
+        // Update agent status
+        this.updateAgentStatus('design', 'ready');
+    }
+
+    generateNewAssetImage() {
+        this.addMessage('Generate a new variation of the core asset', 'user');
+        
+        // Show thinking animation
+        this.showTypingIndicator('design');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            
+            // Add generation animation message
+            const generationMessage = `
+                <div class="generation-animation-inline">
+                    <div class="loading-spinner-inline"></div>
+                    <p>Generating new variation...</p>
+                </div>
+            `;
+            
+            this.addMessage(generationMessage, 'ai', 'design', 'Design Agent');
+            
+            // After animation, replace with new asset
+            setTimeout(() => {
+                // Cycle to next image
+                this.currentAssetIndex = (this.currentAssetIndex + 1) % this.coreAssetImages.length;
+                const selectedImage = this.coreAssetImages[this.currentAssetIndex];
+                
+                // Replace the animation message content with new asset
+                const lastMessage = this.messages[this.messages.length - 1];
+                lastMessage.content = `
+                    Generated new variation! Here's an alternative core asset:
+                    
+                    <div class="generated-asset-display">
+                        <img src="${selectedImage}" alt="Generated athleisure core asset variation" class="core-asset-image">
+                        <div class="asset-info">
+                            <span class="asset-type">Generated Variation</span>
+                            <span class="asset-dimensions">High-Quality Athleisure Asset</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Add actions to the message
+                lastMessage.actions = [
+                    { id: 'generate-new-asset-image', type: 'alternative', label: '🔄 Generate New Image' },
+                    { id: 'approve-asset', type: 'approve', label: '✅ Approve Asset' },
+                    { id: 'refine-asset', type: 'expand', label: '✏️ Request Refinements' }
+                ];
+                this.updateMessageThread();
+            }, 3000);
+        }, 1000);
+    }
+
+    approveGeneratedAsset() {
+        this.addMessage('I approve this core asset for the campaign', 'user');
+        
+        // Show thinking animation
+        this.showTypingIndicator('design');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            this.addMessage(
+                'Excellent! Your core asset has been approved and is ready for campaign deployment. The asset will be added to your campaign library and can be used across all marketing channels.',
+                'ai',
+                'design',
+                'Design Agent'
+            );
+        }, 1000);
+    }
+
+    requestAssetRefinements() {
+        this.addMessage('I\'d like to request refinements to this asset', 'user');
+        
+        // Show thinking animation
+        this.showTypingIndicator('design');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            this.addMessage(
+                'I understand you\'d like refinements. Please describe the specific changes you\'d like to see, such as color adjustments, composition changes, or different styling elements. I can generate new variations based on your feedback.',
+                'ai',
+                'design',
+                'Design Agent'
+            );
+        }, 1000);
     }
     
     handleGenericAction(action) {
@@ -928,7 +1437,10 @@ class BriefToAssetsChat {
         const userMessage = responses[action] || `Execute action: ${action}`;
         this.addMessage(userMessage, 'user');
         
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('strategy');
         setTimeout(() => {
+            this.hideTypingIndicator();
             this.generateAIResponse(userMessage);
         }, 1000);
     }
@@ -942,8 +1454,10 @@ class BriefToAssetsChat {
             this.addMessage(message, 'user');
             input.value = '';
             
-            // Generate AI response
+            // Show thinking animation for 1 second, then generate response
+            this.showTypingIndicator('strategy');
             setTimeout(() => {
+                this.hideTypingIndicator();
                 this.generateAIResponse(message);
             }, 1000);
         }
@@ -957,6 +1471,77 @@ class BriefToAssetsChat {
         document.querySelectorAll('.thread-item').forEach(item => {
             item.classList.toggle('active', item.dataset.thread === threadId);
         });
+    }
+
+    handleCampaignSelection(campaignId) {
+        console.log('🎯 Campaign selected:', campaignId);
+        
+        // Update selected campaign
+        this.selectedCampaign = campaignId;
+        
+        // Add user message showing campaign selection
+        this.addMessage(`I've selected the ${this.getCampaignName(campaignId)} campaign. Let's begin developing the creative brief.`, 'user');
+        
+        // Show thinking animation for 1 second, then generate response
+        this.showTypingIndicator('strategy');
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            this.generateCampaignConfirmationResponse(campaignId);
+        }, 1000);
+    }
+
+    getCampaignName(campaignId) {
+        const campaignNames = {
+            'fall-athleisure-2025': 'Fall 2025 Athleisure Collection',
+            'professional-workwear-2025': 'Professional Workwear 2025',
+            'weekend-casual-luxe-2025': 'Weekend Casual Luxe 2025',
+            'date-night-elegance-2025': 'Date Night & Special Occasion 2025'
+        };
+        return campaignNames[campaignId] || 'Selected Campaign';
+    }
+
+    generateCampaignConfirmationResponse(campaignId) {
+        const campaignResponses = {
+            'fall-athleisure-2025': {
+                agent: 'strategy',
+                agentName: 'Strategy Specialist',
+                content: 'Excellent choice! The Fall 2025 Athleisure Collection campaign targets women 25-40 with a dual goal of boosting online purchases and in-store visits. I\'ve identified 3 primary target segments: Hybrid Workers, Wellness Enthusiasts, and Young Professionals. Should we focus on one segment first or develop messaging for all three?',
+                actions: [
+                    { id: 'focus-hybrid', type: 'approve', label: '💼 Focus on Hybrid Workers' },
+                    { id: 'focus-wellness', type: 'alternative', label: '🏃‍♀️ Focus on Wellness Enthusiasts' },
+                    { id: 'develop-all', type: 'expand', label: '🎯 Develop messaging for all segments' }
+                ]
+            },
+            'professional-workwear-2025': {
+                agent: 'strategy', 
+                agentName: 'Strategy Specialist',
+                content: 'Perfect! The Professional Workwear 2025 campaign focuses on the return-to-office trend. I\'ll help you develop messaging for Corporate Professionals and Hybrid Workers who need versatile pieces for boardroom to after-work transitions. What\'s your priority: establishing authority or emphasizing versatility?',
+                actions: [
+                    { id: 'focus-authority', type: 'approve', label: '⚖️ Establish Authority' },
+                    { id: 'focus-versatility', type: 'alternative', label: '🔄 Emphasize Versatility' },
+                    { id: 'explore-both', type: 'expand', label: '📊 Explore Both Approaches' }
+                ]
+            }
+        };
+
+        const response = campaignResponses[campaignId] || {
+            agent: 'strategy',
+            agentName: 'Strategy Specialist', 
+            content: `Great choice! I'm analyzing the ${this.getCampaignName(campaignId)} campaign requirements. Let me review the target audiences and objectives to develop the best strategic approach.`,
+            actions: [
+                { id: 'continue-analysis', type: 'approve', label: '✅ Continue Analysis' },
+                { id: 'show-details', type: 'expand', label: '📋 Show Campaign Details' }
+            ]
+        };
+
+        this.addMessage(response.content, 'ai', response.agent, response.agentName);
+        
+        // Add actions to the last message if provided
+        if (response.actions) {
+            const lastMessage = this.messages[this.messages.length - 1];
+            lastMessage.actions = response.actions;
+            this.updateMessageThread();
+        }
     }
 
     addMessage(content, type, agent = null, agentName = null) {
